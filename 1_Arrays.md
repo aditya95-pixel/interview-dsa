@@ -73,3 +73,37 @@ class Solution {
     }
 };
 ```
+
+### 5. Next Permutation
+Given an array of integers arr[] representing a permutation, implement the next permutation that rearranges the numbers into the lexicographically next greater permutation. If no such permutation exists, rearrange the numbers into the lowest possible order (i.e., sorted in ascending order). 
+
+Note - A permutation of an array of integers refers to a specific arrangement of its elements in a sequence or linear order.
+
+```cpp
+class Solution {
+  public:
+    void nextPermutation(vector<int>& arr) {
+        int pivot=-1;
+        for(int i=arr.size()-2;i>=0;i--){
+            if(arr[i]<arr[i+1])
+            {
+                pivot=i;
+                break;
+            }
+        }
+        if(pivot==-1)
+        {
+            reverse(arr.begin(),arr.end());
+            return ;
+        }
+        for(int i=arr.size()-1;i>=0;i--){
+            if(arr[i]>arr[pivot])
+            {
+                swap(arr[i],arr[pivot]);
+                break;
+            }
+        }
+        reverse(arr.begin()+pivot+1,arr.end());
+    }
+};
+```
