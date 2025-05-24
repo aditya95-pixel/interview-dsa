@@ -288,3 +288,25 @@ class Solution {
     }
 };
 ```
+
+### 13. Smallest Positive Missing
+You are given an integer array arr[]. Your task is to find the smallest positive number missing from the array.
+
+Note: Positive number starts from 1. The array can have negative integers too.
+
+```cpp
+class Solution {
+  public:
+    int missingNumber(vector<int> &arr) {
+        for(int i=0;i<arr.size();i++){
+            while(arr[i]>=1 && arr[i]<=arr.size() && arr[i]!=arr[arr[i]-1])
+            swap(arr[i],arr[arr[i]-1]);
+        }
+        for(int i=1;i<=arr.size();i++){
+            if(arr[i-1]!=i)
+            return i;
+        }
+        return arr.size()+1;
+    }
+};
+```
