@@ -176,3 +176,51 @@ class Solution {
     }
 };
 ```
+
+### 8. Stock Buy and Sell – Max one Transaction Allowed
+Given an array prices[] of length n, representing the prices of the stocks on different days. The task is to find the maximum profit possible by buying and selling the stocks on different days when at most one transaction is allowed. Here one transaction means 1 buy + 1 Sell. If it is not possible to make a profit then return 0.
+
+Note: Stock must be bought before being sold.
+
+```cpp
+class Solution {
+  public:
+    int maximumProfit(vector<int> &prices) {
+        int maxprofit=0,min_val=prices[0];
+        for(int i=1;i<prices.size();i++){
+            min_val=min(min_val,prices[i]);
+            maxprofit=max(maxprofit,prices[i]-min_val);
+        }
+        return maxprofit;
+    }
+};
+```
+
+### 9. Minimize the Heights II
+Given an array arr[] denoting heights of N towers and a positive integer K.
+
+For each tower, you must perform exactly one of the following operations exactly once.
+
+Increase the height of the tower by K
+Decrease the height of the tower by K
+Find out the minimum possible difference between the height of the shortest and tallest towers after you have modified each tower.
+
+Note: It is compulsory to increase or decrease the height by K for each tower. After the operation, the resultant array should not contain any negative integers.
+
+```cpp
+class Solution {
+  public:
+    int getMinDiff(vector<int> &arr, int k) {
+        sort(arr.begin(),arr.end());
+        int mindiff=arr[arr.size()-1]-arr[0];
+        for(int i=1;i<arr.size();i++){
+            if(arr[i]-k<0)
+            continue;
+            int maxh=max(arr[i-1]+k,arr[arr.size()-1]-k);
+            int minh=min(arr[0]+k,arr[i]-k);
+            mindiff=min(mindiff,maxh-minh);
+        }
+        return mindiff;
+    }
+};
+```
