@@ -224,3 +224,20 @@ class Solution {
     }
 };
 ```
+
+### 10. Kadane's Algorithm
+Given an integer array arr[]. You need to find the maximum sum of a subarray.
+
+```cpp
+class Solution {
+  public:
+    int maxSubarraySum(vector<int> &arr) {
+        int sum=arr[0],maxsum=arr[0];
+        for(int i=1;i<arr.size();i++){
+            sum=max(arr[i],sum+arr[i]);
+            maxsum=max(maxsum,sum);
+        }
+        return maxsum;
+    }
+};
+```
