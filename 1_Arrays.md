@@ -241,3 +241,27 @@ class Solution {
     }
 };
 ```
+
+### 11. Maximum Product Subarray
+Given an array arr[] that contains positive and negative integers (may contain 0 as well). Find the maximum product that we can get in a subarray of arr[].
+
+Note: It is guaranteed that the output fits in a 32-bit integer.
+
+```cpp
+class Solution {
+  public:
+    int maxProduct(vector<int> &arr) {
+        int leftRight=1,rightLeft=1,maxprod=INT_MIN;
+        for(int i=0;i<arr.size();i++){
+            if(leftRight==0)
+            leftRight=1;
+            if(rightLeft==0)
+            rightLeft=1;
+            leftRight*=arr[i];
+            rightLeft*=arr[arr.size()-i-1];
+            maxprod=max({leftRight,rightLeft,maxprod});
+        }
+        return maxprod;
+    }
+};
+```
