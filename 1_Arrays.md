@@ -265,3 +265,26 @@ class Solution {
     }
 };
 ```
+
+### 12. Max Circular Subarray Sum
+Given an array of integers arr[] in a circular fashion. Find the maximum subarray sum that we can get if we assume the array to be circular.
+
+```cpp
+class Solution {
+  public:
+    int circularSubarraySum(vector<int> &arr) {
+        int sum1=arr[0],sum2=arr[0],maxsum=arr[0],minsum=arr[0],totalsum=arr[0];
+        for(int i=1;i<arr.size();i++){
+            sum1=max(sum1+arr[i],arr[i]);
+            maxsum=max(sum1,maxsum);
+            sum2=min(sum2+arr[i],arr[i]);
+            minsum=min(sum2,minsum);
+            totalsum+=arr[i];
+        }
+        int circsum=totalsum-minsum;
+        if(minsum==totalsum)
+        return maxsum;
+        return max(maxsum,circsum);
+    }
+};
+```
