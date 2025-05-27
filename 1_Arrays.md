@@ -310,3 +310,35 @@ class Solution {
     }
 };
 ```
+### 14. Split array in three equal sum subarrays
+Given an array, arr[], determine if arr can be split into three consecutive parts such that the sum of each part is equal. If possible, return any index pair(i, j) in an array such that sum(arr[0..i]) = sum(arr[i+1..j]) = sum(arr[j+1..n-1]), otherwise return an array {-1,-1}.
+
+Note: Since multiple answers are possible, return any of them. The driver code will print true if it is correct otherwise, it will print false.
+
+```cpp
+class Solution {
+  public:
+    vector<int> findSplit(vector<int>& arr) {
+        int sum=accumulate(arr.begin(),arr.end(),0);
+        vector<int>res;
+        res.push_back(-1);
+        res.push_back(-1);
+        int tempsum=0;
+        for(int i=0;i<arr.size();i++){
+            if(tempsum==sum/3 && res[0]==-1)
+            {
+                tempsum=0;
+                res[0]=i-1;
+            }
+            else if(tempsum==sum/3 && res[1]==-1)
+            {
+                res[1]=i-1;
+            }
+            tempsum+=arr[i];
+        }
+        if(res[1]==-1)
+        res[0]=-1;
+        return res;
+    }
+};
+```
