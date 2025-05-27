@@ -342,3 +342,65 @@ class Solution {
     }
 };
 ```
+
+### 15. Repetitive Addition Of Digits
+You are given a positive integer n, you need to add all the digits of n and create a new number. Perform this operation until the resultant number has only one digit in it. Return the final number obtained after performing the given operation.
+
+```cpp
+class Solution {
+  public:
+    int singleDigit(int n) {
+        if(n==0)
+        return 0;
+        if(n%9==0)
+        return 9;
+        return (n%9);
+    }
+};
+```
+
+### 16. Maximize Number of 1's
+Given a binary array arr[] (containing only 0s and 1s) and an integer k, you are allowed to flip at most k 0s to 1s. Find the maximum number of consecutive 1's that can be obtained in the array after performing the operation at most k times.
+
+```cpp
+class Solution {
+  public:
+    // k is the maximum number of zeros allowed to flip
+    int maxOnes(vector<int>& arr, int k) {
+       int start=0,end=0;
+       int cnt=0,maxlen=0;
+       while(end<arr.size()){
+           if(arr[end]==0)
+           cnt++;
+           while(cnt>k){
+               if(arr[start]==0)
+               cnt--;
+               start++;
+           }
+           maxlen=max(maxlen,end-start+1);
+           end++;
+       }
+       return maxlen;
+    }
+};
+```
+
+### 17. Last Moment Before All Ants Fall Out of a Plank
+We have a wooden plank of the length n units. Some ants are walking on the plank, each ant moves with a speed of 1 unit per second. Some of the ants move to the left, the other move to the right.
+When two ants moving in two different directions meet at some point, they change their directions and continue moving again. Assume changing directions does not take any additional time. When an ant reaches one end of the plank at a time t, it falls out of the plank immediately.
+
+Given an integer n and two integer arrays left[] and right[], the positions of the ants moving to the left and the right, return the moment when the last ant(s) fall out of the plank.
+
+```cpp
+class Solution {
+  public:
+    int getLastMoment(int n, vector<int>& left, vector<int>& right) {
+       int maxres=0;
+       for(int i=0;i<left.size();i++)
+       maxres=max(maxres,left[i]);
+       for(int i=0;i<right.size();i++)
+       maxres=max(maxres,n-right[i]);
+       return maxres;
+    }
+};
+```
