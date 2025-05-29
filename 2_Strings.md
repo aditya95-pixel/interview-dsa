@@ -306,3 +306,32 @@ class Solution {
     }
 };
 ```
+
+### 8. Fizz Buzz
+Fizz Buzz Problem involves that given an integer n, for every integer 0 < i <= n, the task is to output,
+
+"FizzBuzz" if i is divisible by 3 and 5,
+"Fizz" if i is divisible by 3,
+"Buzz" if i is divisible by 5
+"i" as a string, if none of the conditions are true.
+Return an array of strings.
+
+```cpp
+class Solution {
+  public:
+    vector<string> fizzBuzz(int n) {
+        vector<string>res;
+        for(int i=1;i<=n;i++){
+            if(i%3==0 && i%5==0)
+            res.push_back("FizzBuzz");
+            else if(i%3==0)
+            res.push_back("Fizz");
+            else if(i%5==0)
+            res.push_back("Buzz");
+            else
+            res.push_back(to_string(i));
+        }
+        return res;
+    }
+};
+```
