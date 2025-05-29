@@ -335,3 +335,35 @@ class Solution {
     }
 };
 ```
+
+### 9. CamelCase Pattern Matching
+Given a dictionary of words arr[] where each word follows CamelCase notation, print all words in the dictionary that match with a given pattern pat consisting of uppercase characters only.
+
+CamelCase is the practice of writing compound words or phrases such that each word or abbreviation begins with a capital letter. Common examples include PowerPoint and Wikipedia, GeeksForGeeks, CodeBlocks, etc.
+
+Example: "GeeksForGeeks" matches the pattern "GFG", because if we combine all the capital letters in "GeeksForGeeks" they become "GFG". Also note "GeeksForGeeks" matches with the pattern "GFG" and also "GF", but does not match with "FG".
+
+Note: The driver code will sort your answer before checking and return the answer in any order.
+
+```cpp
+class Solution {
+  public:
+    vector<string> camelCase(vector<string> &arr, string &pat) {
+        vector<string>res;
+        for(auto s:arr){
+            string temp;
+            int i=0,j=0;
+            while(i<s.size() && j<pat.size()){
+                if(s[i]>='A' && s[i]<='Z' && s[i]==pat[j])
+                j++;
+                else if(s[i]>='A' && s[i]<='Z' && s[i]!=pat[j])
+                break;
+                i++;
+            }
+            if(j==pat.size())
+            res.push_back(s);
+        }
+        return res;
+    }
+};
+```
