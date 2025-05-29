@@ -260,3 +260,49 @@ class Solution {
     }
 };
 ```
+
+### 7. Strings Rotations of Each Other
+You are given two strings of equal lengths, s1 and s2. The task is to check if s2 is a rotated version of the string s1.
+
+Note: The characters in the strings are in lowercase.
+
+```cpp
+
+class Solution {
+  public:
+    // Function to check if two strings are rotations of each other or not.
+    vector<int>prefix_function(string s){
+        vector<int>pi(s.size(),0);
+        for(int i=1;i<s.size();i++){
+            int j=pi[i-1];
+            while(j>0 && s[i]!=s[j])
+            j=pi[j-1];
+            if(s[i]==s[j])
+            j++;
+            pi[i]=j;
+        }
+        return pi;
+    }
+    bool areRotations(string &s1, string &s2) {
+        string txt=s1+s1;
+        string pat=s2;
+        vector<int>pi=prefix_function(pat);
+        int i=0,j=0;
+        while(i<txt.size()){
+            if(pat[j]==txt[i]){
+                i++;
+                j++;
+            }else{
+                if(j>0){
+                    j=pi[j-1];
+                }else{
+                    i++;
+                }
+            }
+            if(j==pat.size())
+            return true;
+        }
+        return false;
+    }
+};
+```
