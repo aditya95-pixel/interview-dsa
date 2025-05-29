@@ -392,3 +392,58 @@ class Solution {
     }
 };
 ```
+
+### 11. Minimum repeat to make substring
+Given two strings s1 and s2. Return a minimum number of times s1 has to be repeated such that s2 is a substring of it. If s2 can never be a substring then return -1.
+
+Note: Both the strings contain only lowercase letters.
+
+```cpp
+class Solution {
+  public:
+    vector<int>prefix_function(string s){
+        vector<int>pi(s.size(),0);
+        for(int i=1;i<s.size();i++){
+            int j=pi[i-1];
+            while(j>0 && s[i]!=s[j])
+            j=pi[j-1];
+            if(s[i]==s[j])
+            j++;
+            pi[i]=j;
+        }
+        return pi;
+    }
+    bool kmp(string txt,string pat){
+        vector<int>pi=prefix_function(pat);
+        int i=0,j=0;
+        while(i<txt.size()){
+            if(pat[j]==txt[i]){
+                i++;
+                j++;
+            }else{
+                if(j>0){
+                    j=pi[j-1];
+                }else{
+                    i++;
+                }
+            }
+            if(j==pat.size())
+            return true;
+        }
+        return false;
+    }
+    int minRepeats(string& s1, string& s2) {
+        int n=s1.size(),m=s2.size();
+        int num_repeats=(m+n-1)/n;
+        string txt;
+        for(int i=0;i<num_repeats;i++)
+        txt+=s1;
+        if(kmp(txt,s2))
+        return num_repeats;
+        txt+=s1;
+        if(kmp(txt,s2))
+        return num_repeats+1;
+        return -1;
+    }
+};
+```
