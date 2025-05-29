@@ -473,3 +473,51 @@ class Solution {
     }
 };
 ```
+
+### 13. Integer to Words
+Write a function to convert a given number n into words.
+
+The idea is to break down the number into International Number System, i.e., smaller groups of three digits (hundreds, tens, and ones), and convert each group into words.
+
+```cpp
+// User function template for C++
+
+class Solution {
+  public:
+        vector<int>values={
+            1000000000,1000000,1000,100,
+            90,80,70,60,50,40,30,20,19,18,17,16,15,14,13,12,11,10,
+            9,8,7,6,5,4,3,2,1,0
+        };
+        vector<string>words={
+            "Billion","Million","Thousand","Hundred","Ninety","Eighty",
+            "Seventy","Sixty","Fifty","Forty","Thirty","Twenty",
+            "Nineteen","Eighteen","Seventeen","Sixteen","Fifteen",
+            "Fourteen","Thirteen","Twelve","Eleven","Ten","Nine",
+            "Eight","Seven","Six","Five","Four","Three","Two","One",
+            "Zero"
+        };
+    string convertToWordsRec(int n){
+        string res;
+        for(int i=0;i<values.size();i++){
+            int value=values[i];
+            string word=words[i];
+            if(n>=value){
+                if(n>=100){
+                   res+=convertToWordsRec(n/value)+" "; 
+                }
+                res+=word;
+                if(n%value)
+                res+=" "+convertToWordsRec(n%value);
+                return res;
+            }
+        }
+        return res;
+    }
+    string convertToWords(int n) {
+        if(n==0)
+        return "Zero";
+        return convertToWordsRec(n);
+    }
+};
+```
