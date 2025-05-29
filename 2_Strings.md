@@ -164,3 +164,24 @@ class Solution {
     }
 };
 ```
+
+### 4. Non Repeating Character
+Given a string s consisting of lowercase English Letters. Return the first non-repeating character in s.
+If there is no non-repeating character, return '$'.
+Note: When you return '$' driver code will output -1.
+
+```cpp
+class Solution {
+  public:
+    char nonRepeatingChar(string &s) {
+        map<char,int>mp;
+        for(auto i:s)
+        mp[i]++;
+        for(auto i:s){
+            if(mp[i]==1)
+            return i;
+        }
+        return '$';
+    }
+};
+```
