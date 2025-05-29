@@ -367,3 +367,28 @@ class Solution {
     }
 };
 ```
+### 10. Palindrome Sentence
+Given a single string s, the task is to check if it is a palindrome sentence or not. A palindrome sentence is a sequence of characters, such as word, phrase, or series of symbols that reads the same backward as forward after converting all uppercase letters to lowercase and removing all non-alphanumeric characters.
+
+```cpp
+class Solution {
+  public:
+    bool is_palin(string str){
+        for(int i=0;i<str.size()/2;i++){
+            if(str[i]!=str[str.size()-i-1])
+            return false;
+        }
+        return true;
+    }
+    bool sentencePalindrome(string &s) {
+        string str;
+        for(int i=0;i<s.size();i++){
+            if((s[i]>='a' && s[i]<='z') || (s[i]>='0' && s[i]<='9'))
+            str+=s[i];
+            else if(s[i]>='A' && s[i]<='Z')
+            str+=(char)(s[i]+32);
+        }
+        return is_palin(str);
+    }
+};
+```
