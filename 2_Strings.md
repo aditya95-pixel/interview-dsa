@@ -46,3 +46,101 @@ class Solution {
     }
 };
 ```
+
+### 2. Add Binary Strings
+Given two binary strings s1 and s2 consisting of only 0s and 1s. Find the resultant string after adding the two Binary Strings.
+Note: The input strings may contain leading zeros but the output string should not have any leading zeros.
+
+```cpp
+// User function template for C++
+class Solution {
+  public:
+    string addBinary(string& s1, string& s2) {
+        int carry=0;
+        string res;
+        int i=0,j=0;
+        reverse(s1.begin(),s1.end());
+        reverse(s2.begin(),s2.end());
+        while(i<s1.size() && j<s2.size()){
+            if(s1[i]=='0' && s2[j]=='0'){
+                if(carry==0)
+                res+='0';
+                else
+                {
+                    res+='1';
+                    carry=0;
+                }
+            }
+            else if(s1[i]=='0' && s2[j]=='1'){
+                if(carry==0)
+                res+='1';
+                else
+                res+='0';
+            }
+            else if(s1[i]=='1' && s2[j]=='0'){
+                if(carry==0)
+                res+='1';
+                else
+                res+='0';
+            }
+            else{
+                if(carry==0){
+                    carry=1;
+                    res+='0';
+                }
+                else
+                    res+='1';
+            }
+            i++;
+            j++;
+        }
+        while(i<s1.size()){
+            if(s1[i]=='0'){
+                if(carry==0){
+                    res+='0';
+                }
+                else{
+                    res+='1';
+                    carry=0;
+                }
+            }
+            else{
+                if(carry==0){
+                    res+='1';
+                }
+                else{
+                    res+='0';
+                    carry=1;
+                }
+            }
+            i++;
+        }
+        while(j<s2.size()){
+            if(s2[j]=='0'){
+                if(carry==0){
+                    res+='0';
+                }
+                else{
+                    res+='1';
+                    carry=0;
+                }
+            }
+             else{
+                if(carry==0){
+                    res+='1';
+                }
+                else{
+                    res+='0';
+                    carry=1;
+                }
+            }
+            j++;
+        }
+        if(carry==1)
+        res+='1';
+        reverse(res.begin(),res.end());
+        string res1=res.substr(res.find('1'));
+        return res1;
+    }
+};
+```
