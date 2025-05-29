@@ -229,3 +229,34 @@ class Solution {
     }
 };
 ```
+
+### 6. Min Chars to Add for Palindrome
+Given a string s, the task is to find the minimum characters to be added at the front to make the string palindrome.
+
+Note: A palindrome string is a sequence of characters that reads the same forward and backward.
+
+```cpp
+class Solution {
+  public:
+    vector<int>prefix_function(string s){
+        vector<int>pi(s.size(),0);
+        for(int i=1;i<s.size();i++){
+            int j=pi[i-1];
+            while(j>0 && s[i]!=s[j])
+            j=pi[j-1];
+            if(s[i]==s[j])
+            j++;
+            pi[i]=j;
+        }
+        return pi;
+    }
+    int minChar(string& s) {
+        int n=s.size();
+        string rev=s;
+        reverse(rev.begin(),rev.end());
+        s=s+'$'+rev;
+        vector<int>pi=prefix_function(s);
+        return n-pi.back();
+    }
+};
+```
