@@ -185,3 +185,47 @@ class Solution {
     }
 };
 ```
+
+### 5. Search Pattern (KMP-Algorithm)
+Given two strings, one is a text string txt and the other is a pattern string pat. The task is to print the indexes of all the occurrences of the pattern string in the text string. Use 0-based indexing while returning the indices. 
+Note: Return an empty list in case of no occurrences of pattern.
+
+```cpp
+class Solution {
+  public:
+    vector<int> prefix_function(string& s){
+        vector<int>pi(s.size(),0);
+        for(int i=1;i<s.size();i++){
+            int j=pi[i-1];
+            while(j>0 && s[i]!=s[j])
+            j=pi[j-1];
+            if(s[i]==s[j])
+            j++;
+            pi[i]=j;
+        }
+        return pi;
+    }
+    vector<int> search(string& pat, string& txt) {
+        vector<int>res;
+        vector<int>pi=prefix_function(pat);
+        int i=0,j=0;
+        while(i<txt.size()){
+            if(pat[j]==txt[i]){
+                i++;
+                j++;
+            }else{
+                if(j>0){
+                    j=pi[j-1];
+                }else{
+                    i++;
+                }
+            } 
+            if(j==pat.size()){
+                res.push_back(i-j);
+                j=pi[j-1];
+            }
+        }
+        return res;
+    }
+};
+```
