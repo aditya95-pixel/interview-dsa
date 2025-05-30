@@ -293,3 +293,29 @@ class Solution {
     }
 };
 ```
+
+### 11. Make array elements unique
+Given an integer array arr[ ], your task is to find the minimum number of increment operations required to make all the array elements unique. i.e. no value in the array should occur more than once. In one operation, a value can be incremented by 1 only.
+
+Note: The answer will always fit into a 32-bit integer.
+
+```cpp
+class Solution {
+  public:
+    int minIncrements(vector<int>& arr) {
+        int maxo=*max_element(arr.begin(),arr.end());
+        vector<int>freq(arr.size()+maxo,0);
+        for(auto i:arr)
+        freq[i]++;
+        int cnt=0;
+        for(int i=0;i<freq.size();i++){
+            if(freq[i]>1){
+                cnt+=freq[i]-1;
+                freq[i+1]+=freq[i]-1;
+                freq[i]=1;
+            }
+        }
+        return cnt;
+    }
+};
+```
