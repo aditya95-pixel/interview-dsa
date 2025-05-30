@@ -149,3 +149,26 @@ class Solution {
     }
 };
 ```
+
+### 6. Non-overlapping Intervals
+Given a 2D array intervals[][] of representing intervals where intervals [i] = [starti, endi ]. Return the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping.
+
+```cpp
+class Solution {
+  public:
+    static bool compare(vector<int>&a,vector<int>&b){
+        return a[1]<b[1];
+    }
+    int minRemoval(vector<vector<int>> &intervals) {
+        sort(intervals.begin(),intervals.end(),compare);
+        int last=intervals[0][1],cnt=0;
+        for(int i=1;i<intervals.size();i++){
+            if(intervals[i][0]<last)
+            cnt++;
+            else
+            last=intervals[i][1];
+        }
+        return cnt;
+    }
+};
+```
