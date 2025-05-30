@@ -48,3 +48,54 @@ class Solution {
     }
 };
 ```
+
+### 3. Count Inversions
+Given an array of integers arr[]. Find the Inversion Count in the array.
+Two elements arr[i] and arr[j] form an inversion if arr[i] > arr[j] and i < j.
+
+Inversion Count: For an array, inversion count indicates how far (or close) the array is from being sorted. If the array is already sorted then the inversion count is 0.
+If an array is sorted in the reverse order then the inversion count is the maximum. 
+
+```cpp
+class Solution {
+  public:
+    // Function to count inversions in the array.
+    int merge(vector<int>&arr,int l,int mid,int h){
+        int res=0;
+        int n1=mid-l+1,n2=h-mid;
+        vector<int>arr1(n1),arr2(n2);
+        for(int i=0;i<n1;i++)
+            arr1[i]=arr[l+i];
+        for(int i=0;i<n2;i++)
+            arr2[i]=arr[mid+i+1];
+        int i=0,j=0,k=l;
+        while(i<n1 && j<n2){
+            if(arr1[i]<=arr2[j])
+            arr[k++]=arr1[i++];
+            else
+            {
+                arr[k++]=arr2[j++];
+                res+=(n1-i);
+            }
+        }
+        while(i<n1)
+        arr[k++]=arr1[i++];
+        while(j<n2)
+        arr[k++]=arr2[j++];
+        return res;
+    }
+    int mergesort(vector<int>&arr,int l,int h){
+        int res=0;
+        if(l<h){
+            int mid=l+(h-l)/2;
+            res+=mergesort(arr,l,mid);
+            res+=mergesort(arr,mid+1,h);
+            res+=merge(arr,l,mid,h);
+        }
+        return res;
+    }
+    int inversionCount(vector<int> &arr) {
+        return mergesort(arr,0,arr.size()-1);
+    }
+};
+```
