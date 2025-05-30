@@ -188,3 +188,60 @@ class Solution {
     }
 };
 ```
+
+### 8. Minimum sum
+Given an array arr[] such that each element is in the range [0, 9] find the minimum possible sum of two numbers formed using the elements of the array. All digits in the given array must be used to form the two numbers. Return a string without leading zeroes.
+
+```cpp
+class Solution {
+  public:
+    string minSum(vector<int> &arr) {
+        map<int,int>freq;
+        for(auto i:arr)
+        freq[i]++;
+        string s1,s2;
+        bool chk=true;
+        for(int dig=0;dig<=9;dig++){
+            while(freq[dig]--){
+                if(chk){
+                    if(!(s1.empty() && dig==0))
+                    s1+=(char)(dig+48);
+                    chk=false;
+                }else{
+                    if(!(s2.empty() && dig==0))
+                    s2+=(char)(dig+48);
+                    chk=true;
+                }
+            }
+        }
+        reverse(s1.begin(),s1.end());
+        reverse(s2.begin(),s2.end());
+        int i=0,j=0,k=0;
+        string res;
+        int carry=0;
+        while(i<s1.size() && j<s2.size()){
+            int sum=(s1[i]-48)+(s2[j]-48)+carry;
+            res+=(char)(sum%10+48);
+            carry=sum/10;
+            i++;
+            j++;
+        }
+        while(i<s1.size()){
+            int sum=(s1[i]-48)+carry;
+            res+=(char)(sum%10+48);
+            carry=sum/10;
+            i++;
+        }
+        while(j<s2.size()){
+            int sum=(s2[j]-48)+carry;
+            res+=(char)(sum%10+48);
+            carry=sum/10;
+            j++;
+        }
+        if(carry!=0)
+        res+=(char)(carry+48);
+        reverse(res.begin(),res.end());
+        return res;
+    }
+};
+```
