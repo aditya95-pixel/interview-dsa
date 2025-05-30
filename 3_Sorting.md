@@ -271,7 +271,7 @@ class Solution {
 };
 ```
 
-### 10.Form the Largest Number
+### 10. Form the Largest Number
 Given an array of integers arr[] representing non-negative integers, arrange them so that after concatenating all of them in order, it results in the largest possible number. Since the result may be very large, return it as a string.
 
 ```cpp
