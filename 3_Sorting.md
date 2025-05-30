@@ -99,3 +99,25 @@ class Solution {
     }
 };
 ```
+
+### 4. Overlapping Intervals
+Given an array of Intervals arr[][], where arr[i] = [starti, endi]. The task is to merge all of the overlapping Intervals.
+
+```cpp
+class Solution {
+  public:
+    vector<vector<int>> mergeOverlap(vector<vector<int>>& arr) {
+        sort(arr.begin(),arr.end());
+        vector<vector<int>>res;
+        res.push_back(arr[0]);
+        for(int i=1;i<arr.size();i++){
+            vector<int>&last=res.back();
+            if(arr[i][0]<=last[1])
+            last[1]=max(arr[i][1],last[1]);
+            else
+            res.push_back(arr[i]);
+        }
+        return res;
+    }
+};
+```
