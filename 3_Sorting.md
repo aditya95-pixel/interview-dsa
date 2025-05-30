@@ -121,3 +121,31 @@ class Solution {
     }
 };
 ```
+
+### 5. Insert Interval
+Geek has an array of non-overlapping intervals intervals where intervals[i] = [starti, endi] represent the start and the end of the ith event and intervals is sorted in ascending order by starti. He wants to add a new interval newInterval= [newStart, newEnd] where newStart and newEnd represent the start and end of this interval.
+
+Help Geek to insert newInterval into intervals such that intervals is still sorted in ascending order by starti and intervals still does not have any overlapping intervals (merge overlapping intervals if necessary).
+
+```cpp
+class Solution {
+  public:
+    vector<vector<int>> insertInterval(vector<vector<int>> &intervals,
+                                       vector<int> &newInterval) {
+        int i=0;
+        while(i<intervals.size() && newInterval[0]>intervals[i][0])
+        i++;
+        intervals.insert(intervals.begin()+i,newInterval);
+        vector<vector<int>>res;
+        res.push_back(intervals[0]);
+        for(int i=1;i<intervals.size();i++){
+            vector<int>&last=res.back();
+            if(intervals[i][0]<=last[1])
+            last[1]=max(last[1],intervals[i][1]);
+            else
+            res.push_back(intervals[i]);
+        }
+        return res;
+    }
+};
+```
