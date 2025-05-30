@@ -245,3 +245,28 @@ class Solution {
     }
 };
 ```
+
+### 9. Meeting Rooms
+Given an array arr[][] such that arr[i][0] is the starting time of ith meeting and arr[i][1] is the ending time of ith meeting, the task is to check if it is possible for a person to attend all the meetings such that he can attend only one meeting at a particular time.
+
+Note: A person can attend a meeting if its starting time is greater than or equal to the previous meeting's ending time.
+
+```cpp
+class Solution {
+  public:
+    static bool compare(vector<int>&a,vector<int>&b){
+        return a[1]<b[1];
+    }
+    bool canAttend(vector<vector<int>> &arr) {
+        sort(arr.begin(),arr.end(),compare);
+        int last=arr[0][1];
+        for(int i=1;i<arr.size();i++){
+            if(arr[i][0]<last)
+            return false;
+            else
+            last=arr[i][1];
+        }
+        return true;
+    }
+};
+```
