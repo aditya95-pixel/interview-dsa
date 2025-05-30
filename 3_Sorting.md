@@ -19,3 +19,32 @@ class Solution {
     }
 };
 ```
+
+### 2. Find H-Index
+Given an integer array citations[], where citations[i] is the number of citations a researcher received for the ith paper. The task is to find the H-index.
+
+H-Index is the largest value such that the researcher has at least H papers that have been cited at least H times.
+
+```cpp
+class Solution {
+  public:
+    // Function to find hIndex
+    int hIndex(vector<int>& citations) {
+        vector<int>freq(citations.size()+1,0);
+        for(int i=0;i<citations.size();i++)
+        {
+            if(citations[i]>citations.size())
+            freq[citations.size()]++;
+            else
+            freq[citations[i]]++;
+        }
+        int sum=0;
+        for(int i=citations.size();i>=0;i--){
+            sum+=freq[i];
+            if(sum>=i)
+            return i;
+        }
+        return 0;
+    }
+};
+```
