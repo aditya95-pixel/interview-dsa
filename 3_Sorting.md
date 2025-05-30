@@ -270,3 +270,26 @@ class Solution {
     }
 };
 ```
+
+### 10.Form the Largest Number
+Given an array of integers arr[] representing non-negative integers, arrange them so that after concatenating all of them in order, it results in the largest possible number. Since the result may be very large, return it as a string.
+
+```cpp
+class Solution {
+  public:
+    static bool compare(const int &a,const int &b){
+        string a1=to_string(a);
+        string b1=to_string(b);
+        return (a1+b1)>=(b1+a1);
+    }
+    string findLargest(vector<int> &arr) {
+        sort(arr.begin(),arr.end(),compare);
+        string res;
+        if(arr[0]==0)
+        return "0";
+        for(auto i:arr)
+        res+=to_string(i);
+        return res;
+    }
+};
+```
