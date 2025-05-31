@@ -127,3 +127,39 @@ class Solution {
     }
 };
 ```
+
+### 6. Aggressive Cows
+You are given an array with unique elements of stalls[], which denote the position of a stall. You are also given an integer k which denotes the number of aggressive cows. Your task is to assign stalls to k cows such that the minimum distance between any two of them is the maximum possible.
+
+```cpp
+class Solution {
+  public:
+    bool check(vector<int>stalls,int k,int gap){
+        int cnt=1;
+        int last=stalls[0];
+        for(int i=1;i<stalls.size();i++){
+            if(stalls[i]-last>=gap)
+            {
+                last=stalls[i];
+                cnt++;
+            }
+        }
+        return cnt>=k;
+    }
+    int aggressiveCows(vector<int> &stalls, int k) {
+        sort(stalls.begin(),stalls.end());
+        int l=1,h=stalls[stalls.size()-1]-stalls[0];
+        int gap=1;
+        while(l<=h){
+            int mid=l+(h-l)/2;
+            if(check(stalls,k,mid)){
+                gap=mid;
+                l=mid+1;
+            }else{
+                h=mid-1;
+            }
+        }
+        return gap;
+    }
+};
+```
