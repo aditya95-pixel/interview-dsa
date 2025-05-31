@@ -210,3 +210,25 @@ class Solution {
     }
 };
 ```
+
+### 8. Kth Missing Positive Number in a Sorted Array
+Given a sorted array of distinct positive integers arr[], we need to find the kth positive number that is missing from arr[].  
+
+```cpp
+class Solution {
+  public:
+    int kthMissing(vector<int> &arr, int k) {
+        int l=0,h=arr.size()-1,res=arr.size()+k;
+        while(l<=h){
+            int mid=l+(h-l)/2;
+            if(arr[mid]>mid+k)
+            {
+                h=mid-1;
+                res=mid+k;
+            }else
+                l=mid+1;
+        }
+        return res;
+    }
+};
+```
