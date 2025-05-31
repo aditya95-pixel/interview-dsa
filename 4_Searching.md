@@ -368,7 +368,7 @@ class Solution {
     int kokoEat(vector<int>& arr, int k) {
         if(k==arr.size())
         return *max_element(arr.begin(),arr.end());
-        int l=1,h=accumulate(arr.begin(),arr.end(),0);
+        int l=1,h=*max_element(arr.begin(),arr.end());
         int res=h;
         while(l<=h){
             int mid=l+(h-l)/2;
