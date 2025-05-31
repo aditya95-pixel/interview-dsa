@@ -232,3 +232,29 @@ class Solution {
     }
 };
 ```
+
+### 9. Implement Lower Bound
+Given a sorted array arr[] and a number target, the task is to find the lower bound of the target in this given array. The lower bound of a number is defined as the smallest index in the sorted array where the element is greater than or equal to the given number.
+
+Note: If all the elements in the given array are smaller than the target, the lower bound will be the length of the array. 
+
+```cpp
+class Solution {
+  public:
+    int lowerBound(vector<int>& arr, int target) {
+        int l=0,h=arr.size()-1;
+        int res=arr.size();
+        while(l<=h){
+            int mid=l+(h-l)/2;
+            if(arr[mid]>=target){
+                res=mid;
+                h=mid-1;
+            }
+            else{
+                l=mid+1;
+            }
+        }
+        return res;
+    }
+};
+```
