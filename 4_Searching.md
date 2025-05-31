@@ -163,3 +163,50 @@ class Solution {
     }
 };
 ```
+
+### 7. Allocate Minimum Pages
+You are given an array arr[] of integers, where each element arr[i] represents the number of pages in the ith book. You also have an integer k representing the number of students. The task is to allocate books to each student such that:
+
+Each student receives atleast one book.
+Each student is assigned a contiguous sequence of books.
+No book is assigned to more than one student.
+The objective is to minimize the maximum number of pages assigned to any student. In other words, out of all possible allocations, find the arrangement where the student who receives the most pages still has the smallest possible maximum.
+
+Note: Return -1 if a valid assignment is not possible, and allotment should be in contiguous order (see the explanation for better understanding).
+
+```cpp
+class Solution {
+  public:
+    bool check(vector<int>arr,int k,int pages){
+        int cnt=1;
+        int sum=0;
+        for(int i=0;i<arr.size();i++){
+            sum+=arr[i];
+            if(sum>pages){
+                cnt++;
+                sum=arr[i];
+            }
+        }
+        return (cnt<=k);
+    }
+    int findPages(vector<int> &arr, int k) {
+        if(k>arr.size())
+        return -1;
+        int l=*max_element(arr.begin(),arr.end());
+        int h=accumulate(arr.begin(),arr.end(),0);
+        int maxpages=h;
+        while(l<=h){
+            int mid=l+(h-l)/2;
+            if(check(arr,k,mid))
+            {
+                maxpages=mid;
+                h=mid-1;
+            }
+            else{
+                l=mid+1;
+            }
+        }
+        return maxpages;
+    }
+};
+```
