@@ -322,3 +322,29 @@ class Solution {
     }
 };
 ```
+
+### 12. Square Root
+Given a positive integer n, find the square root of n. If n is not a perfect square, then return the floor value.
+
+Floor value of any number is the greatest Integer which is less than or equal to that number
+
+```cpp
+class Solution {
+  public:
+    int floorSqrt(int n) {
+        if(n==1)
+        return 1;
+        int l=1,h=n/2;
+        while(l<=h){
+            int mid=l+(h-l)/2;
+            if(mid*mid==n)
+            return mid;
+            else if(mid*mid>n)
+            h=mid-1;
+            else
+            l=mid+1;
+        }
+        return h;
+    }
+};
+```
