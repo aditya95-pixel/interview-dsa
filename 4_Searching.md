@@ -289,3 +289,36 @@ class Solution {
     }
 };
 ```
+
+### 11. Median of 2 Sorted Arrays of Different Sizes
+Given two sorted arrays a[] and b[], find and return the median of the combined array after merging them into a single sorted array.
+
+```cpp
+class Solution {
+  public:
+    double medianOf2(vector<int>& a, vector<int>& b) {
+        if(a.size()>b.size())
+        return medianOf2(b,a);
+        int l=0,h=a.size();
+        while(l<=h){
+            int mid1=l+(h-l)/2;
+            int mid2=(a.size()+b.size()+1)/2-mid1;
+            int l1=(mid1==0 ? INT_MIN:a[mid1-1]);
+            int r1=(mid1==a.size() ? INT_MAX:a[mid1]);
+            int l2=(mid2==0 ? INT_MIN:b[mid2-1]);
+            int r2=(mid2==b.size() ? INT_MAX:b[mid2]);
+            if(l1<=r2 && l2<=r1){
+                if((a.size()+b.size())%2==0)
+                return (max(l1,l2)+min(r1,r2))/2.0;
+                else
+                return max(l1,l2);
+            }
+            if(l1>r2)
+            h=mid1-1;
+            else
+            l=mid1+1;
+        }
+        return 0;
+    }
+};
+```
