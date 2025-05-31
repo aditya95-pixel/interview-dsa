@@ -368,12 +368,53 @@ class Solution {
     int kokoEat(vector<int>& arr, int k) {
         if(k==arr.size())
         return *max_element(arr.begin(),arr.end());
-        sort(arr.begin(),arr.end());
         int l=1,h=accumulate(arr.begin(),arr.end(),0);
         int res=h;
         while(l<=h){
             int mid=l+(h-l)/2;
             if(check(arr,k,mid)){
+                res=mid;
+                h=mid-1;
+            }
+            else{
+                l=mid+1;
+            }
+        }
+        return res;
+    }
+};
+```
+
+### 14. Minimum days to make M bouquets
+You have a row of flowers, where each flower blooms after a specific day. The array arr represents the blooming schedule: arr[i] is the day the flower at position i will bloom. To create a bouquet, you need to collect k adjacent bloomed flowers. Each flower can only be used in one bouquet.
+
+Your goal is to find the minimum number of days required to make exactly m bouquets. If it is not possible to make m bouquets with the given arrangement, return -1.
+
+```cpp
+class Solution {
+  public:
+    bool check(int m,int k,vector<int>arr,int days){
+        int cnt=0;
+        int flcnt=0;
+        for(int i=0;i<arr.size();i++){
+            if(arr[i]>days)
+            flcnt=0;
+            else{
+                flcnt++;
+                if(flcnt==k)
+                {cnt++;flcnt=0;}
+            }
+        }
+        return cnt>=m;
+    }
+    int minDaysBloom(int m, int k, vector<int> &arr) {
+        if(m*k>arr.size())
+        return -1;
+        int l=1,h=*max_element(arr.begin(),arr.end());
+        int res=h;
+        while(l<=h){
+            int mid=l+(h-l)/2;
+            if(check(m,k,arr,mid)){
                 res=mid;
                 h=mid-1;
             }
