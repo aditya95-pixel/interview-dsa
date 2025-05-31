@@ -11,3 +11,25 @@ class Solution {
     }
 };
 ```
+
+### 2. Sorted and Rotated Minimum
+A sorted array of distinct elements arr[] is rotated at some unknown point, the task is to find the minimum element in it. 
+
+```cpp
+class Solution {
+  public:
+    int findMin(vector<int>& arr) {
+        int l=0,h=arr.size()-1;
+        while(l<=h){
+            if(arr[l]<=arr[h])
+            return arr[l];
+            int mid=l+(h-l)/2;
+            if(arr[mid]>arr[h])
+            l=mid+1;
+            else
+            h=mid;
+        }
+        return l;
+    }
+};
+```
