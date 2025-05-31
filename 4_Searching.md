@@ -258,3 +258,34 @@ class Solution {
     }
 };
 ```
+
+### 10. Bitonic Point
+Given an array of integers arr[] that is first strictly increasing and then maybe strictly decreasing, find the bitonic point, that is the maximum element in the array.
+Bitonic Point is a point before which elements are strictly increasing and after which elements are strictly decreasing.
+
+Note: It is guaranteed that the array contains exactly one bitonic point.
+
+```cpp
+class Solution {
+  public:
+    int findMaximum(vector<int> &arr) {
+        if(arr.size()==1)
+        return arr[0];
+        if(arr[arr.size()-1]>arr[arr.size()-2])
+        return arr[arr.size()-1];
+        if(arr[0]>arr[1])
+        return arr[0];
+        int l=1,h=arr.size()-1;
+        while(l<=h){
+            int mid=l+(h-l)/2;
+            if(arr[mid]>arr[mid-1] && arr[mid]>arr[mid+1])
+            return arr[mid];
+            else if(arr[mid]<arr[mid+1])
+            l=mid+1;
+            else
+            h=mid-1;
+        }
+        return -1;
+    }
+};
+```
