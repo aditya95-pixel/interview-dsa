@@ -348,3 +348,40 @@ class Solution {
     }
 };
 ```
+
+### 13. Koko Eating Bananas
+Given an array arr[] of integers where each element represents a pile of bananas, and Koko has k hours to finish all the piles, find the minimum number of bananas (s) Koko must eat per hour to finish all the bananas within k hours. Each hour, Koko chooses a pile and eats s bananas from it. If the pile has fewer than s bananas, she consumes the entire pile for that hour and won't eat any other banana during that hour.
+
+```cpp
+class Solution {
+  public:
+    bool check(vector<int>arr,int k,int bananas){
+        int cnt=0;
+        for(int i=0;i<arr.size();i++){
+            if(arr[i]%bananas==0)
+            cnt+=arr[i]/bananas;
+            else
+            cnt+=arr[i]/bananas+1;
+        }
+        return cnt<=k;
+    }
+    int kokoEat(vector<int>& arr, int k) {
+        if(k==arr.size())
+        return *max_element(arr.begin(),arr.end());
+        sort(arr.begin(),arr.end());
+        int l=1,h=accumulate(arr.begin(),arr.end(),0);
+        int res=h;
+        while(l<=h){
+            int mid=l+(h-l)/2;
+            if(check(arr,k,mid)){
+                res=mid;
+                h=mid-1;
+            }
+            else{
+                l=mid+1;
+            }
+        }
+        return res;
+    }
+};
+```
