@@ -34,3 +34,20 @@ class Solution {
     }
 };
 ```
+
+### 2. Rotate by 90 degree
+Given a square matrix mat[][] of size n x n. The task is to rotate it by 90 degrees in an anti-clockwise direction without using any extra space.
+
+```cpp
+class Solution {
+  public:
+    // Function to rotate matrix anticlockwise by 90 degrees.
+    void rotateby90(vector<vector<int>>& mat) {
+        for(int i=0;i<mat.size();i++){
+            for(int j=0;j<i;j++)
+            swap(mat[i][j],mat[j][i]);
+        }
+        reverse(mat.begin(),mat.end());
+    }
+};
+```
