@@ -51,3 +51,24 @@ class Solution {
     }
 };
 ```
+
+### 3. Search in a Row-Column sorted matrix
+Given a 2D integer matrix mat[][] of size n x m, where every row and column is sorted in increasing order and a number x, the task is to find whether element x is present in the matrix.
+
+```cpp
+class Solution {
+  public:
+    bool matSearch(vector<vector<int>> &mat, int x) {
+        int i=0,j=mat[0].size()-1;
+        while(i<mat.size() && j>=0){
+            if(mat[i][j]==x)
+            return true;
+            else if(mat[i][j]<x)
+            i++;
+            else
+            j--;
+        }
+        return false;
+    }
+};
+```
