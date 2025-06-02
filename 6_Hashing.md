@@ -220,3 +220,69 @@ class Solution {
     }
 };
 ```
+
+### 10. Roman Number to Integer
+Given a string in Roman number format (s), your task is to convert it to an integer. Various symbols and their values are given below.
+Note: I = 1, V = 5, X = 10, L = 50, C = 100, D = 500, M = 1000
+
+```cpp
+class Solution {
+  public:
+    int romanToDecimal(string &s) {
+        map<char,int>mp={{'I',1},{'V',5},{'X',10},
+        {'L',50},{'C',100},{'D',500},{'M',1000}};
+        int res=0;
+        map<char,bool>mp2={{'I',0},{'V',0},{'X',0},
+        {'L',0},{'C',0},{'D',0},{'M',0}};
+        for(auto x:s){
+            if(x=='I'){
+                mp2[x]=1;
+                res++;
+            }
+            else if(x=='V'){
+                mp2['V']=1;
+                if(mp2['I'])
+                    res+=3;
+                else
+                    res+=5;
+            }
+            else if(x=='X'){
+                mp2['X']=1;
+                if(mp2['I'])
+                    res+=8;
+                else
+                    res+=10;
+            }
+            else if(x=='L'){
+                mp2['L']=1;
+                if(mp2['X'])
+                    res+=30;
+                else
+                    res+=50;
+            }
+            else if(x=='C'){
+                mp2['C']=1;
+                if(mp2['X'])
+                    res+=80;
+                else
+                    res+=100;
+            }
+            else if(x=='D'){
+                mp2['D']=1;
+                if(mp2['C'])
+                    res+=300;
+                else
+                    res+=500;
+            }
+            else if(x=='M'){
+                mp2['M']=1;
+                if(mp2['C'])
+                    res+=800;
+                else
+                    res+=1000;
+            }
+        }
+        return res;
+    }
+};
+```
