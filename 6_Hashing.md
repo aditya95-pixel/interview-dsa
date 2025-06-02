@@ -379,3 +379,41 @@ class Solution {
     }
 };
 ```
+
+### 15. Group Shifted String
+Given an array of strings (all lowercase letters), the task is to group them in such a way that all strings in a group are shifted versions of each other.
+
+Two strings s1 and s2 are called shifted if the following conditions are satisfied:
+
+s1.length = s2.length
+s1[i] = s2[i] + m for 1 <= i <= s1.length  for a constant integer m
+
+```cpp
+class Solution {
+  public:
+    string hash(string s){
+        vector<int>freq(26,0);
+        string h;
+        int shift=s[0]-'a';
+        for(auto x:s)
+        {
+            x-=shift;
+            if(x<'a')
+            x+=26;
+            h+=x;
+        }
+        return h;
+    }
+    vector<vector<string>> groupShiftedString(vector<string> &arr) {
+        map<string,vector<string>>mp;
+        vector<vector<string>>res;
+        for(auto word:arr){
+            string key=hash(word);
+            mp[key].push_back(word);
+        }
+        for(auto item:mp)
+        res.push_back(item.second);
+        return res;
+    }
+};
+```
