@@ -179,3 +179,38 @@ class Solution {
     }
 };
 ```
+
+### 8. Create a spiral matrix of N*M size from given array
+You are given two positive integers n and m, and an integer array arr[] containing total (n*m) elements. Return a 2D matrix of dimensions n x m by filling it in a clockwise spiral order using the elements from the given array.
+
+```cpp
+class Solution {
+  public:
+    vector<vector<int>> spiralFill(int n, int m, vector<int> &arr) {
+        vector<vector<int>>mat(n,vector<int>(m,0));
+        int rowup=0,rowdown=n-1,colleft=0,colright=m-1;
+        int c=0;
+        while(c<arr.size()){
+            for(int i=colleft;i<=colright;i++)
+            mat[rowup][i]=arr[c++];
+            if(c==arr.size())
+            break;
+            rowup++;
+            for(int i=rowup;i<=rowdown;i++)
+            mat[i][colright]=arr[c++];
+            if(c==arr.size())
+            break;
+            colright--;
+            for(int i=colright;i>=colleft;i--)
+            mat[rowdown][i]=arr[c++];
+            if(c==arr.size())
+            break;
+            rowdown--;
+            for(int i=rowdown;i>=rowup;i--)
+            mat[i][colleft]=arr[c++];
+            colleft++;
+        }
+        return mat;
+    }
+};
+```
