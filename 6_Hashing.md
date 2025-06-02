@@ -120,3 +120,31 @@ class Solution {
     }
 };
 ```
+
+### 6. Longest Consecutive Subsequence
+Given an array arr[] of non-negative integers. Find the length of the longest sub-sequence such that elements in the subsequence are consecutive integers, the consecutive numbers can be in any order.
+
+```cpp
+class Solution {
+  public:
+    // Function to return length of longest subsequence of consecutive integers.
+    int longestConsecutive(vector<int>& arr) {
+        set<int>s;
+        int res=0;
+        for(auto x:arr)
+        s.insert(x);
+        for(auto ele:s){
+            if(s.find(ele)!=s.end() && s.find(ele-1)==s.end()){
+                int curr=ele,cnt=0;
+                while(s.find(curr)!=s.end()){
+                    s.erase(curr);
+                    curr++;
+                    cnt++;
+                }
+                res=max(res,cnt);
+            }
+        }
+        return res;
+    }
+};
+```
