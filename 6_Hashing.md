@@ -330,3 +330,26 @@ class Solution {
     }
 };
 ```
+
+### 13. 4 Sum – Count quadruplets with given sum
+Given an array arr[] and an integer target, you need to find and return the count of quadruplets such that the index of each element of the quadruplet is unique and the sum of the elements is equal to target.
+
+```cpp
+class Solution {
+  public:
+    int countSum(vector<int>& arr, int target) {
+        // code here
+        int cnt=0;
+        map<int,int>mp;
+        for(int i=0;i<arr.size();i++){
+            for(int j=i+1;j<arr.size();j++){
+                int sum=arr[i]+arr[j];
+                cnt+=mp[target-sum];
+            }
+            for(int j=0;j<i;j++)
+            mp[arr[i]+arr[j]]++;
+        }
+        return cnt;
+    }
+};
+```
