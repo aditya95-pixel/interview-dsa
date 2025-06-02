@@ -214,3 +214,29 @@ class Solution {
     }
 };
 ```
+
+### 9. Generate a matrix with each row and column of given sum
+Given two integer arrays rowSum[] of size n and colSum[] of size m, the task is to construct a 2D matrix of size n x m such that the sum of matrix elements in ith row is rowSum[i] and the sum of matrix elements in jth column is colSum[j].
+Note: Since multiple answers are possible, return any one of them. 
+Arrays are generated such that answer is always possible.
+The driver code will print true if output matrix is correct, otherwise it will print false.
+
+```cpp
+class Solution {
+  public:
+    vector<vector<int>> generateMatrix(vector<int> rowSum, vector<int> colSum) {
+        vector<vector<int>>mat(rowSum.size(),vector<int>(colSum.size()));
+        int i=0,j=0;
+        while(i<rowSum.size() && j<colSum.size()){
+            mat[i][j]=min(rowSum[i],colSum[j]);
+            rowSum[i]-=mat[i][j];
+            colSum[j]-=mat[i][j];
+            if(rowSum[i]==0)
+            i++;
+            else
+            j++;
+        }
+        return mat;
+    }
+};
+```
