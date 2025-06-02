@@ -306,3 +306,27 @@ class Solution {
     }
 };
 ```
+
+### 12. Pairs with difference k
+Given an array arr[] of positive integers. Find the number of pairs of integers whose absolute difference equals to a given number k.
+Note: (a, b) and (b, a) are considered the same. Also, the same numbers at different indices are considered different.
+
+The answer is guaranteed to fit in a 32-bit integer.
+
+```cpp
+class Solution {
+  public:
+    /* Returns count of pairs with difference k  */
+    int countPairs(vector<int>& arr, int k) {
+        map<int,int>mp;
+        int res=0;
+        for(auto x:arr)
+        mp[x]++;
+        for(auto item:mp){
+            if(mp.find(abs(k+item.first))!=mp.end())
+                res+=item.second*mp[abs(k+item.first)];
+        }
+        return res;
+    }
+};
+```
