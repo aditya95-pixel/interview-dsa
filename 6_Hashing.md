@@ -148,3 +148,32 @@ class Solution {
     }
 };
 ```
+
+### 7. Print Anagrams Together
+Given an array of strings, return all groups of strings that are anagrams. The strings in each group must be arranged in the order of their appearance in the original array. Refer to the sample case for clarification.
+
+```cpp
+class Solution {
+  public:
+    string hash(string s){
+        vector<char>freq(26,0);
+        for(auto x:s)
+            freq[x-'a']++;
+        string h;
+        for(auto x:freq)
+        h+=to_string(x);
+        return h;
+    }
+    vector<vector<string>> anagrams(vector<string>& arr) {
+        vector<vector<string>>res;
+        map<string,vector<string>>mp;
+        for(auto word:arr){
+            string key=hash(word);
+            mp[key].push_back(word);
+        }
+        for(auto item:mp)
+            res.push_back(item.second);
+        return res;
+    }
+};
+```
