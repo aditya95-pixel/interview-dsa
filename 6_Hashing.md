@@ -17,3 +17,27 @@ class Solution {
     }
 };
 ```
+
+### 2. Count pairs with given sum
+Given an array arr[] and an integer target. You have to find numbers of pairs in array arr[] which sums up to given target.
+
+```cpp
+class Solution {
+  public:
+    int countPairs(vector<int> &arr, int target) {
+        int cnt=0;
+        map<int,int>mp;
+        for(auto x:arr)
+        mp[x]++;
+        for(auto item:mp){
+            if(mp.find(target-item.first)!=mp.end() &&
+            item.first!=target-item.first)
+            cnt+=item.second*mp[target-item.first];
+            else if(mp.find(target-item.first)!=mp.end() &&
+            item.first==target-item.first)
+            cnt+=item.second*(item.second-1);
+        }
+        return cnt/2;
+    }
+};
+```
