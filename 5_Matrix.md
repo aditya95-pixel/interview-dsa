@@ -99,3 +99,29 @@ class Solution {
     }
 };
 ```
+
+### 5. Search in a sorted Matrix
+Given a strictly sorted 2D matrix mat[][] of size n x m and a number x. Find whether the number x is present in the matrix or not.
+Note: In a strictly sorted matrix, each row is sorted in strictly increasing order, and the first element of the ith row (i!=0) is greater than the last element of the (i-1)th row.
+
+```cpp
+class Solution {
+  public:
+    // Function to search a given number in row-column sorted matrix.
+    bool searchMatrix(vector<vector<int>> &mat, int x) {
+        int i=0,j=0;
+        while(i<mat.size() && j<mat[0].size())
+        {
+            if(mat[i][j]==x)
+                return true;
+            else if(i+1<mat.size() && mat[i+1][j]<=x)
+                i++;
+            else if(j+1<mat[0].size() && mat[i][j+1]<=x)
+                j++;
+            else
+                return false;
+        }
+        return false;
+    }
+};
+```
