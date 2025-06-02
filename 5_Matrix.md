@@ -240,3 +240,32 @@ class Solution {
     }
 };
 ```
+
+### 10. Make Matrix Beautiful
+A beautiful matrix is a matrix in which the sum of elements in each row and column is equal. Given a square matrix mat[][]. Find the minimum number of operation(s) that are required to make the matrix beautiful. In one operation you can increment the value of any one cell by 1.
+
+```cpp
+class Solution {
+  public:
+    // Function to find minimum number of operations that are required
+    // to make the matrix beautiful.
+    int findMinOperation(vector<vector<int> >& mat) {
+        int maxSum=0,cnt=0;
+        for(int i=0;i<mat.size();i++){
+            int rowSum=accumulate(mat[i].begin(),mat[i].end(),0);
+            maxSum=max(maxSum,rowSum);
+        }
+        for(int j=0;j<mat[0].size();j++){
+            int colSum=0;
+            for(int i=0;i<mat.size();i++)
+            colSum+=mat[i][j];
+            maxSum=max(maxSum,colSum);
+        }
+        for(int i=0;i<mat.size();i++){
+            int rowSum=accumulate(mat[i].begin(),mat[i].end(),0);
+            cnt+=maxSum-rowSum;
+        }
+        return cnt;
+    }
+};
+```
