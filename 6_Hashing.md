@@ -353,3 +353,29 @@ class Solution {
     }
 };
 ```
+
+### 14. Min Subsets with Consecutive Numbers
+Given an array of distinct positive numbers, the task is to calculate the minimum number of subsets (or subsequences) from the array such that each subset contains consecutive numbers.
+
+```cpp
+class Solution {
+  public:
+    int numOfSubset(vector<int> &arr) {
+        map<int,int>mp;
+        for(auto x:arr)
+        mp[x]++;
+        int cnt=0;
+        for(auto x:arr){
+            if(mp.find(x)!=mp.end() && mp.find(x-1)==mp.end()){
+                int curr=x;
+                while(mp.find(curr)!=mp.end()){
+                    mp.erase(curr);
+                    curr++;
+                }
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+};
+```
