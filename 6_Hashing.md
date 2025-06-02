@@ -41,3 +41,29 @@ class Solution {
     }
 };
 ```
+
+### 3. Find All Triplets with Zero Sum
+Given an array arr[], find all possible triplets i, j, k in the arr[] whose sum of elements is equals to zero. 
+Returned triplet should also be internally sorted i.e. i<j<k.
+
+```cpp
+class Solution {
+  public:
+    vector<vector<int>> findTriplets(vector<int> &arr) {
+        vector<vector<int>>res;
+        map<int,vector<int>>mp;
+        for(int j=0;j<arr.size();j++){
+            for(int k=j+1;k<arr.size();k++){
+                int val=-1*(arr[j]+arr[k]);
+                if(mp.find(val)!=mp.end())
+                {
+                    for(auto i:mp[val])
+                    res.push_back({i,j,k});
+                }
+            }
+            mp[arr[j]].push_back(j);
+        }
+        return res;
+    }
+};
+```
