@@ -125,3 +125,41 @@ class Solution {
     }
 };
 ```
+
+### 6. Set Matrix Zeroes
+You are given a 2D matrix mat[][] of size n×m. The task is to modify the matrix such that if mat[i][j] is 0, all the elements in the i-th row and j-th column are set to 0 and do it in constant space complexity.
+
+```cpp
+class Solution {
+  public:
+    void setMatrixZeroes(vector<vector<int>> &mat) {
+       bool c0=false;
+       for(int i=0;i<mat.size();i++){
+           for(int j=0;j<mat[0].size();j++){
+               if(mat[i][j]==0)
+               {
+                   mat[i][0]=0;
+                   if(j==0)
+                   c0=true;
+                   else
+                   mat[0][j]=0;
+               }
+           }
+       }
+       for(int i=1;i<mat.size();i++){
+           for(int j=1;j<mat[0].size();j++){
+               if(mat[i][0]==0 || mat[0][j]==0)
+               mat[i][j]=0;
+           }
+       }
+       if(mat[0][0]==0){
+           for(int j=0;j<mat[0].size();j++)
+           mat[0][j]=0;
+       }
+       if(c0){
+           for(int i=0;i<mat.size();i++)
+           mat[i][0]=0;
+       }
+    }
+};
+```
