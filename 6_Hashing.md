@@ -177,3 +177,24 @@ class Solution {
     }
 };
 ```
+
+### 8. Subarrays with sum K
+Given an unsorted array of integers, find the number of subarrays having sum exactly equal to a given number k.
+
+```cpp
+class Solution {
+  public:
+    int countSubarrays(vector<int> &arr, int k) {
+        map<int,int>mp;
+        int sum=0,cnt=0;
+        mp[0]=1;
+        for(auto x:arr){
+            sum+=x;
+            if(mp.find(sum-k)!=mp.end())
+            cnt+=mp[sum-k];
+            mp[sum]++;
+        }
+        return cnt;
+    }
+};
+```
