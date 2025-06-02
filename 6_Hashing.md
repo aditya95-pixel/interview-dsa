@@ -67,3 +67,34 @@ class Solution {
     }
 };
 ```
+
+### 4. Intersection of Two arrays with Duplicate Elements
+Given two integer arrays a[] and b[], you have to find the intersection of the two arrays. Intersection of two arrays is said to be elements that are common in both arrays. The intersection should not have duplicate elements and the result should contain items in any order.
+
+Note: The driver code will sort the resulting array in increasing order before printing.
+
+```cpp
+class Solution {
+  public:
+    vector<int> intersectionWithDuplicates(vector<int>& a, vector<int>& b) {
+        vector<int>res;
+        map<int,int>mp;
+        for(auto x:a)
+        {
+            if(mp.find(x)==mp.end())
+            mp[x]++;
+        }
+        for(auto x:b)
+        {
+            if(mp.find(x)!=mp.end() && mp[x]>0)
+            mp[x]--;
+        }
+        for(auto item:mp)
+        {
+            if(item.second==0)
+            res.push_back(item.first);
+        }
+        return res;
+    }
+};
+```
