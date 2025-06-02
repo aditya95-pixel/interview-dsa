@@ -392,7 +392,6 @@ s1[i] = s2[i] + m for 1 <= i <= s1.length  for a constant integer m
 class Solution {
   public:
     string hash(string s){
-        vector<int>freq(26,0);
         string h;
         int shift=s[0]-'a';
         for(auto x:s)
