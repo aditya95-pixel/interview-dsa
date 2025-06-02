@@ -198,3 +198,25 @@ class Solution {
     }
 };
 ```
+
+### 9. Count Subarrays with given XOR
+Given an array of integers arr[] and a number k, count the number of subarrays having XOR of their elements as k.
+
+```cpp
+class Solution {
+  public:
+    long subarrayXor(vector<int> &arr, int k) {
+        long cnt=0;
+        map<int,int>mp;
+        mp[0]=1;
+        int total=0;
+        for(auto x:arr){
+            total^=x;
+            if(mp.find(total^k)!=mp.end())
+            cnt+=mp[total^k];
+            mp[total]++;
+        }
+        return cnt;
+    }
+};
+```
