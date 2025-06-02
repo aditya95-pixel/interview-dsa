@@ -163,3 +163,19 @@ class Solution {
     }
 };
 ```
+
+### 7. Rotate a Matrix by 180 Counterclockwise
+Given a 2D square matrix mat[][] of size n x n, turn it by 180 degrees without using extra space.
+
+Note: You must rotate the matrix in place and modify the input matrix directly.
+
+```cpp
+class Solution {
+  public:
+    void rotateMatrix(vector<vector<int>>& mat) {
+        reverse(mat.begin(),mat.end());
+        for(int i=0;i<mat.size();i++)
+        reverse(mat[i].begin(),mat[i].end());
+    }
+};
+```
