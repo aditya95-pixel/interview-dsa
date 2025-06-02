@@ -286,3 +286,23 @@ class Solution {
     }
 };
 ```
+
+### 11. Max distance between same elements
+Given an array arr[], the task is to find the maximum distance between two occurrences of an element. If no element has two occurrences, then return 0.
+
+```cpp
+class Solution {
+  public:
+    int maxDistance(vector<int> &arr) {
+        int maxdist=0;
+        map<int,int>mp;
+        for(int i=0;i<arr.size();i++){
+            if(mp.find(arr[i])!=mp.end())
+                maxdist=max(maxdist,i-mp[arr[i]]);
+            else
+                mp[arr[i]]=i;
+        }
+        return maxdist;
+    }
+};
+```
