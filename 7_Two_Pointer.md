@@ -236,3 +236,28 @@ class Solution {
     }
 };
 ```
+
+### 8. Longest substring with distinct characters
+Given a string s, find the length of the longest substring with all distinct characters. 
+
+```cpp
+class Solution {
+  public:
+    int longestUniqueSubstr(string &s) {
+        map<char,int>mp;
+        int maxlen=0,l=0,h=0;
+        while(h<s.size()){
+            if(mp.find(s[h])==mp.end())
+            {mp[s[h]]=h;h++;}
+            else
+            {
+                int idx=mp[s[h]]+1;
+                for(;l<idx;l++)
+                mp.erase(s[l]);
+            }
+            maxlen=max(maxlen,h-l);
+        }
+        return maxlen;
+    }
+};
+```
