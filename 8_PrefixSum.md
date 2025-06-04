@@ -113,3 +113,31 @@ class Solution {
     }
 };
 ```
+
+### 6. Longest Subarray with Majority Greater than K
+Given an array arr[] and an integer k, the task is to find the length of longest subarray in which the count of elements greater than k is more than the count of elements less than or equal to k.
+
+```cpp
+class Solution {
+  public:
+    int longestSubarray(vector<int> &arr, int k) {
+        map<int,int>mp;
+        int sum=0,maxlen=0;
+        for(int i=0;i<arr.size();i++){
+            if(arr[i]>k)
+            sum++;
+            else
+            sum--;
+            if(sum>0)
+            maxlen=i+1;
+            else{
+                if(mp.find(sum-1)!=mp.end())
+                maxlen=max(maxlen,i-mp[sum-1]);
+            }
+            if(mp.find(sum)==mp.end())
+            mp[sum]=i;
+        }
+        return maxlen;
+    }
+};
+```
