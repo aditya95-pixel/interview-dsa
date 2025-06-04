@@ -286,3 +286,26 @@ class Solution {
     }
 };
 ```
+
+### 10. Container With Most Water
+Given an array arr[] of non-negative integers, where each element arr[i] represents the height of the vertical lines, find the maximum amount of water that can be contained between any two lines, together with the x-axis.
+
+Note: In the case of a single vertical line it will not be able to hold water.
+
+```cpp
+class Solution {
+  public:
+    int maxWater(vector<int> &arr) {
+        int l=0,h=arr.size()-1;
+        int maxvol=0;
+        while(l<h){
+            maxvol=max(maxvol,(h-l)*min(arr[l],arr[h]));
+            if(arr[l]>arr[h])
+            h--;
+            else
+            l++;
+        }
+        return maxvol;
+    }
+};
+```
