@@ -178,3 +178,25 @@ class Solution {
     }
 };
 ```
+
+### 8. Subarray Sum Divisible By K
+You are given an integer array arr[] and a value k. The task is to find the count of all sub-arrays whose sum is divisible by k.
+
+```cpp
+class Solution {
+  public:
+    // Function to count the number of subarrays with a sum that is divisible by K
+    int subCount(vector<int>& arr, int k) {
+        int sum=0,cnt=0;
+        map<int,int>mp;
+        for(int i=0;i<arr.size();i++){
+            sum=((sum+arr[i])%k+k)%k;
+            if(sum==0)
+            cnt++;
+            cnt+=mp[sum];
+            mp[sum]++;
+        }
+        return cnt;
+    }
+};
+```
