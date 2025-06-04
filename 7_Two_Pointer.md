@@ -454,3 +454,35 @@ class Solution {
     }
 };
 ```
+
+### 15. Subarrays with K Distinct Integers
+You are given an array arr[] of positive integers and an integer k, find the number of subarrays in arr[] where the count of distinct integers is exactly k.
+
+Note: A subarray is a contiguous part of an array.
+
+```cpp
+class Solution {
+  public:
+    int atMostK(vector<int> &arr, int k) {
+        map<int,int>mp;
+        int l=0,h=0,res=0,uniquecnt=0;
+        while(h<arr.size()){
+            mp[arr[h]]++;
+            if(mp[arr[h]]==1)
+            uniquecnt++;
+            while(uniquecnt>k){
+                mp[arr[l]]--;
+                if(mp[arr[l]]==0)
+                uniquecnt--;
+                l++;
+            }
+            res+=h-l+1;
+            h++;
+        }
+        return res;
+    }
+    int exactlyK(vector<int> &arr, int k) {
+        return atMostK(arr,k)-atMostK(arr,k-1);
+    }
+};
+```
