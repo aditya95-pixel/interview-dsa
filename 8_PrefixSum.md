@@ -200,3 +200,27 @@ class Solution {
     }
 };
 ```
+
+### 9. Longest subarray with sum divisible by K
+Given an array arr[] and a positive integer k, find the length of the longest subarray with the sum of the elements divisible by k.
+Note: If there is no subarray with sum divisible by k, then return 0.
+
+```cpp
+class Solution {
+  public:
+    int longestSubarrayDivK(vector<int>& arr, int k) {
+        int maxlen=0,sum=0;
+        map<int,int>mp;
+        for(int i=0;i<arr.size();i++){
+            sum=((sum+arr[i])%k+k)%k;
+            if(sum%k==0)
+            maxlen=i+1;
+            else if(mp.find(sum)!=mp.end())
+            maxlen=max(maxlen,i-mp[sum]);
+            else
+            mp[sum]=i;
+        }
+        return maxlen;
+    }
+};
+```
