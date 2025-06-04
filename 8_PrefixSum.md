@@ -141,3 +141,40 @@ class Solution {
     }
 };
 ```
+
+### 7. Largest rectangular sub-matrix whose sum is 0
+Given a matrix mat[][]. Find the size of the largest sub-matrix whose sum is equal to zero. The size of a matrix is the product of rows and columns. A sub-matrix is a matrix obtained from the given matrix by deletion of several (possibly, zero or all) rows/columns from the beginning and several (possibly, zero or all) rows/columns from the end.
+
+```cpp
+class Solution {
+  public:
+    int longestSubarray(vector<int>arr){
+        map<int,int>mp;
+        int sum=0,maxlen=0;
+        for(int i=0;i<arr.size();i++)
+        {
+            sum+=arr[i];
+            if(sum==0)
+            maxlen=i+1;
+            else if(mp.find(sum)!=mp.end())
+            maxlen=max(maxlen,i-mp[sum]);
+            else
+            mp[sum]=i;
+        }
+        return maxlen;
+    }
+    int zeroSumSubmat(vector<vector<int>>& mat) {
+        int maxArea=0;
+        for(int i=0;i<mat.size();i++){
+            vector<int>submatrix(mat[0].size(),0);
+            for(int j=i;j<mat.size();j++){
+                for(int k=0;k<mat[0].size();k++)
+                    submatrix[k]+=mat[j][k];
+                int len=longestSubarray(submatrix);
+                maxArea=max(maxArea,(j-i+1)*len);
+            }
+        }
+        return maxArea;
+    }
+};
+```
