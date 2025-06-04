@@ -100,3 +100,42 @@ class Solution {
     }
 };
 ```
+
+### 4. Pair with given sum in a sorted array
+You are given an integer target and an array arr[]. You have to find number of pairs in arr[] which sums up to target. It is given that the elements of the arr[] are in sorted order.
+Note: pairs should have elements of distinct indexes. 
+
+```cpp
+class Solution {
+  public:
+    int countPairs(vector<int> &arr, int target) {
+        int cnt=0;
+        int l=0,h=arr.size()-1;
+        while(l<h){
+            if(arr[l]+arr[h]==target)
+            {
+                cnt++;
+                int l1=l;
+                while(l+1<h && arr[l]==arr[l+1])
+                {
+                    cnt++;
+                    l++;
+                }
+                l=l1;
+                int h1=h;
+                while(h-1>l && arr[h]==arr[h-1]){
+                    cnt++;
+                    h--;
+                }
+                h=h1;
+                l++;
+                h--;
+            }else if(arr[l]+arr[h]>target)
+                h--;
+            else
+                l++;
+        }
+        return cnt;
+    }
+};
+```
