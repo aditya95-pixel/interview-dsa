@@ -139,3 +139,31 @@ class Solution {
     }
 };
 ```
+
+### 5. Count the number of possible triangles
+Given an integer array arr[]. Find the number of triangles that can be formed with three different array elements as lengths of three sides of the triangle. 
+
+A triangle with three given sides is only possible if sum of any two sides is always greater than the third side.
+
+```cpp
+class Solution {
+  public:
+    // Function to count the number of possible triangles.
+    int countTriangles(vector<int>& arr) {
+        int cnt=0;
+        sort(arr.begin(),arr.end());
+        for(int i=2;i<arr.size();i++){
+           int j=0,k=i-1;
+           while(j<k){
+               if(arr[i]<arr[j]+arr[k])
+               {
+                   cnt+=k-j;
+                   k--;
+               }else
+                   j++;
+           }
+        }
+        return cnt;
+    }
+};
+```
