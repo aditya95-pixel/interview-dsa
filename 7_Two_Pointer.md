@@ -212,3 +212,27 @@ class Solution {
     }
 };
 ```
+
+### 7. Count distinct elements in every window
+Given an integer array arr[] and a number k. Find the count of distinct elements in every window of size k in the array.
+
+```cpp
+class Solution {
+  public:
+    vector<int> countDistinct(vector<int> &arr, int k) {
+        map<int,int>mp;
+        vector<int>res;
+        for(int i=0;i<k;i++)
+        mp[arr[i]]++;
+        res.push_back(mp.size());
+        for(int i=0;i<arr.size()-k;i++){
+            mp[arr[i]]--;
+            if(mp[arr[i]]==0)
+            mp.erase(arr[i]);
+            mp[arr[i+k]]++;
+            res.push_back(mp.size());
+        }
+        return res;
+    }
+};
+```
