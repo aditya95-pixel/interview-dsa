@@ -36,3 +36,23 @@ class Solution {
     }
 };
 ```
+
+### 2. Count Pairs whose sum is less than target
+Given an array arr[] and an integer target. You have to find the number of pairs in the array whose sum is strictly less than the target.
+
+```cpp
+class Solution {
+  public:
+    int countPairs(vector<int> &arr, int target) {
+        sort(arr.begin(),arr.end());
+        int l=0,h=arr.size()-1,cnt=0;
+        while(l<h){
+            if(arr[l]+arr[h]<target)
+            {cnt+=h-l;l++;}
+            else
+            h--;
+        }
+        return cnt;
+    }
+};
+```
