@@ -516,3 +516,30 @@ class Solution {
     }
 };
 ```
+
+### 17. Pair Sum in a Sorted and Rotated Array
+Given an array of positive elements arr[] that is sorted and then rotated around an unknown point, the task is to check if the array has a pair with sum equals to a given target.
+
+```cpp
+class Solution {
+  public:
+    bool pairInSortedRotated(vector<int>& arr, int target) {
+        int l;
+        for(l=0;l<arr.size()-1;l++){
+            if(arr[l]>arr[l+1])
+            break;
+        }
+        int h=l;
+        l=(l+1)%arr.size();
+        while(l!=h){
+            if(arr[l]+arr[h]==target)
+            return true;
+            else if(arr[l]+arr[h]>target)
+            h=(h-1+arr.size())%arr.size();
+            else
+            l=(l+1)%arr.size();
+        }
+        return false;
+    }
+};
+```
