@@ -486,3 +486,33 @@ class Solution {
     }
 };
 ```
+
+### 16. Minimum Removals for Target Sum
+You are given an array of positive integers arr[] and an integer k. In one operation, you can remove either the leftmost or the rightmost element from the array. After each operation, the size of arr[] will be reduced by one.
+
+Your task is to determine the minimum number of operations required to make the total sum of removed elements exactly equal to k. If it is not possible to achieve this, return -1.
+
+```cpp
+class Solution {
+  public:
+    // length of array - longest subarray with sum as (sum of array -k)
+    int minRemovals(vector<int> &arr, int k) {
+        int target=accumulate(arr.begin(),arr.end(),0)-k;
+        if(target==0)
+        return arr.size();
+        int l=0,h=0,currsum=0,maxlen=0;
+        while(h<arr.size()){
+            currsum+=arr[h];
+            while(currsum>target && l<h)
+            currsum-=arr[l++];
+            if(currsum==target)
+            maxlen=max(maxlen,h-l+1);
+            h++;
+        }
+        if(maxlen==0)
+        return -1;
+        else
+        return arr.size()-maxlen;
+    }
+};
+```
