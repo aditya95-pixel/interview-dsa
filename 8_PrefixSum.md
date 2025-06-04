@@ -69,3 +69,25 @@ class Solution {
     }
 };
 ```
+
+### 4. Product array puzzle
+Given an array, arr[] construct a product array, res[] where each element in res[i] is the product of all elements in arr[] except arr[i]. Return this resultant array, res[].
+Note: Each element is res[] lies inside the 32-bit integer range.
+
+```cpp
+class Solution {
+  public:
+    vector<int> productExceptSelf(vector<int>& arr) {
+        vector<int>prefProd(arr.size()),sufProd(arr.size()),res(arr.size());
+        prefProd[0]=1;
+        for(int i=1;i<arr.size();i++)
+            prefProd[i]=prefProd[i-1]*arr[i-1];
+        sufProd[arr.size()-1]=1;
+        for(int i=arr.size()-2;i>=0;i--)
+            sufProd[i]=sufProd[i+1]*arr[i+1];
+        for(int i=0;i<arr.size();i++)
+            res[i]=prefProd[i]*sufProd[i];
+        return res;
+    }
+};
+```
