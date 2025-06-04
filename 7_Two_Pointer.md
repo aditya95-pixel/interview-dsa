@@ -56,3 +56,47 @@ class Solution {
     }
 };
 ```
+
+### 3. Sum Pair closest to target
+Given an array arr[] and a number target, find a pair of elements (a, b) in arr[], where a<=b whose sum is closest to target.
+Note: Return the pair in sorted order and if there are multiple such pairs return the pair with maximum absolute difference. If no such pair exists return an empty array.
+
+```cpp
+class Solution {
+  public:
+    vector<int> sumClosest(vector<int>& arr, int target) {
+        sort(arr.begin(),arr.end());
+        vector<int>res;
+        if(arr.size()<=1)
+        return res;
+        res.push_back(-1);
+        res.push_back(-1);
+        int l=0,h=arr.size()-1,dist=INT_MAX;
+        while(l<h){
+            if(abs(arr[l]+arr[h]-target)<dist && arr[l]+arr[h]==target)
+            {
+                res[0]=arr[l];
+                res[1]=arr[h];
+                return res;
+            }else if(abs(arr[l]+arr[h]-target)<dist && arr[l]+arr[h]>target)
+            {
+                dist=abs(arr[l]+arr[h]-target);
+                res[0]=arr[l];
+                res[1]=arr[h];
+                h--;
+            }
+            else if(abs(arr[l]+arr[h]-target)<dist && arr[l]+arr[h]<target)
+            {
+                dist=abs(arr[l]+arr[h]-target);
+                res[0]=arr[l];
+                res[1]=arr[h];
+                l++;
+            }else if(arr[l]+arr[h]>target)
+            h--;
+            else
+            l++;
+        }
+        return res;
+    }
+};
+```
