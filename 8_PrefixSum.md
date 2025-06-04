@@ -20,3 +20,26 @@ class Solution {
     }
 };
 ```
+
+### 2. Longest Subarray with Sum K
+Given an array arr[] containing integers and an integer k, your task is to find the length of the longest subarray where the sum of its elements is equal to the given value k. If there is no subarray with sum equal to k, return 0.
+
+```cpp
+class Solution {
+  public:
+    int longestSubarray(vector<int>& arr, int k) {
+        map<int,int>mp;
+        int sum=0,maxlen=0;
+        for(int i=0;i<arr.size();i++){
+            sum+=arr[i];
+            if(sum==k)
+                maxlen=max(maxlen,i+1);
+            if(mp.find(sum-k)!=mp.end())
+                maxlen=max(maxlen,i-mp[sum-k]);
+            if(mp.find(sum)==mp.end())
+                mp[sum]=i;
+        }
+        return maxlen;
+    }
+};
+```
