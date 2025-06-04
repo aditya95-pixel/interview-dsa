@@ -261,3 +261,28 @@ class Solution {
     }
 };
 ```
+
+### 9. Trapping Rain Water
+Given an array arr[] with non-negative integers representing the height of blocks. If the width of each block is 1, compute how much water can be trapped between the blocks during the rainy season. 
+
+```cpp
+class Solution {
+  public:
+    int maxWater(vector<int> &arr) {
+        stack<int>stk;
+        int vol=0;
+        for(int i=0;i<arr.size();i++){
+            while(!stk.empty() && arr[stk.top()]<arr[i]){
+                int curr=stk.top();
+                stk.pop();
+                if(stk.empty())
+                break;
+                int l=i-stk.top()-1;
+                vol+=(min(arr[stk.top()],arr[i])-arr[curr])*l;
+            }
+            stk.push(i);
+        }
+        return vol;
+    }
+};
+```
