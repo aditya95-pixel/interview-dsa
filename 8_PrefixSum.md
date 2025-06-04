@@ -213,7 +213,7 @@ class Solution {
         map<int,int>mp;
         for(int i=0;i<arr.size();i++){
             sum=((sum+arr[i])%k+k)%k;
-            if(sum%k==0)
+            if(sum==0)
             maxlen=i+1;
             else if(mp.find(sum)!=mp.end())
             maxlen=max(maxlen,i-mp[sum]);
