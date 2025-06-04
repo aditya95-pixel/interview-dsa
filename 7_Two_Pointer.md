@@ -335,3 +335,47 @@ class Solution {
     }
 };
 ```
+
+### 12. 3 Sum Closest
+Given an array arr[] and an integer target, the task is to find the sum of three integers in arr[] such that the sum is closest to target. 
+
+Note: If multiple sums are closest to target, return the maximum one.
+
+```cpp
+class Solution {
+  public:
+    int closest3Sum(vector<int> &arr, int target) {
+        sort(arr.begin(),arr.end());
+        int dist=INT_MAX,res=INT_MIN;
+        for(int i=0;i<arr.size()-2;i++){
+            int j=i+1,k=arr.size()-1;
+            while(j<k){
+                if(abs(arr[i]+arr[j]+arr[k]-target)==0){
+                    return target;
+                }else if(abs(arr[i]+arr[j]+arr[k]-target)<dist && arr[i]+arr[j]+arr[k]>target){
+                    dist=abs(arr[i]+arr[j]+arr[k]-target);
+                    res=arr[i]+arr[j]+arr[k];
+                    k--;
+                }else if(abs(arr[i]+arr[j]+arr[k]-target)<dist && arr[i]+arr[j]+arr[k]<target){
+                    dist=abs(arr[i]+arr[j]+arr[k]-target);
+                    res=arr[i]+arr[j]+arr[k];
+                    j++;
+                }else if(abs(arr[i]+arr[j]+arr[k]-target)==dist && arr[i]+arr[j]+arr[k]>target){
+                    if(arr[i]+arr[j]+arr[k]>res)
+                        res=arr[i]+arr[j]+arr[k];
+                    k--;
+                }else if(abs(arr[i]+arr[j]+arr[k]-target)==dist && arr[i]+arr[j]+arr[k]<target){
+                    if(arr[i]+arr[j]+arr[k]>res)
+                        res=arr[i]+arr[j]+arr[k];
+                    j++;
+                }else if(abs(arr[i]+arr[j]+arr[k]-target)>dist && arr[i]+arr[j]+arr[k]>target){
+                    k--;
+                }else if(abs(arr[i]+arr[j]+arr[k]-target)>dist && arr[i]+arr[j]+arr[k]<target){
+                    j++;
+                }
+            }
+        }
+        return res;
+    }
+};
+```
