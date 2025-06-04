@@ -91,3 +91,25 @@ class Solution {
     }
 };
 ```
+
+### 5. Number of times graph cuts X-axis
+Given an integer array arr[], where each arr[i] denotes the trajectory of the graph over the plane; i.e. arr[i]>0 means graph going above its current position by arr[i] value and arr[i]<0 means graph going down by arr[i] value. If initial position of the graph is at origin, determines the number of times graph crosses or touches the X-axis.
+
+```cpp
+class Solution {
+  public:
+    int touchedXaxis(vector<int>& arr) {
+        int sum=arr[0],cnt=0;
+        for(int i=1;i<arr.size();i++)
+        {
+            int prevsum=sum;
+            sum+=arr[i];
+            if(sum>prevsum && sum>=0 && prevsum<0)
+            cnt++;
+            else if(sum<prevsum && sum<=0 && prevsum>0)
+            cnt++;
+        }
+        return cnt;
+    }
+};
+```
