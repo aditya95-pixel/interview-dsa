@@ -95,3 +95,36 @@ class Solution {
     }
 };
 ```
+
+### 4. Linked List Group Reverse
+Given the head a linked list, the task is to reverse every k node in the linked list. If the number of nodes is not a multiple of k then the left-out nodes in the end, should be considered as a group and must be reversed.
+
+```cpp
+class Solution {
+  public:
+    Node *reverseKGroup(Node *head, int k) {
+        if(!head)
+        return head;
+        Node*newHead=NULL,*curr=head,*tail=NULL;
+        while(curr!=NULL){
+            Node* groupHead=curr;
+            Node* prev=NULL;
+            Node* newNode=NULL;
+            int cnt=0;
+            while(curr!=NULL && cnt<k){
+                newNode=curr->next;
+                curr->next=prev;
+                prev=curr;
+                curr=newNode;
+                cnt++;
+            }
+            if(newHead==NULL)
+            newHead=prev;
+            if(tail!=NULL)
+            tail->next=prev;
+            tail=groupHead;
+        }
+        return newHead;
+    }
+};
+```
