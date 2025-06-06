@@ -57,3 +57,41 @@ class Solution {
     }
 };
 ```
+
+### 3. Merge two sorted linked lists
+Given the head of two sorted linked lists consisting of nodes respectively. The task is to merge both lists and return the head of the sorted merged list.
+
+```cpp
+class Solution {
+  public:
+    Node* sortedMerge(Node* head1, Node* head2) {
+        Node*dummy=new Node(0),*ptr1=head1,*ptr2=head2;
+        Node*temp=dummy;
+        while(ptr1!=NULL && ptr2!=NULL){
+            if(ptr1->data<ptr2->data)
+            {
+                temp->next=ptr1;
+                temp=temp->next;
+                ptr1=ptr1->next;
+            }else{
+                temp->next=ptr2;
+                temp=temp->next;
+                ptr2=ptr2->next;
+            }
+        }
+        while(ptr1!=NULL)
+        {
+            temp->next=ptr1;
+            temp=temp->next;
+            ptr1=ptr1->next;
+        }
+        while(ptr2!=NULL)
+        {
+            temp->next=ptr2;
+            temp=temp->next;
+            ptr2=ptr2->next;
+        }
+        return dummy->next;
+    }
+};
+```
