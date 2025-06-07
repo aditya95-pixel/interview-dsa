@@ -433,3 +433,45 @@ class LRUCache {
     }
 };
 ```
+
+### 11. Intersection in Y Shaped Lists
+Given the head of two singly linked lists, return the point where these two linked lists intersect.
+
+Note: It is guaranteed that the intersected node always exists.
+
+Custom Input Format:
+
+head1 contains the nodes before intersection in list1
+head2 contains the nodes before intersection in list2
+CommonList contains the nodes after intersection of list1 and list2. 
+
+```cpp
+class Solution {
+  public:
+    int length(Node*head){
+        Node*ptr=head;
+        int cnt=0;
+        while(ptr){
+            ptr=ptr->next;
+            cnt++;
+        }
+        return cnt;
+    }
+    Node* intersectPoint(Node* head1, Node* head2) {
+        int len1=length(head1),len2=length(head1);
+        if(len1>len2)
+        return intersectPoint(head2,head1);
+        int cnt=len2-len1;
+        Node*ptr2=head2,*ptr1=head1;
+        while(cnt--){
+            ptr2=ptr2->next;
+        }
+        while(ptr1 && ptr2 && ptr1->next!=ptr2->next)
+        {
+            ptr1=ptr1->next;
+            ptr2=ptr2->next;
+        }
+        return ptr1->next;
+    }
+};
+```
