@@ -231,3 +231,77 @@ class Solution {
     }
 };
 ```
+
+### 5. Word Search
+You are given a two-dimensional mat[][] of size n*m containing English alphabets and a string word. Check if the word exists on the mat. The word can be constructed by using letters from adjacent cells, either horizontally or vertically. The same cell cannot be used more than once.
+
+```cpp
+class Solution {
+  public:
+    bool solve(vector<vector<char>>& mat, string& word,string &curr,int row
+    ,int col){
+        if(curr.size()==word.size()){
+            if(curr==word)
+            return true;
+            else
+            return false;
+        }else{
+            if(row+1<mat.size() && mat[row+1][col]==word[curr.size()])
+            {
+                curr+=word[curr.size()];
+                mat[row+1][col]='.';
+                if(solve(mat,word,curr,row+1,col))
+                return true;
+                curr.pop_back();
+                mat[row+1][col]=word[curr.size()];
+            }
+            if(row-1>=0 && mat[row-1][col]==word[curr.size()])
+            {
+                curr+=word[curr.size()];
+                mat[row-1][col]='.';
+                if(solve(mat,word,curr,row-1,col))
+                return true;
+                curr.pop_back();
+                mat[row-1][col]=word[curr.size()];
+            }
+            if(col+1<mat[0].size() && mat[row][col+1]==word[curr.size()])
+            {
+                curr+=word[curr.size()];
+                mat[row][col+1]='.';
+                if(solve(mat,word,curr,row,col+1))
+                return true;
+                curr.pop_back();
+                mat[row][col+1]=word[curr.size()];
+            }
+            if(col-1>=0 && mat[row][col-1]==word[curr.size()])
+            {
+                curr+=word[curr.size()];
+                mat[row][col-1]='.';
+                if(solve(mat,word,curr,row,col-1))
+                return true;
+                curr.pop_back();
+                mat[row][col-1]=word[curr.size()];
+            }
+            return false;
+        }
+        
+    }
+    bool isWordExist(vector<vector<char>>& mat, string& word) {
+        for(int i=0;i<mat.size();i++){
+            for(int j=0;j<mat[0].size();j++){
+                if(mat[i][j]==word[0])
+                {
+                    string curr;
+                    curr+=word[0];
+                    mat[i][j]='.';
+                    if(solve(mat,word,curr,i,j))
+                    return true;
+                    mat[i][j]=word[0];
+                    curr.pop_back();
+                }
+            }
+        }
+        return false;
+    }
+};
+```
