@@ -33,3 +33,22 @@ class Solution {
     }
 };
 ```
+
+### 2. Implement Pow
+Implement the function power(b, e), which calculates b raised to the power of e (i.e. b^e).
+
+```cpp
+class Solution {
+  public:
+    double power(double b, int e) {
+        if(e<0)
+        return 1/power(b,-e);
+        else if(e==0)
+        return 1;
+        else if(e%2==0)
+        return power(b*b,e/2);
+        else
+        return b*power(b*b,e/2);
+    }
+};
+```
