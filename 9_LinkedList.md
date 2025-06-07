@@ -623,3 +623,50 @@ class LFUCache {
     }
 };
 ```
+
+### 15. Flattening a Linked List
+Given a linked list containing n head nodes where every node in the linked list contains two pointers:
+(i) next points to the next node in the list.
+(ii) bottom pointer to a sub-linked list where the current node is the head.
+Each of the sub-linked lists nodes and the head nodes are sorted in ascending order based on their data.
+Your task is to flatten the linked list such that all the nodes appear in a single level while maintaining the sorted order.
+
+Note:
+1. ↓ represents the bottom pointer and -> represents the next pointer.
+2. The flattened list will be printed using the bottom pointer instead of the next pointer.
+
+```cpp
+struct Compare{
+    bool operator()(Node* a,Node* b){
+        return a->data>b->data;
+    }
+};
+class Solution {
+  public:
+    // Function which returns the  root of the flattened linked list.
+    Node *flatten(Node *root) {
+        priority_queue<Node*,vector<Node*>,Compare>pq;
+        while(root){
+            pq.push(root);
+            root=root->next;
+        }
+        Node*head=NULL,*tail=NULL;
+        while(!pq.empty()){
+            Node* minNode=pq.top();
+            pq.pop();
+            if(head==NULL){
+                head=minNode;
+                tail=minNode;
+            }else{
+                tail->bottom=minNode;
+                tail=tail->bottom;
+            }
+            if(minNode->bottom){
+                pq.push(minNode->bottom);
+                minNode->bottom=NULL;
+            }
+        }
+        return head;
+    }
+};
+```
