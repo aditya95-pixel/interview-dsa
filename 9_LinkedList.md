@@ -511,3 +511,31 @@ class Solution {
     }
 };
 ```
+
+### 13. Merge K sorted linked lists
+Given an array arr[] of n sorted linked lists of different sizes. The task is to merge them in such a way that after merging they will be a single sorted linked list, then return the head of the merged linked list.
+
+```cpp
+class Solution {
+  public:
+    Node* mergeKLists(vector<Node*>& arr) {
+        priority_queue<int,vector<int>,greater<int>>pq;
+        for(auto head:arr){
+            while(head){
+                pq.push(head->data);
+                head=head->next;
+            }
+        }
+        Node*dummy=new Node(0);
+        Node* ptr=dummy;
+        while(!pq.empty()){
+            int val=pq.top();
+            pq.pop();
+            Node* newNode=new Node(val);
+            ptr->next=newNode;
+            ptr=ptr->next;
+        }
+        return dummy->next;
+    }
+};
+```
