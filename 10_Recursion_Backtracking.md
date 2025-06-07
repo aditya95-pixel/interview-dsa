@@ -115,3 +115,119 @@ class Solution {
     }
 };
 ```
+
+### 4. Solve the Sudoku
+Given an incomplete Sudoku configuration in terms of a 9x9  2-D interger square matrix, mat[][], the task is to solve the Sudoku. It is guaranteed that the input Sudoku will have exactly one solution.
+
+A sudoku solution must satisfy all of the following rules:
+
+Each of the digits 1-9 must occur exactly once in each row.
+Each of the digits 1-9 must occur exactly once in each column.
+Each of the digits 1-9 must occur exactly once in each of the 9 3x3 sub-boxes of the grid.
+Note: Zeros represent blanks to be filled with numbers 1-9, while non-zero cells are fixed and cannot be changed.
+
+```cpp
+class Solution {
+  public:
+    // Function to find a solved Sudoku.
+    bool check(vector<vector<int>>&mat,int row,int col){
+        for(int i=0;i<mat.size();i++)
+        {
+            if(i!=row && mat[i][col]==mat[row][col])
+            return false;
+        }
+        for(int i=0;i<mat.size();i++)
+        {
+            if(i!=col && mat[row][i]==mat[row][col])
+            return false;
+        }
+        if(row<3 && col<3){
+            for(int i=0;i<3;i++){
+                for(int j=0;j<3;j++){
+                    if((i!=row || j!=col) && mat[i][j]==mat[row][col])
+                    return false;
+                }
+            }
+        }else if(row<3 && col<6){
+            for(int i=0;i<3;i++){
+                for(int j=3;j<6;j++){
+                    if((i!=row || j!=col) && mat[i][j]==mat[row][col])
+                    return false;
+                }
+            }
+        }else if(row<3 && col<9){
+            for(int i=0;i<3;i++){
+                for(int j=6;j<9;j++){
+                    if((i!=row || j!=col) && mat[i][j]==mat[row][col])
+                    return false;
+                }
+            }
+        }else if(row<6 && col<3){
+            for(int i=3;i<6;i++){
+                for(int j=0;j<3;j++){
+                    if((i!=row || j!=col) && mat[i][j]==mat[row][col])
+                    return false;
+                }
+            }
+        }else if(row<6 && col<6){
+            for(int i=3;i<6;i++){
+                for(int j=3;j<6;j++){
+                    if((i!=row || j!=col) && mat[i][j]==mat[row][col])
+                    return false;
+                }
+            }
+        }else if(row<6 && col<9){
+            for(int i=3;i<6;i++){
+                for(int j=6;j<9;j++){
+                    if((i!=row || j!=col) && mat[i][j]==mat[row][col])
+                    return false;
+                }
+            }
+        }else if(row<9 && col<3){
+            for(int i=6;i<9;i++){
+                for(int j=0;j<3;j++){
+                    if((i!=row || j!=col) && mat[i][j]==mat[row][col])
+                    return false;
+                }
+            }
+        }else if(row<9 && col<6){
+            for(int i=6;i<9;i++){
+                for(int j=3;j<6;j++){
+                    if((i!=row || j!=col) && mat[i][j]==mat[row][col])
+                    return false;
+                }
+            }
+        }else if(row<9 && col<9){
+            for(int i=6;i<9;i++){
+                for(int j=6;j<9;j++){
+                    if((i!=row || j!=col) && mat[i][j]==mat[row][col])
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    bool solve(vector<vector<int>>&mat,int row,int col){
+        if(row==mat.size()-1 && col==mat.size())
+        return true;
+        if(col==mat.size())
+        return solve(mat,row+1,0);
+        if(mat[row][col]!=0)
+        return solve(mat,row,col+1);
+        for(int i=1;i<=9;i++)
+        {
+            mat[row][col]=i;
+            if(check(mat,row,col))
+            {
+                if(solve(mat,row,col+1))
+                return true;
+            }
+            mat[row][col]=0;
+        }
+        return false;
+    }
+    void solveSudoku(vector<vector<int>> &mat) {
+        solve(mat,0,0);
+    }
+};
+```
