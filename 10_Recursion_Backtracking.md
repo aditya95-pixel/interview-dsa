@@ -63,7 +63,7 @@ For eg. below figure represents a chessboard [3 1 4 2].
 ```cpp
 class Solution {
   public:
-    bool check(vector<vector<int>>board,int row,int col){
+    bool check(vector<vector<int>>&board,int row,int col){
         for(int i=0;i<row;i++){
             if(board[i][col]==1)
             return false;
