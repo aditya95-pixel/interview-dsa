@@ -475,3 +475,39 @@ class Solution {
     }
 };
 ```
+
+### 12. Palindrome Linked List
+Given a head singly linked list of positive integers. The task is to check if the given linked list is palindrome or not.
+
+```cpp
+class Solution {
+  public:
+    // Function to check whether the list is palindrome.
+    Node* reverse(Node*head){
+        Node*p=NULL,*q=NULL,*r=head;
+        while(r){
+            p=q;
+            q=r;
+            r=r->next;
+            q->next=p;
+        }
+        return q;
+    }
+    bool isPalindrome(Node *head) {
+        Node*fast=head,*slow=head;
+        while(fast && fast->next){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        Node*ptr1=head;
+        Node*ptr2=reverse(slow);
+        while(ptr1 && ptr2){
+            if(ptr1->data!=ptr2->data)
+            return false;
+            ptr1=ptr1->next;
+            ptr2=ptr2->next;
+        }
+        return true;
+    }
+};
+```
