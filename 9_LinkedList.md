@@ -348,3 +348,88 @@ class Solution {
     }
 };
 ```
+
+### 10. LRU Cache
+Design a data structure that works like a LRU Cache. Here cap denotes the capacity of the cache and Q denotes the number of queries. Query can be of two types:
+
+PUT x y: sets the value of the key x with value y
+GET x: gets the value of key x if present else returns -1.
+The LRUCache class has two methods get() and put() which are defined as follows.
+
+get(key): returns the value of the key if it already exists in the cache otherwise returns -1.
+put(key, value): if the key is already present, update its value. If not present, add the key-value pair to the cache. If the cache reaches its capacity it should remove the least recently used item before inserting the new item.
+In the constructor of the class the capacity of the cache should be initialized.
+
+```cpp
+struct Node{
+    int key;
+    int value;
+    Node* next;
+    Node* prev;
+    Node(int key,int value){
+        this->key=key;
+        this->value=value;
+        this->next=NULL;
+        this->prev=NULL;
+    }
+};
+class LRUCache {
+  private:
+        Node*head,*tail;
+        map<int,Node*>mp;
+        int cap=0;
+        int cnt=0;
+  public:
+    LRUCache(int cap) {
+        head=new Node(-1,-1);
+        tail=new Node(-1,-1);
+        head->next=tail;
+        tail->prev=head;
+        this->cap=cap;
+    }
+    int get(int key) {
+        if(mp.find(key)!=mp.end())
+        {
+            Node*oldNode=mp[key];
+            remove(oldNode);
+            add(oldNode);
+            return oldNode->value;
+        }
+        else
+        return -1;
+    }
+    void put(int key, int value) {
+        if(mp.find(key)!=mp.end())
+        {
+            Node*oldNode=mp[key];
+            remove(oldNode);
+            add(oldNode);
+            oldNode->value=value;
+        }else{
+            Node*newNode=new Node(key,value);
+            add(newNode);
+            mp[newNode->key]=newNode;
+            cnt++;
+            if(cnt>cap)
+            {
+                Node*delNode=tail->prev;
+                remove(delNode);
+                mp.erase(delNode->key);
+                cnt--;
+                delete delNode;
+            }
+        }
+    }
+    void add(Node* newNode){
+        newNode->next=head->next;
+        newNode->next->prev=newNode;
+        head->next=newNode;
+        newNode->prev=head;
+    }
+    void remove(Node* delNode){
+        delNode->next->prev=delNode->prev;
+        delNode->prev->next=delNode->next;
+        delNode->next=delNode->prev=NULL;
+    }
+};
+```
