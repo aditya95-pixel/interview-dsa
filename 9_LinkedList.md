@@ -539,3 +539,87 @@ class Solution {
     }
 };
 ```
+
+### 14. LFU cache
+Design and implement an LFU (Least Frequently Used) cache. Here cap denotes the capacity of the cache and Q denotes the number of queries. Query can be of two types GET(x) and PUT(x, y). 
+
+The LRU cache should support the following operations:
+
+LFUCache(cap): initializes the cache with a given capacity.
+get(key): returns the value associated with the key if it exists; otherwise, returns -1.
+put(key, value): inserts or updates the key with value. If the cache has reached its capacity, the least frequently used (LFU) key should be removed. If there is a tie between keys with the same frequency, the least recently used (LRU) key among them should be removed.
+
+```cpp
+struct Node{
+    int key,value,used;
+    Node*next,*prev;
+    Node(int key,int value,int used){
+        this->key=key;
+        this->value=value;
+        this->used=used;
+        this->next=this->prev=NULL;
+    }
+};
+class LFUCache {
+    Node*head,*tail;
+    map<int,Node*>mp;
+    int cap,cnt;
+  public:
+    LFUCache(int cap) {
+        this->cap=cap;
+        head=new Node(-1,-1,-1);
+        tail=new Node(-1,-1,-1);
+        head->next=tail;
+        tail->prev=head;
+    }
+    int get(int key) {
+        if(mp.find(key)!=mp.end()){
+            Node* oldNode=mp[key];
+            oldNode->used++;
+            remove(oldNode);
+            add(oldNode);
+            return oldNode->value;
+        }else
+        return -1;
+    }
+    void put(int key, int value) {
+        if(mp.find(key)!=mp.end()){
+            Node* oldNode=mp[key];
+            oldNode->used++;
+            remove(oldNode);
+            add(oldNode);
+            oldNode->value=value;
+        }else{
+            if(cap==0)
+            return ;
+            cnt++;
+            if(cnt>cap){
+                Node*delNode=tail->prev;
+                remove(delNode);
+                mp.erase(delNode->key);
+                delete delNode;
+                cnt--;
+            }
+            Node*newNode=new Node(key,value,1);
+            add(newNode);
+            mp[newNode->key]=newNode;
+        }
+    }
+    void add(Node* newNode){
+        Node*ptr=head->next,*preptr=head;
+        while(ptr->used>newNode->used){
+            preptr=ptr;
+            ptr=ptr->next;
+        }
+        preptr->next=newNode;
+        newNode->prev=preptr;
+        newNode->next=ptr;
+        ptr->prev=newNode;
+    }
+    void remove(Node* delNode){
+        delNode->next->prev=delNode->prev;
+        delNode->prev->next=delNode->next;
+        delNode->next=delNode->prev=NULL;
+    }
+};
+```
