@@ -384,3 +384,40 @@ class Solution {
     }
 };
 ```
+
+### 8. Combination Sum
+Given an array arr[] and a target, your task is to find all unique combinations in the array where the sum is equal to target. The same number may be chosen from the array any number of times to make target.
+
+You can return your answer in any order.
+
+```cpp
+class Solution {
+  public:
+    // Function to find all combinations of elements
+    // in array arr that sum to target.
+    void solve(vector<int>&arr,int target,vector<int>&temp,int sum,
+    vector<vector<int>>&res,int idx){
+        if(sum==target)
+        {
+            res.push_back(temp);
+            return ;
+        }
+        if(sum>target)
+            return ;
+        else{
+            for(int i=idx;i<arr.size();i++){
+                temp.push_back(arr[i]);
+                solve(arr,target,temp,sum+arr[i],res,i);
+                temp.pop_back();
+            }
+            return ;
+        }
+    }
+    vector<vector<int>> combinationSum(vector<int> &arr, int target) {
+        vector<vector<int>>res;
+        vector<int>temp;
+        solve(arr,target,temp,0,res,0);
+        return res;
+    }
+};
+```
