@@ -336,3 +336,51 @@ class Solution {
     }
 };
 ```
+
+### 7. Generate IP Addresses
+Given a string s containing only digits, your task is to restore it by returning all possible valid IP address combinations. You can return your answer in any order.
+
+A valid IP address must be in the form of A.B.C.D, where A, B, C, and D are numbers from 0-255(inclusive).
+
+Note: The numbers cannot be 0 prefixed unless they are 0. For example, 1.1.2.11 and 0.11.21.1 are valid IP addresses while 01.1.2.11 and 00.11.21.1 are not.
+
+```cpp
+class Solution {
+    public:
+    bool check(string &temp){
+        if(temp.size()==0)
+        return false;
+        if(temp.size()>3)
+        return false;
+        if(temp.size()==1)
+        return true;
+        int val=stoi(temp);
+        if(temp[0]=='0' || val>255)
+        return false;
+        return true;
+    }
+    void generate(string&s,int idx,string curr,int cnt,vector<string>&res){
+        string temp;
+        if(cnt==3){
+            temp=s.substr(idx);
+            if(check(temp))
+            {
+                curr+=temp;
+                res.push_back(curr);
+            }
+            return ;
+        }
+        for(int i=idx;i<min(idx+3,(int)s.size());i++){
+            temp+=s[i];
+            if(check(temp))
+            generate(s,i+1,curr+temp+'.',cnt+1,res);
+        }
+    }
+    vector<string> generateIp(string s) {
+        vector<string>res;
+        string curr;
+        generate(s,0,curr,0,res);
+        return res;
+    }
+};
+```
