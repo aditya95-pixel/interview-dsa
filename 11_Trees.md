@@ -75,3 +75,26 @@ class Solution {
     }
 };
 ```
+
+### 4. Mirror Tree
+Given a binary tree, convert the binary tree to its Mirror tree.
+
+Mirror of a Binary Tree T is another Binary Tree M(T) with left and right children of all non-leaf nodes interchanged.
+
+```cpp
+class Solution {
+  public:
+    // Function to convert a binary tree into its mirror tree.
+    Node* solve(Node* node){
+        if(!node)
+        return NULL;
+        Node* dummy=node->left;
+        node->left=solve(node->right);
+        node->right=solve(dummy);
+        return node;
+    }
+    void mirror(Node* node) {
+        solve(node);
+    }
+};
+```
