@@ -220,3 +220,26 @@ class Solution {
     }
 };
 ```
+
+### 8. Maximum path sum from any node
+Given a binary tree, the task is to find the maximum path sum. The path may start and end at any node in the tree.
+
+```cpp
+class Solution {
+  public:
+    // Function to return maximum path sum from any node in a tree.
+    int res=INT_MIN;
+    int solve(Node* root){
+        if(!root)
+        return 0;
+        int l=max(0,solve(root->left));
+        int r=max(0,solve(root->right));
+        res=max(res,l+r+root->data);
+        return root->data+max(l,r);
+    }
+    int findMaxSum(Node *root) {
+        solve(root);
+        return res;
+    }
+};
+```
