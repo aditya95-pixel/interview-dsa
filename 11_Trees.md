@@ -98,3 +98,59 @@ class Solution {
     }
 };
 ```
+
+### 5. Construct Tree from Inorder & Preorder
+Given two arrays representing the inorder and preorder traversals of a binary tree, construct the tree and return the root node of the constructed tree.
+
+Note: The output is written in postorder traversal.
+
+```cpp
+class Solution {
+  public:
+    // Function to build the tree from given inorder and preorder traversals
+    map<int,int>mp;
+    Node* solve(vector<int>&preorder,int &preIndex,int left,int right){
+        if(left>right)
+        return NULL;
+        int rootVal=preorder[preIndex];
+        preIndex++;
+        int index=mp[rootVal];
+        Node* root=new Node(rootVal);
+        root->left=solve(preorder,preIndex,left,index-1);
+        root->right=solve(preorder,preIndex,index+1,right);
+        return root;
+    }
+    Node *buildTree(vector<int> &inorder, vector<int> &preorder) {
+        for(int i=0;i<inorder.size();i++)
+        mp[inorder[i]]=i;
+        int preIndex=0;
+        return solve(preorder,preIndex,0,inorder.size()-1);
+    }
+};
+```
+
+### 6. Inorder Traversal
+Given a Binary Tree, your task is to return its In-Order Traversal.
+
+An inorder traversal first visits the left child (including its entire subtree), then visits the node, and finally visits the right child (including its entire subtree).
+
+Follow Up: Try solving this with O(1) auxiliary space.
+
+```cpp
+class Solution {
+  public:
+    // Function to return a list containing the inorder traversal of the tree.
+    void inorder(Node* root,vector<int>&v){
+        if(!root)
+        return ;
+        inorder(root->left,v);
+        v.push_back(root->data);
+        inorder(root->right,v);
+    }
+    vector<int> inOrder(Node* root) {
+        vector<int>v;
+        inorder(root,v);
+        return v;
+    }
+};
+```
