@@ -243,3 +243,64 @@ class Solution {
     }
 };
 ```
+
+### 9. K Sum Paths
+Given a binary tree and an integer k, determine the number of downward-only paths where the sum of the node values in the path equals k. A path can start and end at any node within the tree but must always move downward (from parent to child).
+
+```cpp
+class Solution {
+  public:
+    int solve(Node*root,int currsum,int k,map<int,int>&mp){
+        if(!root)
+        return 0;
+        int cnt=0;
+        currsum+=root->data;
+        if(currsum==k)
+        cnt++;
+        cnt+=mp[currsum-k];
+        mp[currsum]++;
+        cnt+=solve(root->left,currsum,k,mp);
+        cnt+=solve(root->right,currsum,k,mp);
+        mp[currsum]--;
+        return cnt;
+    }
+    int sumK(Node *root, int k) {
+        int currsum=0;
+        map<int,int>mp;
+        return solve(root,currsum,k,mp);
+    }
+};
+```
+
+### 10. Check for BST
+Given the root of a binary tree. Check whether it is a BST or not.
+Note: We are considering that BSTs can not contain duplicate Nodes.
+A BST is defined as follows:
+
+The left subtree of a node contains only nodes with keys less than the node's key.
+The right subtree of a node contains only nodes with keys greater than the node's key.
+Both the left and right subtrees must also be binary search trees.
+
+```cpp
+class Solution {
+  public:
+    // Function to check whether a Binary Tree is BST or not.
+    void inorder(Node*root,vector<int>&res){
+        if(!root)
+        return ;
+        inorder(root->left,res);
+        res.push_back(root->data);
+        inorder(root->right,res);
+    }
+    bool isBST(Node* root) {
+        vector<int>res;
+        inorder(root,res);
+        for(int i=0;i<res.size()-1;i++)
+        {
+            if(res[i]>=res[i+1])
+            return false;
+        }
+        return true;
+    }
+};
+```
