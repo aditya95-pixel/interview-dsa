@@ -332,3 +332,30 @@ class Solution {
     }
 };
 ```
+
+### 12. Pair Sum in BST
+Given a Binary Search Tree(BST) and a target. Check whether there's a pair of Nodes in the BST with value summing up to the target. 
+
+```cpp
+class Solution {
+  public:   
+    bool solve(Node*root,int target,map<int,int>&mp){
+        if(!root)
+        return false;
+        bool left=solve(root->left,target,mp);
+        if(left)
+        return true;
+        if(mp.find(target-root->data)!=mp.end())
+        return true;
+        mp[root->data]++;
+        bool right=solve(root->right,target,mp);
+        if(right)
+        return true;
+        return false;
+    }
+    bool findTarget(Node *root, int target) {
+        map<int,int>mp;
+        return solve(root,target,mp);
+    }
+};
+```
