@@ -304,3 +304,31 @@ class Solution {
     }
 };
 ```
+
+### 11. k-th Smallest in BST
+Given a BST and an integer k, the task is to find the kth smallest element in the BST. If there is no kth smallest element present then return -1.
+
+```cpp
+class Solution {
+  public:
+    // Return the Kth smallest element in the given BST
+    int ele=-1;
+    void inorder(Node*root,int k,int& cnt){
+        if(!root)
+        return ;
+        inorder(root->left,k,cnt);
+        cnt++;
+        if(cnt==k)
+        {
+            ele=root->data;
+            return ;
+        }
+        inorder(root->right,k,cnt);
+    }
+    int kthSmallest(Node *root, int k) {
+        int cnt=0;
+        inorder(root,k,cnt);
+        return ele;
+    }
+};
+```
