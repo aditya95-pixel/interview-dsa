@@ -431,14 +431,17 @@ class Solution {
         while(!q.empty()){
             Node*node=q.front();
             q.pop();
-            if(!node)
-            {
-                res.push_back(-1);
-                continue;
-            }
             res.push_back(node->data);
+            if(node->data==-1)
+            continue;
+            if(node->left)
             q.push(node->left);
+            else
+            q.push(new Node(-1));
+            if(node->right)
             q.push(node->right);
+            else
+            q.push(new Node(-1));
         }
         return res;
     }
@@ -455,14 +458,16 @@ class Solution {
             Node*node=q.front();
             q.pop();
             if(arr[i]!=-1){
-                node->left=new Node(arr[i]);
+                node->left=new Node(arr[i++]);
                 q.push(node->left);
             }
+            else
             i++;
             if(arr[i]!=-1){
-                node->right=new Node(arr[i]);
+                node->right=new Node(arr[i++]);
                 q.push(node->right);
             }
+            else
             i++;
         }
         return root;
