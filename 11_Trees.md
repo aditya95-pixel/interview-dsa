@@ -502,3 +502,25 @@ class Solution {
     }
 };
 ```
+
+### 17. Balanced Tree Check
+Given a binary tree, determine if it is height-balanced. A binary tree is considered height-balanced if the absolute difference in heights of the left and right subtrees is at most 1 for every node in the tree.
+
+```cpp
+class Solution {
+  public:
+    int solve(Node*root){
+        if(!root)
+        return 0;
+        int lHeight=solve(root->left);
+        int rHeight=solve(root->right);
+        if(lHeight==-1 || rHeight==-1 || abs(lHeight-rHeight)>1)
+        return -1;
+        else
+        return max(lHeight,rHeight)+1;
+    }
+    bool isBalanced(Node* root) {
+        return solve(root)>-1;
+    }
+};
+```
