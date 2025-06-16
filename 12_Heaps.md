@@ -108,3 +108,41 @@ class Solution {
     }
 };
 ```
+
+### 5. Top K Frequent in Array
+Given a non-empty integer array arr[] of size n, find the top k elements which have the highest frequency in the array.
+
+Note: If two numbers have the same frequencies, then the larger number should be given more preference.
+
+```cpp
+struct Compare{
+    bool operator()(pair<int,int> a,pair<int,int> b){
+        if(a.second<b.second)
+        return true;
+        else if(a.second>b.second)
+        return false;
+        else if(a.first<b.first)
+        return true;
+        else
+        return false;
+    }  
+};
+class Solution {
+  public:
+    vector<int> topKFrequent(vector<int> &arr, int k) {
+        priority_queue<pair<int,int>,vector<pair<int,int>>,Compare>pq;
+        map<int,int>mp;
+        vector<int>res;
+        for(auto ele:arr)
+        mp[ele]++;
+        for(auto item:mp)
+            pq.push(item);
+        while(k-- && !pq.empty()){
+            pair<int,int>pi=pq.top();
+            pq.pop();
+            res.push_back(pi.first);
+        }
+        return res;
+    }
+};
+```
