@@ -583,3 +583,36 @@ class Solution {
     }
 };
 ```
+
+### 20. Normal BST to Balanced BST
+Given a root of a Binary Search Tree, modify and return the given BST such that it is balanced and has minimum possible height. If there is more than one answer, return any of them.
+
+Note: The height of balanced BST returned by you will be compared with the expected height of the balanced tree.
+
+```cpp
+class Solution {
+  public:
+    void inorder(Node*root,vector<int>&nodes){
+        if(!root)
+        return ;
+        inorder(root->left,nodes);
+        nodes.push_back(root->data);
+        inorder(root->right,nodes);
+    }
+    Node* balance(vector<int>&nodes,int left,int right){
+        if(left>right)
+        return NULL;
+        int mid=(right+left)/2;
+        Node* root=new Node(nodes[mid]);
+        root->left=balance(nodes,left,mid-1);
+        root->right=balance(nodes,mid+1,right);
+        return root;
+    }
+    Node* balanceBST(Node* root) {
+        vector<int>nodes;
+        inorder(root,nodes);
+        Node* newRoot=balance(nodes,0,nodes.size()-1);
+        return newRoot;
+    }
+};
+```
