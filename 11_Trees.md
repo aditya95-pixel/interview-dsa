@@ -474,3 +474,31 @@ class Solution {
     }
 };
 ```
+
+### 16. Symmetric Tree
+Given the root of a binary tree, check whether it is symmetric, i.e., whether the tree is a mirror image of itself.
+
+
+A binary tree is symmetric if the left subtree is a mirror reflection of the right subtree.
+
+```cpp
+class Solution {
+  public:
+    bool solve(Node*leftSub,Node*rightSub){
+        if(!leftSub && !rightSub)
+        return true;
+        else if(!leftSub)
+        return false;
+        else if(!rightSub)
+        return false;
+        else if(rightSub->data!=leftSub->data)
+        return false;
+        else
+        return solve(leftSub->right,rightSub->left)
+        && solve(leftSub->left,rightSub->right);
+    }
+    bool isSymmetric(Node* root) {
+        return solve(root->left,root->right);
+    }
+};
+```
