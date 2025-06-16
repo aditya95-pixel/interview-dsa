@@ -616,3 +616,22 @@ class Solution {
     }
 };
 ```
+
+### 21. Count BST nodes that lie in a given range
+Given a Binary Search Tree (BST) and a range l-h (inclusive), your task is to return the number of nodes in the BST whose value lie in the given range.
+
+```cpp
+class Solution {
+  public:
+    int getCount(Node *root, int l, int h) {
+        if(!root)
+        return 0;
+        if(root->data<=h && root->data>=l)
+            return 1+getCount(root->left,l,h)+getCount(root->right,l,h);
+        else if(root->data>h)
+            return getCount(root->left,l,h);
+        else if(root->data<l)
+            return getCount(root->right,l,h);
+    }
+};
+```
