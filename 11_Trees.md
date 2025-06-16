@@ -524,3 +524,36 @@ class Solution {
     }
 };
 ```
+
+### 18. Vertical Tree Traversal
+Given a root of a Binary Tree, find the vertical traversal of it starting from the leftmost level to the rightmost level.
+If there are multiple nodes passing through a vertical line, then they should be printed as they appear in level order traversal of the tree.
+
+```cpp
+class Solution {
+  public:
+    vector<vector<int>> verticalOrder(Node *root) {
+        map<int,vector<int>>mp;
+        int mino=0;
+        vector<vector<int>>res;
+        queue<pair<Node*,int>>q;
+        q.push({root,0});
+        while(!q.empty()){
+            pair<Node*,int>pi=q.front();
+            q.pop();
+            mino=min(mino,pi.second);
+            mp[pi.second].push_back(pi.first->data);
+            if(pi.first->left)
+                q.push({pi.first->left,pi.second-1});
+            if(pi.first->right)
+                q.push({pi.first->right,pi.second+1});
+        }
+        int i=mino;
+        while(mp.find(i)!=mp.end()){
+            res.push_back(mp[i]);
+            i++;
+        }
+        return res;
+    }
+};
+```
