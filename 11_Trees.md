@@ -635,3 +635,39 @@ class Solution {
     }
 };
 ```
+
+### 22. Corona Vaccine
+Geek has successfully developed an effective vaccine for the Coronavirus and aims to ensure that every house in Geek Land has access to it. The houses in Geek Land are structured as a binary tree, where each node represents a house, and the edges denote direct connections between houses.
+
+Each house that receives a vaccine kit can provide coverage to:
+
+Itself
+Its direct parent house (if it exists)
+Its immediate child houses (if any exist)
+Your task is to determine the minimum number of houses that must be supplied with a vaccine kit to ensure that every house is covered.
+
+```cpp
+class Solution {
+  public:
+    int solve(Node*root,int &res){
+        if(!root)
+        return 1;
+        int left=solve(root->left,res);
+        int right=solve(root->right,res);
+        if(left==0 || right==0)
+        {
+            res++;
+            return 2;
+        }
+        if(left==2 || right==2)
+        return 1;
+        return 0;
+    }
+    int supplyVaccine(Node* root) {
+        int res=0;
+        if(solve(root,res)==0)
+        res++;
+        return res;
+    }
+};
+```
