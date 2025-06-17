@@ -146,3 +146,30 @@ class Solution {
     }
 };
 ```
+
+### 6. Meeting Rooms II
+Given two arrays start[] and end[] such that start[i] is the starting time of ith meeting and end[i] is the ending time of ith meeting. Return the minimum number of rooms required to attend all meetings.
+
+```cpp
+class Solution {
+  public:
+    int minMeetingRooms(vector<int> &start, vector<int> &end) {
+        int res=0,room=0;
+        int i=0,j=0;
+        sort(start.begin(),start.end());
+        sort(end.begin(),end.end());
+        while(i<start.size() && j<end.size()){
+            if(start[i]<end[j]){
+                room++;
+                i++;
+            }
+            else{
+                room--;
+                j++;
+            }
+            res=max(res,room);
+        }
+        return res;
+    }
+};
+```
