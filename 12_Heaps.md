@@ -173,3 +173,58 @@ class Solution {
     }
 };
 ```
+
+### 7. Meeting Rooms III
+You are given an integer n representing the number of rooms numbered from 0 to n - 1. Additionally, you are given a 2D integer array meetings[][] where meetings[i] = [starti, endi] indicates that a meeting is scheduled during the half-closed time interval [starti, endi). All starti values are unique.
+
+Meeting Allocation Rules:
+
+When a meeting starts, assign it to the available room with the smallest number.
+If no rooms are free, delay the meeting until the earliest room becomes available. The delayed meeting retains its original duration.
+When a room becomes free, assign it to the delayed meeting with the earliest original start time.
+Determine the room number that hosts the most meetings. If multiple rooms have the same highest number of meetings, return the smallest room number among them.
+
+```cpp
+class Solution {
+  public:
+    int mostBooked(int n, vector<vector<int>> &meetings) {
+        vector<int>freq(n,0);
+        priority_queue<int,vector<int>,greater<int>>avail;
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>occ;
+        for(int i=0;i<n;i++)
+        avail.push(i);
+        sort(meetings.begin(),meetings.end());
+        int room;
+        for(auto item:meetings){
+            int s=item[0],e=item[1];
+            while(!occ.empty() && occ.top().first<=s)
+            {
+                int r=occ.top().second;
+                avail.push(r);
+                occ.pop();
+            }
+            if(!avail.empty()){
+                room=avail.top();
+                avail.pop();
+                occ.push({e,room});
+            }
+            else{
+                int firstendtime=occ.top().first;
+                room=occ.top().second;
+                occ.pop();
+                occ.push({firstendtime+(e-s),room});
+            }
+            freq[room]++;
+        }
+        int maxcnt=0;
+        int maxroom;
+        for(int i=0;i<n;i++){
+            if(maxcnt<freq[i]){
+                maxcnt=freq[i];
+                maxroom=i;
+            }
+        }
+        return maxroom;
+    }
+};
+```
