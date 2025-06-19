@@ -228,3 +228,43 @@ class Solution {
     }
 };
 ```
+
+### 8. Rearrange characters
+Given a string s with repeated characters, the task is to rearrange characters in a string such that no two adjacent characters are the same.
+Note: The string has only lowercase English alphabets and it can have multiple solutions. Return any one of them. If there is no possible solution, then print empty string ("").
+
+```cpp
+class Solution {
+  public:
+    string rearrangeString(string s) {
+        int maxcnt=0;
+        char maxchar;
+        map<char,int>mp;
+        for(auto c:s){
+            mp[c]++;
+            if(mp[c]>maxcnt)
+            {
+                maxcnt=mp[c];
+                maxchar=c;
+            }
+        }
+        if(maxcnt>(s.size()+1)/2)
+        return "";
+        int idx=0;
+        while(maxcnt--){
+            s[idx]=maxchar;
+            idx+=2;
+            mp[maxchar]--;
+        }
+        for(char c='a';c<='z';c++){
+            while(mp[c]){
+                idx=(idx>=s.size())?1:idx;
+                s[idx]=c;
+                idx+=2;
+                mp[c]--;
+            }
+        }
+        return s;
+    }
+};
+```
