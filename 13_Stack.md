@@ -85,3 +85,26 @@ class Solution {
     }
 };
 ```
+
+### 4. Stock span problem
+The stock span problem is a financial problem where we have a series of daily price quotes for a stock and we need to calculate the span of stock price for all days. The span arr[i] of the stocks price on a given day i is defined as the maximum number of consecutive days just before the given day, for which the price of the stock on the given day is less than or equal to its price on the current day.
+
+```cpp
+class Solution {
+  public:
+    vector<int> calculateSpan(vector<int>& arr) {
+        vector<int>res;
+        stack<int>stk;
+        for(int i=0;i<arr.size();i++){
+            while(!stk.empty() && arr[stk.top()]<=arr[i])
+            stk.pop();
+            if(stk.empty())
+            res.push_back(i+1);
+            else
+            res.push_back(i-stk.top());
+            stk.push(i);
+        }
+        return res;
+    }
+};
+```
