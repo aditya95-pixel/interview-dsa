@@ -268,3 +268,29 @@ class Solution {
     }
 };
 ```
+
+### 9. Nearly sorted
+Given an array arr[], where each element is at most k away from its target position, you need to sort the array optimally.
+Note: You need to change the given array arr[] in place.
+
+```cpp
+class Solution {
+  public:
+    void nearlySorted(vector<int>& arr, int k) {
+        priority_queue<int,vector<int>,greater<int>>pq;
+        for(int i=0;i<k;i++)
+            pq.push(arr[i]);
+        int i;
+        for(i=k;i<arr.size();i++){
+            pq.push(arr[i]);
+            arr[i-k]=pq.top();
+            pq.pop();
+        }
+        while(!pq.empty()){
+            arr[i-k]=pq.top();
+            pq.pop();
+            i++;
+        }
+    }
+};
+```
