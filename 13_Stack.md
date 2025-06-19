@@ -32,3 +32,34 @@ class Solution {
     }
 };
 ```
+
+### 2. Longest valid Parentheses
+Given a string s consisting of opening and closing parenthesis '(' and ')'. Find the length of the longest valid parenthesis substring.
+
+A parenthesis string is valid if:
+
+For every opening parenthesis, there is a closing parenthesis.
+The closing parenthesis must be after its opening parenthesis.
+
+```cpp
+class Solution {
+  public:
+    int maxLength(string& s) {
+        stack<int>stk;
+        stk.push(-1);
+        int maxlen=0;
+        for(int i=0;i<s.size();i++){
+            if(s[i]=='(')
+            stk.push(i);
+            else{
+                stk.pop();
+                if(stk.empty())
+                stk.push(i);
+                else
+                maxlen=max(maxlen,i-stk.top());
+            }
+        }
+        return maxlen;
+    }
+};
+```
