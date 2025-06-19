@@ -63,3 +63,25 @@ class Solution {
     }
 };
 ```
+
+### 3. Next Greater Element
+Given an array arr[ ] of integers, the task is to find the next greater element for each element of the array in order of their appearance in the array. Next greater element of an element in the array is the nearest element on the right which is greater than the current element.
+If there does not exist next greater of current element, then next greater element for current element is -1. For example, next greater of the last element is always -1.
+
+```cpp
+class Solution {
+  public:
+    vector<int> nextLargerElement(vector<int>& arr) {
+        vector<int>res(arr.size(),-1);
+        stack<int>stk;
+        for(int i=arr.size()-1;i>=0;i--){
+            while(!stk.empty() && stk.top()<=arr[i])
+                stk.pop();
+            if(!stk.empty())
+                res[i]=stk.top();
+            stk.push(arr[i]);
+        }
+        return res;
+    }
+};
+```
