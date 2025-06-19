@@ -108,3 +108,34 @@ class Solution {
     }
 };
 ```
+
+### 5. Histogram Max Rectangular Area
+You are given a histogram represented by an array arr, where each element of the array denotes the height of the bars in the histogram. All bars have the same width of 1 unit.
+
+Your task is to find the largest rectangular area possible in the given histogram, where the rectangle can be formed using a number of contiguous bars.
+
+```cpp
+class Solution {
+  public:
+    int getMaxArea(vector<int> &arr) {
+        int res=0;
+        stack<int>stk;
+        for(int i=0;i<arr.size();i++){
+            while(!stk.empty() && arr[stk.top()]>=arr[i]){
+                int top=stk.top();
+                stk.pop();
+                int width=stk.empty()?i:i-stk.top()-1;
+                res=max(res,arr[top]*width);
+            }
+            stk.push(i);
+        }
+        while(!stk.empty()){
+            int top=stk.top();
+            stk.pop();
+            int width=stk.empty()?arr.size():arr.size()-stk.top()-1;
+            res=max(res,arr[top]*width);
+        }
+        return res;
+    }
+};
+```
