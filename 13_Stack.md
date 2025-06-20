@@ -433,3 +433,35 @@ class Solution {
     }
 };
 ```
+
+### 12. Next Greater Element in Circular Array
+Given a circular integer array arr[], the task is to determine the next greater element (NGE) for each element in the array.
+
+The next greater element of an element arr[i] is the first element that is greater than arr[i] when traversing circularly. If no such element exists, return -1 for that position.
+
+Circular Property:
+
+Since the array is circular, after reaching the last element, the search continues from the beginning until we have looked at all elements once
+
+```cpp
+class Solution {
+  public:
+    vector<int> nextLargerElement(vector<int> &arr) {
+        vector<int>new_arr;
+        vector<int>res(arr.size(),-1);
+        for(int i=0;i<arr.size();i++)
+        new_arr.push_back(arr[i]);
+        for(int i=0;i<arr.size()-1;i++)
+        new_arr.push_back(arr[i]);
+        stack<int>stk;
+        for(int i=new_arr.size()-1;i>=0;i--){
+            while(!stk.empty() && stk.top()<=new_arr[i])
+                stk.pop();
+            if(!stk.empty() && i<res.size())
+            res[i]=stk.top();
+            stk.push(new_arr[i]);
+        }
+        return res;
+    }
+};
+```
