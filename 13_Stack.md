@@ -465,3 +465,36 @@ class Solution {
     }
 };
 ```
+
+### 13. Sum of Max of Subarrays
+Given an array arr[], the task is to find the sum of the maximum elements of every possible non-empty sub-arrays of the given array arr[].
+
+Note: The answer will always fit into 32 bit integer.
+
+```cpp
+class Solution {
+  public:
+    int sumOfMax(vector<int> &arr) {
+        stack<int>stk;
+        vector<int>left(arr.size(),0),right(arr.size(),0);
+        for(int i=0;i<arr.size();i++){
+            while(!stk.empty() && arr[stk.top()]<arr[i])
+            stk.pop();
+            left[i]=stk.empty()?(i+1):(i-stk.top());
+            stk.push(i);
+        }
+        while(!stk.empty())
+        stk.pop();
+        for(int i=arr.size()-1;i>=0;i--){
+            while(!stk.empty() && arr[stk.top()]<=arr[i])
+            stk.pop();
+            right[i]=stk.empty()?(arr.size()-i):(stk.top()-i);
+            stk.push(i);
+        }
+        int res=0;
+        for(int i=0;i<arr.size();i++)
+            res+=arr[i]*left[i]*right[i];
+        return res;
+    }
+};
+```
