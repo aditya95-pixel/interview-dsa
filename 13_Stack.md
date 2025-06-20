@@ -349,3 +349,64 @@ class Solution {
     }
 };
 ```
+
+### 10. Get Max from Stack
+Given q queries, You task is to implement the following three functions for a stack:
+
+push(x) – Insert an integer x onto the stack.
+pop() – Remove the top element from the stack.
+peek() - Return the top element from the stack. If the stack is empty, return -1.
+getMax() – Retrieve the maximum element from the stack in O(1) time. If the stack is empty, return -1.
+Each query can be one of the following:
+
+1 x : Push x onto the stack.
+2 : Pop the top element from the stack.
+3: Return the top element from the stack. If the stack is empty, return -1.
+4: Return the maximum element from the stack.
+
+```cpp
+class Solution {
+    stack<pair<int,int>>stk;
+  public:
+    Solution() {
+        
+    }
+
+    // Add an element to the top of Stack
+    void push(int x) {
+        if(stk.empty() || x>stk.top().second)
+        stk.push({x,x});
+        else
+        {
+            int maxo=stk.top().second;
+            stk.push({x,maxo});
+        }
+    }
+
+    // Remove the top element from the Stack
+    void pop() {
+        if(stk.empty())
+        return ;
+        else
+        stk.pop();
+    }
+
+        
+    // Returns top element of the Stack
+    int peek() {
+        if(stk.empty())
+        return -1;
+        else
+        return stk.top().first;
+    }
+        
+
+    // Finds maximum element of Stack
+    int getMax() {
+        if(stk.empty())
+        return -1;
+        else
+        return stk.top().second;
+    }
+};
+```
