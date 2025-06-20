@@ -139,3 +139,41 @@ class Solution {
     }
 };
 ```
+
+### 6. Max of min for every window size
+Given an array of integers arr[], the task is to find the maximum of the minimum values for every possible window size in the array, where the window size ranges from 1 to arr.size().
+
+More formally, for each window size k, determine the smallest element in all windows of size k, and then find the largest value among these minimums where 1<=k<=arr.size().
+
+```cpp
+class Solution {
+  public:
+    vector<int> maxOfMins(vector<int>& arr) {
+        vector<int>res(arr.size(),0);
+        stack<int>stk;
+        vector<int>len(arr.size(),0);
+        for(int i=0;i<arr.size();i++){
+            while(!stk.empty() && arr[stk.top()]>=arr[i]){
+                int top=stk.top();
+                stk.pop();
+                int window=stk.empty()?i:i-stk.top()-1;
+                len[top]=window;
+            }
+            stk.push(i);
+        }
+        while(!stk.empty()){
+            int top=stk.top();
+            stk.pop();
+            int window=stk.empty()?arr.size():arr.size()-stk.top()-1;
+            len[top]=window;
+        }
+        for(int i=0;i<arr.size();i++){
+            int window=len[i]-1;
+            res[window]=max(res[window],arr[i]);
+        }
+        for(int i=arr.size()-2;i>=0;i--)
+            res[i]=max(res[i],res[i+1]);
+        return res;
+    }
+};
+```
