@@ -293,3 +293,59 @@ class Solution {
     }
 };
 ```
+
+### 9. Decode the string
+Given an encoded string s, the task is to decode it. The encoding rule is :
+
+k[encodedString], where the encodedString inside the square brackets is being repeated exactly k times. Note that k is guaranteed to be a positive integer, and encodedString contains only lowercase english alphabets.
+Note: The test cases are generated so that the length of the output string will never exceed 10^5 .
+
+```cpp
+class Solution {
+  public:
+    string decodedString(string &s) {
+        stack<string>stk;
+        for(int i=0;i<s.size();i++){
+            if(s[i]!=']'){
+                string temp;
+                temp+=s[i];
+                stk.push(temp);
+            }else{
+                string temp;
+                stack<string>stk_temp;
+                while(stk.top()!="["){
+                    stk_temp.push(stk.top());
+                    stk.pop();
+                }
+                while(!stk_temp.empty()){
+                    temp+=stk_temp.top();
+                    stk_temp.pop();
+                }
+                stk.pop();
+                string c;
+                while(!stk.empty() && stk.top()>="0" && stk.top()<="9"){
+                    c+=stk.top();
+                    stk.pop();
+                }
+                reverse(c.begin(),c.end());
+                int cnt=stoi(c);
+                string str;
+                while(cnt--)
+                str+=temp;
+                stk.push(str);
+            }
+        }
+        string res;
+        stack<string>stk_temp;
+        while(!stk.empty()){
+            stk_temp.push(stk.top());
+            stk.pop();
+        }
+        while(!stk_temp.empty()){
+            res+=stk_temp.top();
+            stk_temp.pop();
+        }
+        return res;
+    }
+};
+```
