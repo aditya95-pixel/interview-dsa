@@ -177,3 +177,65 @@ class Solution {
     }
 };
 ```
+
+### 7. Get Min from Stack
+Given q queries, You task is to implement the following four functions for a stack:
+
+push(x) – Insert an integer x onto the stack.
+pop() – Remove the top element from the stack.
+peek() - Return the top element from the stack. If the stack is empty, return -1.
+getMin() – Retrieve the minimum element from the stack in O(1) time. If the stack is empty, return -1.
+Each query can be one of the following:
+
+1 x : Push x onto the stack.
+2 : Pop the top element from the stack.
+3: Return the top element from the stack. If the stack is empty, return -1.
+4: Return the minimum element from the stack.
+
+```cpp
+class Solution {
+    stack<pair<int,int>>stk;
+  public:
+    Solution() {
+        
+    }
+
+    // Add an element to the top of Stack
+    void push(int x) {
+        if(stk.empty() || x<stk.top().second)
+            stk.push({x,x});
+        else
+        {
+            int mino=stk.top().second;
+            stk.push({x,mino});
+        }
+    }
+
+    // Remove the top element from the Stack
+        
+    void pop() {
+        if(stk.empty())
+        return ;
+        else
+        stk.pop();
+    }
+
+        
+    // Returns top element of the Stack
+    int peek() {
+        if(stk.empty())
+        return -1;
+        else
+        return stk.top().first;
+    }
+        
+
+    // Finds minimum element of Stack
+    int getMin() {
+         if(stk.empty())
+        return -1;
+        else
+        return stk.top().second;
+    }
+};
+```
