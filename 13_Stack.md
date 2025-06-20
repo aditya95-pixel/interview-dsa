@@ -239,3 +239,57 @@ class Solution {
     }
 };
 ```
+
+### 8. Postfix Evaluation
+You are given an array of strings arr that represents a valid arithmetic expression written in Reverse Polish Notation (Postfix Notation). Your task is to evaluate the expression and return an integer representing its value.
+
+Key Details:
+
+The valid operators are '+', '-', '*', and '/'.
+Each operand is guaranteed to be a valid integer or another expression.
+The division operation between two integers always rounds the result towards zero, discarding any fractional part.
+No division by zero will occur in the input.
+The input is a valid arithmetic expression in Reverse Polish Notation.
+The result of the expression and all intermediate calculations will fit in a 32-bit signed integer.
+
+```cpp
+class Solution {
+  public:
+    int evaluate(vector<string>& arr) {
+        stack<int>stk;
+        for(int i=0;i<arr.size();i++){
+            if(arr[i]!="+" && arr[i]!="-" && arr[i]!="*" && arr[i]!="/")
+                stk.push(stoi(arr[i]));
+            else if(arr[i]=="+"){
+                int num2=stk.top();
+                stk.pop();
+                int num1=stk.top();
+                stk.pop();
+                stk.push(num1+num2);
+            }
+            else if(arr[i]=="-"){
+                int num2=stk.top();
+                stk.pop();
+                int num1=stk.top();
+                stk.pop();
+                stk.push(num1-num2);
+            }
+            else if(arr[i]=="*"){
+                int num2=stk.top();
+                stk.pop();
+                int num1=stk.top();
+                stk.pop();
+                stk.push(num1*num2);
+            }
+            else{
+                int num2=stk.top();
+                stk.pop();
+                int num1=stk.top();
+                stk.pop();
+                stk.push(num1/num2);
+            }
+        }
+        return stk.top();
+    }
+};
+```
