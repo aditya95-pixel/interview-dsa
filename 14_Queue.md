@@ -101,3 +101,32 @@ class Solution {
     }
 };
 ```
+
+### 4. Maximum score from at most K jumps
+Given an array arr[] and an integer k, your task is to collect the maximum score possible by performing the following operations:
+1. Start from the 0th index of the array.
+2. Reach the last index of the array by jumping at most k indices in each move.
+3. Add the value stored at each index where you reach after the jump (consider the score of the starting index too).
+
+Note: 0-based indexing is followed.
+
+```cpp
+class Solution {
+  public:
+    int getScore(vector<int>& arr, int k) {
+        vector<int>dp(arr.size(),INT_MIN);
+        deque<int>dq;
+        dp[arr.size()-1]=arr[arr.size()-1];
+        dq.push_back(arr.size()-1);
+        for(int i=arr.size()-2;i>=0;i--){
+            while(!dq.empty() && dq.front()>i+k)
+            dq.pop_front();
+            dp[i]=arr[i]+dp[dq.front()];
+            while(!dq.empty() && dp[i]>=dp[dq.back()])
+            dq.pop_back();
+            dq.push_back(i);
+        }
+        return dp[0];
+    }
+};
+```
