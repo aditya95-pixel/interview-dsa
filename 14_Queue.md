@@ -65,3 +65,39 @@ class Solution {
     }
 };
 ```
+
+### 3. Minimum K Consecutive Bit Flips
+Given a binary array arr[] and an integer k.
+
+A k-bit flip involves selecting a contiguous subarray of length k from arr[] and flipping all its bits - changing every 0 to 1 and every 1 to 0 simultaneously.
+
+Your task is to return the minimum number of k-bit flips needed to eliminate all 0s from the array. If it is impossible to achieve, return -1.
+
+```cpp
+class Solution {
+  public:
+    int kBitFlips(vector<int>& arr, int k) {
+        queue<int>q;
+        bool flag=false;
+        int cnt=0;
+        for(int i=0;i<arr.size();i++){
+            if(i+1>k){
+                flag^=q.front();
+                q.pop();
+            }
+            if(flag)
+            arr[i]^=1;
+            if(arr[i]==0){
+                if(i+k>arr.size())
+                return -1;
+                arr[i]^=1;
+                cnt++;
+                flag^=1;
+                q.push(1);
+            }else
+            q.push(0);
+        }
+        return cnt;
+    }
+};
+```
