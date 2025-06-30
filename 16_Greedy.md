@@ -53,3 +53,39 @@ class Solution {
     }
 };
 ```
+
+### 3. Job Sequencing Problem
+You are given two arrays: deadline[], and profit[], which represent a set of jobs, where each job is associated with a deadline, and a profit. Each job takes 1 unit of time to complete, and only one job can be scheduled at a time. You will earn the profit associated with a job only if it is completed by its deadline.
+
+Your task is to find:
+
+The maximum number of jobs that can be completed within their deadlines.
+The total maximum profit earned by completing those jobs.
+
+```cpp
+class Solution {
+  public:
+    vector<int> jobSequencing(vector<int> &deadline, vector<int> &profit) {
+        vector<pair<int,int>>vp;
+        for(int i=0;i<deadline.size();i++)
+            vp.push_back({deadline[i],profit[i]});
+        sort(vp.begin(),vp.end());
+        vector<int>res(2,0);
+        priority_queue<int,vector<int>,greater<int>>pq;
+        for(int i=0;i<vp.size();i++){
+            if(vp[i].first>pq.size())
+                pq.push(vp[i].second);
+            else if(!pq.empty() && vp[i].second>pq.top()){
+                pq.pop();
+                pq.push(vp[i].second);
+            }
+        }
+        while(!pq.empty()){
+            res[0]++;
+            res[1]+=pq.top();
+            pq.pop();
+        }
+        return res;
+    }
+};
+```
