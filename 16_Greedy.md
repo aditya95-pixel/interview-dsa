@@ -118,3 +118,24 @@ class Solution {
     }
 };
 ```
+
+### 5. Maximize partitions in a String
+Given a string s of lowercase English alphabets, your task is to return the maximum number of substrings formed, after possible partitions (probably zero) of s such that no two substrings have a common character.
+
+```cpp
+class Solution {
+  public:
+    int maxPartitions(string &s) {
+        vector<int>last(26,-1);
+        for(int i=0;i<s.size();i++)
+        last[s[i]-'a']=i;
+        int end=0,cnt=0;
+        for(int i=0;i<s.size();i++){
+            end=max(end,last[s[i]-'a']);
+            if(i==end)
+            cnt++;
+        }
+        return cnt;
+    }
+};
+```
