@@ -27,3 +27,29 @@ class Solution {
     }
 };
 ```
+
+### 2. Activity Selection
+You are given a set of activities, each with a start time and a finish time, represented by the arrays start[] and finish[], respectively. A single person can perform only one activity at a time, meaning no two activities can overlap. Your task is to determine the maximum number of activities that a person can complete in a day.
+
+```cpp
+class Solution {
+  public:
+    static bool compare(const pair<int,int>&a,const pair<int,int>&b){
+        return a.second<b.second;
+    }
+    int activitySelection(vector<int> &start, vector<int> &finish) {
+        vector<pair<int,int>>vp;
+        for(int i=0;i<start.size();i++)
+            vp.push_back({start[i],finish[i]});
+        sort(vp.begin(),vp.end(),compare);
+        int j=0,cnt=1;
+        for(int i=1;i<vp.size();i++){
+            if(vp[i].first>vp[j].second){
+                cnt++;
+                j=i;
+            }
+        }
+        return cnt;
+    }
+};
+```
