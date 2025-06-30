@@ -199,3 +199,31 @@ class Solution {
     }
 };
 ```
+
+### 8. Largest number in one swap
+Given a string s, return the lexicographically largest string that can be obtained by swapping at most one pair of characters in s.
+
+```cpp
+class Solution {
+  public:
+    string largestSwap(string &s) {
+        int maxidx;
+        char maxo='0';
+        for(int i=0;i<s.size();i++){
+            if(s[i]>maxo){
+                maxo=s[i];
+                maxidx=i;
+            }else if(s[i]==maxo)
+            maxidx=i;
+        }
+        for(int i=0;i<s.size();i++){
+            if(s[i]<maxo && maxidx>i)
+            {
+                swap(s[i],s[maxidx]);
+                break;
+            }
+        }
+        return s;
+    }
+};
+```
