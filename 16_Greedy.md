@@ -166,3 +166,36 @@ class Solution {
     }
 };
 ```
+
+### 7. Police and Thieves
+Given an array arr[], where each element contains either a 'P' for policeman or a 'T' for thief. Find the maximum number of thieves that can be caught by the police. 
+Keep in mind the following conditions :
+
+Each policeman can catch only one thief.
+A policeman cannot catch a thief who is more than k units away from him.
+
+```cpp
+class Solution {
+  public:
+    int catchThieves(vector<char> &arr, int k) {
+        vector<int>thiefidx;
+        for(int i=0;i<arr.size();i++){
+            if(arr[i]=='T')
+            thiefidx.push_back(i);
+        }
+        int j=0,cnt=0;
+        for(int i=0;i<arr.size();i++){
+            if(arr[i]=='P'){
+                while(j<thiefidx.size() && thiefidx[j]<i-k)
+                j++;
+                if(j<thiefidx.size() && thiefidx[j]<=i+k)
+                {
+                    cnt++;
+                    j++;
+                }
+            }
+        }
+        return cnt;
+    }
+};
+```
