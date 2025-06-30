@@ -227,3 +227,25 @@ class Solution {
     }
 };
 ```
+
+### 9. Minimum Cost of ropes
+Given an array, arr[] of rope lengths, connect all ropes into a single rope with the minimum total cost. The cost to connect two ropes is the sum of their lengths. 
+
+```cpp
+class Solution {
+  public:
+    int minCost(vector<int>& arr) {
+        priority_queue<int,vector<int>,greater<int>>pq(arr.begin(),arr.end());
+        int cost=0;
+        while(pq.size()>1){
+            int first=pq.top();
+            pq.pop();
+            int second=pq.top();
+            pq.pop();
+            cost+=first+second;
+            pq.push(first+second);
+        }
+        return cost;
+    }
+};
+```
