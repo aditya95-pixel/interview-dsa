@@ -131,3 +131,42 @@ class Solution {
     }
 };
 ```
+
+### 4. Undirected Graph Cycle
+Given an undirected graph with V vertices and E edges, represented as a 2D vector edges[][], where each entry edges[i] = [u, v] denotes an edge between vertices u and v, determine whether the graph contains a cycle or not.
+
+```cpp
+class Solution {
+  public:
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        vector<vector<int>>adj(V);
+        for(auto item:edges)
+        {
+            int u=item[0],v=item[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        for(int i=0;i<V;i++){
+            queue<pair<int,int>>q;
+            set<int>s;
+            q.push({i,-1});
+            s.insert(i);
+            while(!q.empty()){
+                int u=q.front().first,p=q.front().second;
+                q.pop();
+                for(auto v:adj[u]){
+                    if(s.find(v)!=s.end() && v!=p)
+                    return true;
+                    else if(s.find(v)!=s.end())
+                    continue;
+                    else{
+                        q.push({v,u});
+                        s.insert(v);
+                    }
+                }
+            }
+        }
+        return false;
+    }
+};
+```
