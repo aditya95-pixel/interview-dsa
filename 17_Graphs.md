@@ -170,3 +170,81 @@ class Solution {
     }
 };
 ```
+
+### 5. Find the number of islands
+Given a grid of size n*m (n is the number of rows and m is the number of columns in the grid) consisting of 'W's (Water) and 'L's (Land). Find the number of islands.
+
+Note: An island is either surrounded by water or the boundary of a grid and is formed by connecting adjacent lands horizontally or vertically or diagonally i.e., in all 8 directions.
+
+```cpp
+class Solution {
+  public:
+    int countIslands(vector<vector<char>>& grid) {
+        int cnt=0;
+        set<pair<int,int>>s;
+        for(int i=0;i<grid.size();i++){
+            for(int j=0;j<grid[0].size();j++){
+                if(s.find({i,j})==s.end() && grid[i][j]=='L')
+                {
+                    cnt++;
+                    queue<pair<int,int>>q;
+                    q.push({i,j});
+                    while(!q.empty()){
+                        pair<int,int>p=q.front();
+                        q.pop();
+                        if(p.first-1>=0 && grid[p.first-1][p.second]=='L'
+                        && s.find({p.first-1,p.second})==s.end())
+                        {
+                            s.insert({p.first-1,p.second});
+                            q.push({p.first-1,p.second});
+                        }
+                        if(p.first+1<grid.size() && grid[p.first+1][p.second]=='L'
+                        && s.find({p.first+1,p.second})==s.end())
+                        {
+                            s.insert({p.first+1,p.second});
+                            q.push({p.first+1,p.second});
+                        }
+                        if(p.second-1>=0 && grid[p.first][p.second-1]=='L'
+                        && s.find({p.first,p.second-1})==s.end())
+                        {
+                            s.insert({p.first,p.second-1});
+                            q.push({p.first,p.second-1});
+                        }
+                        if(p.second+1<grid[0].size() && grid[p.first][p.second+1]=='L'
+                        && s.find({p.first,p.second+1})==s.end())
+                        {
+                            s.insert({p.first,p.second+1});
+                            q.push({p.first,p.second+1});
+                        }
+                        if(p.first-1>=0 && p.second-1>=0 && grid[p.first-1][p.second-1]=='L'
+                        && s.find({p.first-1,p.second-1})==s.end())
+                        {
+                            s.insert({p.first-1,p.second-1});
+                            q.push({p.first-1,p.second-1});
+                        }
+                        if(p.first-1>=0 && p.second+1<grid[0].size() && grid[p.first-1][p.second+1]=='L'
+                        && s.find({p.first-1,p.second+1})==s.end())
+                        {
+                            s.insert({p.first-1,p.second+1});
+                            q.push({p.first-1,p.second+1});
+                        }
+                        if(p.first+1<grid.size() && p.second-1>=0 && grid[p.first+1][p.second-1]=='L'
+                        && s.find({p.first+1,p.second-1})==s.end())
+                        {
+                            s.insert({p.first+1,p.second-1});
+                            q.push({p.first+1,p.second-1});
+                        }
+                        if(p.first+1<grid.size() && p.second+1<grid[0].size() && grid[p.first+1][p.second+1]=='L'
+                        && s.find({p.first+1,p.second+1})==s.end())
+                        {
+                            s.insert({p.first+1,p.second+1});
+                            q.push({p.first+1,p.second+1});
+                        }
+                    }
+                }
+            }
+        }
+        return cnt;
+    }
+};
+```
