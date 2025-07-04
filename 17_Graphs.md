@@ -138,33 +138,32 @@ Given an undirected graph with V vertices and E edges, represented as a 2D vecto
 ```cpp
 class Solution {
   public:
+    bool DFS(int u,set<int>&vis,vector<vector<int>>&adj,int p){
+        for(auto v:adj[u]){
+            if(v!=p && vis.find(v)!=vis.end())
+            return true;
+            else if(v!=p){
+                vis.insert(v);
+                bool var=DFS(v,vis,adj,u);
+                if(var)
+                return true;
+                vis.erase(v);
+            }
+        }
+        return false;
+    }
     bool isCycle(int V, vector<vector<int>>& edges) {
         vector<vector<int>>adj(V);
-        for(auto item:edges)
-        {
-            int u=item[0],v=item[1];
-            adj[u].push_back(v);
-            adj[v].push_back(u);
+        for(auto arr:edges){
+            adj[arr[0]].push_back(arr[1]);
+            adj[arr[1]].push_back(arr[0]);
         }
         for(int i=0;i<V;i++){
-            queue<pair<int,int>>q;
-            set<int>s;
-            q.push({i,-1});
-            s.insert(i);
-            while(!q.empty()){
-                int u=q.front().first,p=q.front().second;
-                q.pop();
-                for(auto v:adj[u]){
-                    if(s.find(v)!=s.end() && v!=p)
-                    return true;
-                    else if(s.find(v)!=s.end())
-                    continue;
-                    else{
-                        q.push({v,u});
-                        s.insert(v);
-                    }
-                }
-            }
+            set<int>vis;
+            vis.insert(i);
+            bool var=DFS(i,vis,adj,-1);
+            if(var)
+            return true;
         }
         return false;
     }
@@ -282,6 +281,43 @@ class Solution {
             res.push_back(u);
         }
         return res;
+    }
+};
+```
+
+### 7. Directed Graph Cycle
+Given a Directed Graph with V vertices (Numbered from 0 to V-1) and E edges, check whether it contains any cycle or not.
+The graph is represented as a 2D vector edges[][], where each entry edges[i] = [u, v] denotes an edge from verticex u to v.
+
+```cpp
+class Solution {
+  public:
+    bool DFS(int u,set<int>&vis,vector<vector<int>>&adj){
+        for(auto v:adj[u]){
+            if(vis.find(v)!=vis.end())
+            return true;
+            else{
+                vis.insert(v);
+                bool var=DFS(v,vis,adj);
+                if(var)
+                return true;
+                vis.erase(v);
+            }
+        }
+        return false;
+    }
+    bool isCyclic(int V, vector<vector<int>> &edges) {
+        vector<vector<int>>adj(V);
+        for(auto arr:edges)
+            adj[arr[0]].push_back(arr[1]);
+        for(int i=0;i<V;i++){
+            set<int>vis;
+            vis.insert(i);
+            bool var=DFS(i,vis,adj);
+            if(var)
+            return true;
+        }
+        return false;
     }
 };
 ```
