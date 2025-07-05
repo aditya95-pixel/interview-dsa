@@ -410,3 +410,67 @@ class Solution {
     }
 };
 ```
+
+### 10. Minimum cost to connect all houses in a city (Kruskal MST problem)
+Given a 2D array houses[][], consisting of n 2D coordinates {x, y} where each coordinate represents the location of each house, the task is to find the minimum cost to connect all the houses of the city.
+
+The cost of connecting two houses is the Manhattan Distance between the two points (xi, yi) and (xj, yj) i.e., |xi – xj| + |yi – yj|, where |p| denotes the absolute value of p.
+
+```cpp
+class DSU{
+    vector<int>parent,rank;
+    public:
+    DSU(int V){
+        parent.resize(V,-1);
+        rank.resize(V,0);
+    }
+    int find(int i){
+        if(parent[i]==-1)
+        return i;
+        else
+        return parent[i]=find(parent[i]);
+    }
+    void merge(int x,int y){
+        int i=find(x);
+        int j=find(y);
+        if(i!=j){
+            if(rank[i]>rank[j])
+            parent[j]=i;
+            else if(rank[j]>rank[i])
+            parent[i]=j;
+            else{
+                parent[i]=j;
+                rank[j]++;
+            }
+        }
+    }
+};
+static bool compare(vector<int>&a,vector<int>&b){
+    return a[2]<b[2];
+} 
+class Solution {
+  public:
+    int minCost(vector<vector<int>>& houses) {
+       vector<vector<int>>edges;
+       for(int i=0;i<houses.size();i++){
+           for(int j=i+1;j<houses.size();j++)
+               edges.push_back({i,j,abs(houses[i][0]-houses[j][0])
+               +abs(houses[i][1]-houses[j][1])});
+       }
+       sort(edges.begin(),edges.end(),compare);
+       DSU d(houses.size());
+       int ans=0,count=0;
+       for(auto arr:edges){
+           int x=arr[0],y=arr[1],w=arr[2];
+           if(d.find(x)!=d.find(y)){
+               d.merge(x,y);
+               ans+=w;
+               count++;
+           }
+           if(count==houses.size()-1)
+           break;
+       }
+       return ans;
+    }
+};
+```
