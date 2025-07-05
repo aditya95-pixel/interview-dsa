@@ -357,3 +357,56 @@ class Solution {
     }
 };
 ```
+
+### 9. Articulation Point - II
+You are given an undirected graph with V vertices and E edges. The graph is represented as a 2D array edges[][], where each element edges[i] = [u, v] indicates an undirected edge between vertices u and v.
+Your task is to return all the articulation points (or cut vertices) in the graph.
+An articulation point is a vertex whose removal, along with all its connected edges, increases the number of connected components in the graph.
+
+Note: The graph may be disconnected, i.e., it may consist of more than one connected component.
+If no such point exists, return {-1}.
+
+```cpp
+class Solution {
+  public:
+    void DFS(int u,vector<vector<int>>&adj,int p,vector<int>&isAP,vector<int>&low
+    ,vector<int>&disc,int time,set<int>&vis){
+        vis.insert(u);
+        low[u]=disc[u]=++time;
+        int children=0;
+        for(auto v:adj[u]){
+            if(vis.find(v)==vis.end()){
+                children++;
+                vis.insert(v);
+                DFS(v,adj,u,isAP,low,disc,time,vis);
+                low[u]=min(low[u],low[v]);
+                if(p!=-1 && low[v]>=disc[u])
+                isAP[u]=1;
+            }
+            else if(v!=p)
+                low[u]=min(low[u],disc[v]);
+        }
+        if(p==-1 && children>1)
+        isAP[u]=1;
+    }
+    vector<int> articulationPoints(int V, vector<vector<int>>& edges) {
+        vector<int>res,isAP(V,0),low(V,0),disc(V,0);
+        vector<vector<int>>adj(V);
+        set<int>vis;
+        int time=0;
+        for(auto arr:edges){
+            adj[arr[0]].push_back(arr[1]);
+            adj[arr[1]].push_back(arr[0]);
+        }
+        for(int i=0;i<V;i++)
+            DFS(i,adj,-1,isAP,low,disc,time,vis);
+        for(int i=0;i<V;i++){
+            if(isAP[i])
+            res.push_back(i);
+        }
+        if(res.empty())
+        return {-1};
+        return res;
+    }
+};
+```
