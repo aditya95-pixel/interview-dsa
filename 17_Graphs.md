@@ -511,3 +511,53 @@ class Solution {
     }
 };
 ```
+
+### 12. Flood fill Algorithm
+You are given a 2D grid image[][] of size n*m, where each image[i][j] represents the color of a pixel in the image. Also provided a coordinate(sr, sc) representing the starting pixel (row and column) and a new color value newColor.
+
+Your task is to perform a flood fill starting from the pixel (sr, sc), changing its color to newColor and the color of all the connected pixels that have the same original color. Two pixels are considered connected if they are adjacent horizontally or vertically (not diagonally) and have the same original color.
+
+```cpp
+class Solution {
+  public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc,
+                                  int newColor) {
+        queue<pair<int,int>>q;
+        q.push({sr,sc});
+        set<pair<int,int>>s;
+        s.insert({sr,sc});
+        int color=image[sr][sc];
+        image[sr][sc]=newColor;
+        while(!q.empty()){
+            int x=q.front().first;
+            int y=q.front().second;
+            q.pop();
+            if(x+1<image.size() && s.find({x+1,y})==s.end() && image[x+1][y]==color)
+            {
+                s.insert({x+1,y});
+                q.push({x+1,y});
+                image[x+1][y]=newColor;
+            }
+            if(y+1<image[0].size() && s.find({x,y+1})==s.end() && image[x][y+1]==color)
+            {
+                s.insert({x,y+1});
+                q.push({x,y+1});
+                image[x][y+1]=newColor;
+            }
+            if(x-1>=0 && s.find({x-1,y})==s.end() && image[x-1][y]==color)
+            {
+                s.insert({x-1,y});
+                q.push({x-1,y});
+                image[x-1][y]=newColor;
+            }
+            if(y-1>=0 && s.find({x,y-1})==s.end() && image[x][y-1]==color)
+            {
+                s.insert({x,y-1});
+                q.push({x,y-1});
+                image[x][y-1]=newColor;
+            }
+        }
+        return image;
+    }
+};
+```
