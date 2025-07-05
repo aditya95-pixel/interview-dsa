@@ -474,3 +474,40 @@ class Solution {
     }
 };
 ```
+
+### 11. Dijkstra Algorithm
+Given an undirected, weighted graph with V vertices numbered from 0 to V-1 and E edges, represented by 2d array edges[][], where edges[i]=[u, v, w] represents the edge between the nodes u and v having w edge weight.
+You have to find the shortest distance of all the vertices from the source vertex src, and return an array of integers where the ith element denotes the shortest distance between ith node and source vertex src.
+
+Note: The Graph is connected and doesn't contain any negative weight edge.
+
+```cpp
+class Solution {
+  public:
+    vector<int> dijkstra(int V, vector<vector<int>> &edges, int src) {
+        vector<vector<pair<int,int>>>adj(V);
+        for(auto arr:edges){
+            adj[arr[0]].push_back({arr[1],arr[2]});
+            adj[arr[1]].push_back({arr[0],arr[2]});
+        }
+        priority_queue<pair<int,int>,vector<pair<int,int>>
+        ,greater<pair<int,int>>>pq;
+        vector<int>dist(V,INT_MAX);
+        pq.push({0,src});
+        dist[src]=0;
+        while(!pq.empty()){
+            int u=pq.top().second;
+            pq.pop();
+            for(auto pi:adj[u]){
+                int v=pi.first;
+                int w=pi.second;
+                if(dist[v]>dist[u]+w){
+                    dist[v]=dist[u]+w;
+                    pq.push({dist[v],v});
+                }
+            }
+        }
+        return dist;
+    }
+};
+```
