@@ -561,3 +561,64 @@ class Solution {
     }
 };
 ```
+
+### 13. Clone an Undirected Graph
+Given a connected undirected graph represented by adjacency list, adjList[][] with n nodes, having a distinct label from 0 to n-1, where each adj[i] represents the list of vertices connected to vertex i.
+
+Create a clone of the graph, where each node in the graph contains an integer val and an array (neighbors) of nodes, containing nodes that are adjacent to the current node.
+
+class Node {
+    val: integer
+    neighbors: List[Node]
+}
+
+Your task is to complete the function cloneGraph( ) which takes a starting node of the graph as input and returns the copy of the given node as a reference to the cloned graph.
+
+Note: If you return a correct copy of the given graph, then the driver code will print true; and if an incorrect copy is generated or when you return the original node, the driver code will print false.
+
+```cpp
+// struct Node {
+//     int val;
+//     vector<Node*> neighbors;
+//     Node() {
+//         val = 0;
+//         neighbors = vector<Node*>();
+//     }
+//     Node(int _val) {
+//         val = _val;
+//         neighbors = vector<Node*>();
+//     }
+//     Node(int _val, vector<Node*> _neighbors) {
+//         val = _val;
+//         neighbors = _neighbors;
+//     }
+// };
+
+class Solution {
+  public:
+    Node* cloneGraph(Node* node) {
+        Node *newNode=new Node(node->val);
+        queue<Node*>q1,q2;
+        q1.push(node);
+        q2.push(newNode);
+        map<int,Node*>mp;
+        mp[node->val]=newNode;
+        while(!q1.empty()){
+            Node*ptr=q1.front();
+            q1.pop();
+            Node* newptr=q2.front();
+            q2.pop();
+            for(auto n:ptr->neighbors){
+                if(mp.find(n->val)==mp.end()){
+                    mp[n->val]=new Node(n->val);
+                    newptr->neighbors.push_back(mp[n->val]);
+                    q1.push(n);
+                    q2.push(mp[n->val]);
+                }else
+                    newptr->neighbors.push_back(mp[n->val]);
+            }
+        }
+        return newNode;
+    }
+};
+```
