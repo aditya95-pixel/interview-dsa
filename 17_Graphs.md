@@ -855,3 +855,44 @@ class Solution {
     }
 };
 ```
+
+### 20. Connected Components in an Undirected Graph
+Given an undirected graph with V vertices numbered from 0 to V-1 and E edges, represented as a 2D array edges[][], where each entry edges[i] = [u, v] denotes an edge between vertices u and v.
+
+Your task is to return a list of all connected components. Each connected component should be represented as a list of its vertices, with all components returned in a collection where each component is listed separately.
+
+Note: You can return the components in any order, driver code will print the components in sorted order.
+
+```cpp
+class Solution {
+  public:
+    void DFS(int u,vector<vector<int>>&adj,set<int>&vis,vector<int>&temp){
+        for(auto v:adj[u]){
+            if(vis.find(v)==vis.end()){
+                vis.insert(v);
+                temp.push_back(v);
+                DFS(v,adj,vis,temp);
+            }
+        }
+    }
+    vector<vector<int>> getComponents(int V, vector<vector<int>>& edges) {
+        vector<vector<int>>adj(V);
+        for(auto arr:edges){
+            adj[arr[0]].push_back(arr[1]);
+            adj[arr[1]].push_back(arr[0]);
+        }
+        set<int>vis;
+        vector<vector<int>>res;
+        for(int i=0;i<V;i++){
+            if(vis.find(i)==vis.end()){
+                vector<int>temp;
+                vis.insert(i);
+                temp.push_back(i);
+                DFS(i,adj,vis,temp);
+                res.push_back(temp);
+            }
+        }
+        return res;
+    }
+};
+```
