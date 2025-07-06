@@ -46,3 +46,28 @@ class Solution {
     }
 };
 ```
+
+### 4. Unique Number II
+Given an array arr[] containing 2*n + 2 positive numbers, out of which 2*n numbers exist in pairs whereas only two number occur exactly once and are distinct. Find the other two numbers. Return the answer in increasing order.
+
+```cpp
+class Solution {
+  public:
+    vector<int> singleNum(vector<int>& arr) {
+        int xoro=arr[0];
+        for(int i=1;i<arr.size();i++)
+        xoro^=arr[i];
+        xoro&=(-xoro);
+        vector<int>res(2,0);
+        for(int i=0;i<arr.size();i++){
+            if((arr[i]&xoro)==0)
+            res[0]^=arr[i];
+            else
+            res[1]^=arr[i];
+        }
+        if(res[0]>res[1])
+        swap(res[0],res[1]);
+        return res;
+    }
+};
+```
