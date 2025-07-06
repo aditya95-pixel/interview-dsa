@@ -737,3 +737,45 @@ class Solution {
     }
 };
 ```
+
+### 17. Minimum Weight Cycle
+Given an undirected, weighted graph with V vertices numbered from 0 to V-1 and E edges, represented by a 2d array edges[][], where edges[i] = [u, v, w] represents the edge between the nodes u and v having w edge weight.
+Your task is to find the minimum weight cycle in this graph.
+
+```cpp
+class Solution {
+  public:
+    int findMinCycle(int V, vector<vector<int>>& edges) {
+        vector<vector<pair<int,int>>>adj(V);
+        for(auto arr:edges){
+            adj[arr[0]].push_back({arr[1],arr[2]});
+            adj[arr[1]].push_back({arr[0],arr[2]});
+        }
+        int res=INT_MAX;
+        for(auto arr:edges){
+            int u=arr[0],v=arr[1],w=arr[2];
+            priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+            vector<int>dist(V,1e8);
+            dist[u]=0;
+            pq.push({0,u});
+            while(!pq.empty()){
+                int v1=pq.top().second;
+                pq.pop();
+                for(auto item:adj[v1]){
+                    int v2=item.first,wt=item.second;
+                    if((v1==u && v2==v)||(v1==v && v2==u))
+                    continue;
+                    else if(dist[v2]>dist[v1]+wt)
+                    {
+                        dist[v2]=dist[v1]+wt;
+                        pq.push({dist[v2],v2});
+                    }
+                }
+            }
+            if(dist[v]!=1e8)
+            res=min(res,dist[v]+w);
+        }
+        return res;
+    }
+};
+```
