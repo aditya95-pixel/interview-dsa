@@ -15,3 +15,19 @@ class Solution {
     }
 };
 ```
+
+### 2. Missing in Array
+You are given an array arr[] of size n - 1 that contains distinct integers in the range from 1 to n (inclusive). This array represents a permutation of the integers from 1 to n with one element missing. Your task is to identify and return the missing element.
+
+```cpp
+class Solution {
+  public:
+    int missingNum(vector<int>& arr) {
+        long long n=arr.size()+1;
+        long long apsum=n*(n+1)/2;
+        long long sum=accumulate(arr.begin(),arr.end(),0);
+        int diff=apsum-sum;
+        return diff;
+    }
+};
+```
