@@ -31,3 +31,18 @@ class Solution {
     }
 };
 ```
+
+### 3. Unique Number I
+Given a unsorted array arr[] of positive integers having all the numbers occurring exactly twice, except for one number which will occur only once. Find the number occurring only once.
+
+```cpp
+class Solution {
+  public:
+    int findUnique(vector<int> &arr) {
+        int xoro=arr[0];
+        for(int i=1;i<arr.size();i++)
+        xoro^=arr[i];
+        return xoro;
+    }
+};
+```
