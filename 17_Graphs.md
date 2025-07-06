@@ -779,3 +779,39 @@ class Solution {
     }
 };
 ```
+
+### 18. Course Schedule
+There are a total of n tasks you have to pick, labelled from 0 to n-1. Some tasks may have prerequisites[][] tasks, for example to pick task 0 you have to first finish tasks 1, which is expressed as a pair: [0, 1]
+Given the total number of n tasks and a list of prerequisite pairs of size m. Find a ordering of tasks you should pick to finish all tasks.
+Note: There may be multiple correct orders, you just need to return any one of them. If it is impossible to finish all tasks, return an empty array. Returning any correct order will give the output as true, whereas any invalid order will give the output false. 
+
+```cpp
+class Solution {
+  public:
+    vector<int> findOrder(int n, vector<vector<int>> prerequisites) {
+        vector<int>indeg(n,0);
+        vector<vector<int>>adj(n);
+        for(auto arr:prerequisites){
+            adj[arr[1]].push_back(arr[0]);
+            indeg[arr[0]]++;
+        }
+        queue<int>q;
+        for(int i=0;i<n;i++){
+            if(indeg[i]==0)
+            q.push(i);
+        }
+        vector<int>res;
+        while(!q.empty()){
+            int u=q.front();
+            res.push_back(u);
+            q.pop();
+            for(auto v:adj[u]){
+                indeg[v]--;
+                if(indeg[v]==0)
+                q.push(v);
+            }
+        }
+        return res;
+    }
+};
+```
