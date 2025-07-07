@@ -51,3 +51,63 @@ class Trie {
     }
 };
 ```
+
+### 2. Maximum XOR of two numbers in an array
+Given an array arr[] of non-negative integers of size n. Find the maximum possible XOR between two numbers present in the array.
+
+```cpp
+class Trie{
+    public:
+    class node{
+        public:
+        node*next[2];
+        node(){
+            for(int i=0;i<2;i++)
+            next[i]=NULL;
+        }
+    };
+    node*trie;
+    Trie(vector<int>&a){
+        trie=new node();
+        for(int i=0;i<a.size();i++){
+            int num=a[i];
+            node*curr=trie;
+            for(int j=31;j>=0;j--){
+                int bit=((num>>j)&1);
+                if(!curr->next[bit])
+                curr->next[bit]=new node();
+                curr=curr->next[bit];
+            }
+        }
+    }
+    int solve(vector<int>a){
+        int res=0;
+        for(int i=0;i<a.size();i++){
+            int curr_max=0;
+            node*it=trie;
+            int num=a[i];
+            for(int j=31;j>=0;j--){
+                int bit=((num>>j)&1)?0:1;
+                if(it->next[bit]){
+                    curr_max<<=1;
+                    curr_max|=1;
+                    it=it->next[bit];
+                }else{
+                    curr_max<<=1;
+                    curr_max|=0;
+                    it=it->next[bit?0:1];
+                }
+            }
+            res=max(res,curr_max);
+        }
+        return res;
+    }
+};
+class Solution {
+  public:
+    int maxXor(vector<int> &arr) {
+        Trie* root=new Trie(arr);
+        return root->solve(arr);
+    }
+};
+```
