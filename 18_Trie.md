@@ -111,3 +111,61 @@ class Solution {
     }
 };
 ```
+
+### 3. Longest Valid Word with All Prefixes
+Given an array of strings words[], find the longest string such that every prefix of it is also present in words[]. If multiple strings have the same maximum length, return the lexicographically smallest one.
+
+If no such string is found, return an empty string.
+
+```cpp
+class Trie{
+    public:
+    class node{
+        public:
+        bool end;
+        node*next[26];
+        node(){
+            end=false;
+            for(int i=0;i<26;i++)
+            next[i]=NULL;
+        }
+    };
+    node* trie;
+    Trie(){
+        trie=new node();
+    }
+    void insert(string word){
+        node*it=trie;
+        for(int i=0;i<word.size();i++){
+            if(!it->next[word[i]-'a'])
+            it->next[word[i]-'a']=new node();
+            it=it->next[word[i]-'a'];
+        }
+        it->end=true;
+    }
+    bool check_prefix(string word){
+        node*it=trie;
+        for(int i=0;i<word.size();i++){
+            if(!it->next[word[i]-'a']->end)
+            return false;
+            it=it->next[word[i]-'a'];
+        }
+        return true;
+    }  
+};
+class Solution {
+    public:
+    string longestValidWord(vector<string>& words) {
+        Trie* trie=new Trie();
+        for(auto word:words)
+        trie->insert(word);
+        string res;
+        for(auto word:words){
+            if((trie->check_prefix(word) && word.size()>res.size())
+            || (trie->check_prefix(word) && word.size()==res.size() && word<res))
+            res=word;
+        }
+        return res;
+    }
+};
+```
