@@ -169,3 +169,76 @@ class Solution {
     }
 };
 ```
+
+### 4. Maximum XOR With an Element From Array
+You are given an array arr[], containing non-negative integers. Additionally, you have q queries represented as a 2D array queries[][], where each query is of the form [xi , mi].
+For each query, your task is to find the maximum bitwise XOR value between xi and any element in arr[] that is less than or equal to mi. In other words, for each query [xi , mi], compute: max( arr[j] XOR xi ) for all j such that arr[j]  ≤  mi .
+
+If there is no element in arr[] that satisfies the condition arr[j]  ≤  mi , then the answer for that query should be -1.
+Return an array ans[], where ans[i] represents the result of the i-th query.
+
+```cpp
+class Trie{
+    public:
+    class node{
+        public:
+        node*next[2];
+        node(){
+            for(int i=0;i<2;i++)
+            next[i]=NULL;
+        }
+    };
+    node* trie;
+    Trie(){
+        trie=new node();
+    }
+    void insert(int num){
+        node*it=trie;
+        for(int j=31;j>=0;j--){
+            int bit=(num>>j)&1;
+            if(!it->next[bit])
+            it->next[bit]=new node();
+            it=it->next[bit];
+        }
+    }
+    int solve(int num){
+        node*it=trie;
+        int res=0;
+        for(int j=31;j>=0;j--){
+            int bit=((num>>j)&1)?0:1;
+            if(it->next[bit]){
+                res<<=1;
+                res|=1;
+                it=it->next[bit];
+            }else{
+                res<<=1;
+                res|=0;
+                it=it->next[bit?0:1];
+            }
+        }
+        return res;
+    }
+};
+class Solution {
+  public:
+    vector<int> maxXor(vector<int> &arr, vector<vector<int>> &queries) {
+        sort(arr.begin(),arr.end());
+        vector<vector<int>>query;
+        for(int i=0;i<queries.size();i++)
+        query.push_back({queries[i][1],queries[i][0],i});
+        sort(query.begin(),query.end());
+        Trie*trie=new Trie();
+        vector<int>res(query.size());
+        int j=0;
+        for(int i=0;i<query.size();i++){
+            while(j<arr.size() && arr[j]<=query[i][0])
+            trie->insert(arr[j++]);
+            if(j==0)
+            res[query[i][2]]=-1;
+            else
+            res[query[i][2]]=trie->solve(query[i][1]);
+        }
+        return res;
+    }
+};
+```
