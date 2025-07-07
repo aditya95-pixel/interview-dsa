@@ -121,3 +121,23 @@ class Solution {
     }
 };
 ```
+
+### 7. Sum of XOR of all possible subsets
+Given an array arr[], return the sum of the XOR of all elements for every possible subset of the array. Subsets with the same elements should be counted multiple times.
+
+An array a is a subset of an array b if a can be obtained from b by deleting some (possibly zero) elements of b.
+
+Note: The answer is guaranteed to fit within a 32-bit integer.
+
+```cpp
+class Solution {
+  public:
+    int subsetXORSum(vector<int>& arr) {
+        int bits=0;
+        for(int i=0;i<arr.size();i++)
+            bits|=arr[i];
+        int sum=bits*pow(2,arr.size()-1);
+        return sum;
+    }
+};
+```
