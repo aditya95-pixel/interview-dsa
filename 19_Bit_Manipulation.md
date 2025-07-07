@@ -71,3 +71,27 @@ class Solution {
     }
 };
 ```
+
+### 5. Total Hamming Distance
+Given an integer array arr[], return the sum of Hamming distances between all the pairs of the integers in arr.
+
+Note: The answer is guaranteed to fit within a 32-bit integer.
+
+```cpp
+class Solution {
+  public:
+    int totHammingDist(vector<int>& arr) {
+        vector<int>cnt(32,0);
+        for(int i=0;i<arr.size();i++){
+            for(int j=0;j<32;j++){
+                if(arr[i]&(1<<j))
+                cnt[j]++;
+            }
+        }
+        int res=0;
+        for(int j=0;j<32;j++)
+            res+=cnt[j]*(arr.size()-cnt[j]);
+        return res;
+    }
+};
+```
