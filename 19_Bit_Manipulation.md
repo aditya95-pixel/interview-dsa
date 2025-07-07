@@ -95,3 +95,29 @@ class Solution {
     }
 };
 ```
+
+### 6. Subsets
+Given an array arr[] of distinct positive integers, your task is to find all its subsets. The subsets should be returned in lexicographical order.
+
+```cpp
+class Solution {
+  public:
+    void solve(vector<int>&temp,vector<int>&arr,int idx,vector<vector<int>>&res){
+        if(idx==arr.size()){
+            res.push_back(temp);
+            return ;
+        }
+        solve(temp,arr,idx+1,res);
+        temp.push_back(arr[idx]);
+        solve(temp,arr,idx+1,res);
+        temp.pop_back();
+    }
+    vector<vector<int>> subsets(vector<int>& arr) {
+        vector<vector<int>>res;
+        vector<int>temp;
+        solve(temp,arr,0,res);
+        sort(res.begin(),res.end());
+        return res;
+    }
+};
+```
