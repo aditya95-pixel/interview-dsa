@@ -196,50 +196,63 @@ Given an array arr[] such that each element is in the range [0, 9] find the mini
 class Solution {
   public:
     string minSum(vector<int> &arr) {
-        map<int,int>freq;
-        for(auto i:arr)
-        freq[i]++;
-        string s1,s2;
+        map<int,int>mp;
+        for(auto ele:arr)
+        mp[ele]++;
+        string num1,num2;
         bool chk=true;
-        for(int dig=0;dig<=9;dig++){
-            while(freq[dig]--){
+        for(int dig=1;dig<=9;dig++){
+            while(mp[dig]--){
                 if(chk){
-                    if(!(s1.empty() && dig==0))
-                    s1+=(char)(dig+48);
                     chk=false;
+                    num1+=to_string(dig);
                 }else{
-                    if(!(s2.empty() && dig==0))
-                    s2+=(char)(dig+48);
                     chk=true;
+                    num2+=to_string(dig);
                 }
             }
         }
-        reverse(s1.begin(),s1.end());
-        reverse(s2.begin(),s2.end());
-        int i=0,j=0,k=0;
         string res;
         int carry=0;
-        while(i<s1.size() && j<s2.size()){
-            int sum=(s1[i]-48)+(s2[j]-48)+carry;
-            res+=(char)(sum%10+48);
-            carry=sum/10;
+        reverse(num1.begin(),num1.end());
+        reverse(num2.begin(),num2.end());
+        int i=0,j=0;
+        while(i<num1.size() && j<num2.size()){
+            int sum=(num1[i]-48)+(num2[j]-48)+carry;
+            if(sum<10){
+                res+=to_string(sum);
+                carry=0;
+            }else{
+                res+=to_string(sum%10);
+                carry=sum/10;
+            }
             i++;
             j++;
         }
-        while(i<s1.size()){
-            int sum=(s1[i]-48)+carry;
-            res+=(char)(sum%10+48);
-            carry=sum/10;
+        while(i<num1.size()){
+            int sum=(num1[i]-48)+carry;
+            if(sum<10){
+                res+=to_string(sum);
+                carry=0;
+            }else{
+                res+=to_string(sum%10);
+                carry=sum/10;
+            }
             i++;
         }
-        while(j<s2.size()){
-            int sum=(s2[j]-48)+carry;
-            res+=(char)(sum%10+48);
-            carry=sum/10;
+        while(j<num2.size()){
+            int sum=(num2[j]-48)+carry;
+            if(sum<10){
+                res+=to_string(sum);
+                carry=0;
+            }else{
+                res+=to_string(sum%10);
+                carry=sum/10;
+            }
             j++;
         }
         if(carry!=0)
-        res+=(char)(carry+48);
+        res+=to_string(carry);
         reverse(res.begin(),res.end());
         return res;
     }
