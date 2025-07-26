@@ -27,17 +27,14 @@ class Solution {
     int countPairs(vector<int> &arr, int target) {
         int cnt=0;
         map<int,int>mp;
-        for(auto x:arr)
-        mp[x]++;
-        for(auto item:mp){
-            if(mp.find(target-item.first)!=mp.end() &&
-            item.first!=target-item.first)
-            cnt+=item.second*mp[target-item.first];
-            else if(mp.find(target-item.first)!=mp.end() &&
-            item.first==target-item.first)
-            cnt+=item.second*(item.second-1);
+        for(auto x:arr){
+            mp[x]++;
+            if(mp.find(target-x)!=mp.end() && x!=target-x)
+            cnt+=mp[target-x];
+            else if(mp.find(target-x)!=mp.end() && x==target-x)
+            cnt+=mp[x]-1;
         }
-        return cnt/2;
+        return cnt;
     }
 };
 ```
