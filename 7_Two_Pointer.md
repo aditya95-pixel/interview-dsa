@@ -410,7 +410,7 @@ class Solution {
                        res.push_back({arr[i],arr[j],arr[k],arr[t]});
                        while(k+1<t && arr[k]==arr[k+1])
                        k++;
-                       while(t-1<k && arr[t]==arr[t-1])
+                       while(t-1>k && arr[t]==arr[t-1])
                        t--;
                        k++;
                        t--;
