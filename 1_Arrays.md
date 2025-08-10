@@ -117,41 +117,15 @@ Note: The answer should be returned in an increasing format.
 class Solution {
   public:
     vector<int> findMajority(vector<int>& arr) {
-        int val1=-1,val2=-1,cnt1=0,cnt2=0;
-        for(auto val:arr){
-            if(val==val1)
-            cnt1++;
-            else if(val==val2)
-            cnt2++;
-            else if(cnt1==0)
-            {
-                val1=val;
-                cnt1++;
-            }
-            else if(cnt2==0)
-            {
-                val2=val;
-                cnt2++;
-            }
-            else
-            {
-                cnt1--;
-                cnt2--;
-            }
-        }
+        map<int,int>mp;
+        for(auto ele:arr)
+        mp[ele]++;
         vector<int>res;
-        cnt1=cnt2=0;
-        for(auto val:arr){
-            if(val==val1)
-            cnt1++;
-            else if(val==val2)
-            cnt2++;
+        for(auto item:mp){
+            if(item.second>arr.size()/3)
+            res.push_back(item.first);
         }
-        if(cnt1>arr.size()/3)
-        res.push_back(val1);
-        if(cnt2>arr.size()/3)
-        res.push_back(val2);
-        if(res.size()==2 && res[0]>res[1])
+        if(!res.empty() && res.size()>1 && res[0]>res[1])
         swap(res[0],res[1]);
         return res;
     }
