@@ -27,11 +27,9 @@ class Solution {
         int cnt=0;
         map<int,int>mp;
         for(auto x:arr){
-            mp[x]++;
-            if(mp.find(target-x)!=mp.end() && x!=target-x)
+            if(mp.find(target-x)!=mp.end())
             cnt+=mp[target-x];
-            else if(mp.find(target-x)!=mp.end() && x==target-x)
-            cnt+=mp[x]-1;
+            mp[x]++;
         }
         return cnt;
     }
