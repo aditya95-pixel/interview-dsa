@@ -355,15 +355,15 @@ Given an array of distinct positive numbers, the task is to calculate the minimu
 class Solution {
   public:
     int numOfSubset(vector<int> &arr) {
-        map<int,int>mp;
-        for(auto x:arr)
-        mp[x]++;
+        set<int>s;
         int cnt=0;
+        for(auto x:arr)
+        s.insert(x);
         for(auto x:arr){
-            if(mp.find(x)!=mp.end() && mp.find(x-1)==mp.end()){
+            if(s.find(x)!=s.end() && s.find(x-1)==s.end()){
                 int curr=x;
-                while(mp.find(curr)!=mp.end()){
-                    mp.erase(curr);
+                while(s.find(curr)!=s.end()){
+                    s.erase(curr);
                     curr++;
                 }
                 cnt++;
