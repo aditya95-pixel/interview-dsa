@@ -7,11 +7,10 @@ class Solution {
     bool twoSum(vector<int>& arr, int target) {
         map<int,int>mp;
         for(auto x:arr){
-            mp[x]++;
-            if(mp.find(target-x)!=mp.end() && x!=target-x)
+            if(mp.find(target-x)!=mp.end())
             return true;
-            else if(mp.find(target-x)!=mp.end() && x==target-x && mp[x]>1)
-            return true;
+            if(mp.find(x)==mp.end())
+            mp[x]=1;
         }
         return false;
     }
