@@ -543,3 +543,36 @@ class Solution {
     }
 };
 ```
+
+### 18 Sum of Mode
+Given an array arr[] of positive integers and an integer k. You have to find the sum of the modes of all the subarrays of size k.
+Note: The mode of a subarray is the element that occurs with the highest frequency. If multiple elements have the same highest frequency, the smallest such element is considered the mode.
+
+```cpp
+class Solution {
+  public:
+    int sumOfModes(vector<int>& arr, int k) {
+        map<int,int>mp;
+        for(int i=0;i<k;i++)
+        mp[arr[i]]++;
+        int sum=0;
+        set<pair<int,int>>s;
+        for(auto item:mp)
+            s.insert({-item.second,item.first});
+        sum+=(*s.begin()).second;
+        for(int i=k;i<arr.size();i++){
+            s.erase({-mp[arr[i-k]],arr[i-k]});
+            mp[arr[i-k]]--;
+            if(mp[arr[i-k]]==0)
+            mp.erase(arr[i-k]);
+            else
+            s.insert({-mp[arr[i-k]],arr[i-k]});
+            s.erase({-mp[arr[i]],arr[i]});
+            mp[arr[i]]++;
+            s.insert({-mp[arr[i]],arr[i]});
+            sum+=(*s.begin()).second;
+        }
+        return sum;
+    }
+};
+```
