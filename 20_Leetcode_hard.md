@@ -50,3 +50,28 @@ public:
     }
 };
 ```
+
+### 2 Sliding Window Maximum
+
+You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
+
+Return the max sliding window.
+
+```cpp
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        vector<int>res;
+        multiset<int,greater<int>>s;
+        for(int i=0;i<k;i++)
+        s.insert(nums[i]);
+        res.push_back(*s.begin());
+        for(int i=k;i<nums.size();i++){
+            s.erase(s.lower_bound(nums[i-k]));
+            s.insert(nums[i]);
+            res.push_back(*s.begin());
+        }
+        return res;
+    }
+};
+```
