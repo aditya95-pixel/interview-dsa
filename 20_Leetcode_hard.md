@@ -251,3 +251,36 @@ public:
     }
 };
 ```
+
+### 7 Couples Holding Hands
+
+There are n couples sitting in 2n seats arranged in a row and want to hold hands.
+
+The people and seats are represented by an integer array row where row[i] is the ID of the person sitting in the ith seat. The couples are numbered in order, the first couple being (0, 1), the second couple being (2, 3), and so on with the last couple being (2n - 2, 2n - 1).
+
+Return the minimum number of swaps so that every couple is sitting side by side. A swap consists of choosing any two people, then they stand up and switch seats.
+
+```cpp
+class Solution {
+public:
+    int minSwapsCouples(vector<int>& row) {
+        vector<int>pos(row.size(),0);
+        for(int i=0;i<row.size();i++)
+        pos[row[i]]=i;
+        int cnt=0;
+        for(int i=0;i<row.size();i+=2){
+            int first=row[i];
+            int second=row[i+1];
+            int expected_second=first^1;
+            if(second!=expected_second){
+                int expected_second_pos=pos[expected_second];
+                swap(row[i+1],row[expected_second_pos]);
+                cnt++;
+                pos[expected_second]=i+1;
+                pos[second]=expected_second_pos;
+            }
+        }
+        return cnt;
+    }
+};
+```
