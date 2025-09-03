@@ -324,3 +324,38 @@ public:
     }
 };
 ```
+
+### 9 Subarrays with k different integers
+
+Given an integer array nums and an integer k, return the number of good subarrays of nums.
+
+A good array is an array where the number of different integers in that array is exactly k.
+
+For example, [1,2,3,1,2] has 3 different integers: 1, 2, and 3.
+A subarray is a contiguous part of an array.
+
+```cpp
+class Solution {
+public:
+    int solve(vector<int>& nums,int k){
+        map<int,int>mp;
+        int end=0,start=0,cnt=0;
+        while(end<nums.size()){
+            mp[nums[end]]++;
+            while(mp.size()>k){
+                if(mp[nums[start]]==1)
+                    mp.erase(nums[start]);
+                else
+                    mp[nums[start]]--;
+                start++;
+            }
+            cnt+=end-start+1;
+            end++;
+        }
+        return cnt;
+    }
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        return solve(nums,k)-solve(nums,k-1);
+    }
+};
+```
