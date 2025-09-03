@@ -387,3 +387,30 @@ public:
     }
 };
 ```
+
+### 11 Longest Valid Parentheses
+
+Given a string containing just the characters '(' and ')', return the length of the longest valid (well-formed) parentheses substring.
+
+```cpp
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        stack<int>stk;
+        stk.push(-1);
+        int maxlen=0;
+        for(int i=0;i<s.size();i++){
+            if(s[i]=='(')
+            stk.push(i);
+            else{
+                stk.pop();
+                if(stk.empty())
+                stk.push(i);
+                else
+                maxlen=max(maxlen,i-stk.top());
+            }
+        }
+        return maxlen;
+    }
+};
+```
