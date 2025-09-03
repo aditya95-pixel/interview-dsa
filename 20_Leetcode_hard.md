@@ -284,3 +284,43 @@ public:
     }
 };
 ```
+
+### 8 Minimum Window Substring
+
+Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+
+The testcases will be generated such that the answer is unique.
+
+```cpp
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        if(t.size()>s.size())
+        return "";
+        map<char,int>mp1,mp2;
+        for(auto c:t)
+        mp1[c]++;
+        int start=0,end=0;
+        int minlen=INT_MAX;
+        int begin=-1,netcnt=0;
+        while(end<s.size()){
+           mp2[s[end]]++;
+           if(mp1.find(s[end])!=mp1.end() && mp1[s[end]]==mp2[s[end]])
+                netcnt++;
+            while(netcnt==mp1.size()){
+                if(minlen>end-start+1)
+                {minlen=end-start+1;begin=start;}
+                if(mp1.find(s[start])!=mp1.end() && mp1[s[start]]==mp2[s[start]])
+                    netcnt--;
+                mp2[s[start]]--;
+                start++;
+            }
+            end++;
+        }
+        if(begin!=-1)
+        return s.substr(begin,minlen);
+        else
+        return "";
+    }
+};
+```
