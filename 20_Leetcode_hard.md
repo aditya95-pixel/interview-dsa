@@ -414,3 +414,46 @@ public:
     }
 };
 ```
+
+### 12 Minimum operations to make array elements 0
+
+You are given a 2D array queries, where queries[i] is of the form [l, r]. Each queries[i] defines an array of integers nums consisting of elements ranging from l to r, both inclusive.
+
+In one operation, you can:
+
+Select two integers a and b from the array.
+Replace them with floor(a / 4) and floor(b / 4).
+Your task is to determine the minimum number of operations required to reduce all elements of the array to zero for each query. Return the sum of the results for all queries.
+
+```cpp
+class Solution {
+public:
+    long long minOperations(vector<vector<int>>& queries) {
+        long long ans=0;
+        for(auto query:queries){
+            long long a=query[0],b=query[1],k1=query[0],k2=query[1],temp=0,l=0,r=0;
+            while(k1!=0){
+                k1/=4;
+                l++;
+            }
+            while(k2!=0){
+                k2/=4;
+                r++;
+            }
+            long long c=b-a+1,d=(long long)pow(4,l)-a;
+            temp+=min(c,d)*l;
+            if(r!=l){
+                temp+=(b-(long long)pow(4,r-1)+1)*r;
+            }
+            if(r-l>1){
+                for(long long i=l+1;i<r;i++)
+                temp+=((long long)pow(4,i)-(long long)pow(4,i-1))*i;
+            }
+            if(temp%2!=0)
+            ans++;
+            ans+=temp/2;
+        }
+        return ans;
+    }
+};
+```
