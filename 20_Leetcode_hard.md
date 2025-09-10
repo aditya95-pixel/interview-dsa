@@ -551,3 +551,60 @@ public:
     }
 };
 ```
+
+### 15 Minimum Number of people to teach
+
+On a social network consisting of m users and some friendships between users, two users can communicate with each other if they know a common language.
+
+You are given an integer n, an array languages, and an array friendships where:
+
+There are n languages numbered 1 through n,
+languages[i] is the set of languages the i​​​​​​th​​​​ user knows, and
+friendships[i] = [u​​​​​​i​​​, v​​​​​​i] denotes a friendship between the users u​​​​​​​​​​​i​​​​​ and vi.
+You can choose one language and teach it to some users so that all friends can communicate with each other. Return the minimum number of users you need to teach.
+
+Note that friendships are not transitive, meaning if x is a friend of y and y is a friend of z, this doesn't guarantee that x is a friend of z.
+
+```cpp
+class Solution {
+public:
+    int minimumTeachings(int n, vector<vector<int>>& languages, vector<vector<int>>& friendships) {
+        set<int>incompat;
+        for(auto arr:friendships){
+            int u=arr[0]-1,v=arr[1]-1;
+            bool chk=false;
+            for(int i=0;i<languages[u].size();i++){
+                for(int j=0;j<languages[v].size();j++){
+                    if(languages[u][i]==languages[v][j])
+                    {   
+                        chk=true;
+                        break;
+                    }
+                }
+            }
+            if(!chk)
+            {
+                incompat.insert(u);
+                incompat.insert(v);
+            }
+        }
+        int mino=INT_MAX;
+        for(int i=1;i<=n;i++){
+            int cnt=0;
+            for(auto frnd:incompat){
+                bool chk=false;
+                for(int j=0;j<languages[frnd].size();j++){
+                    if(languages[frnd][j]==i){
+                        chk=true;
+                        break;
+                    }
+                }
+                if(!chk)
+                cnt++;
+            }
+            mino=min(mino,cnt);
+        }
+        return mino;
+    }
+};
+```
