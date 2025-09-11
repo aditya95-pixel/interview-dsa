@@ -608,3 +608,87 @@ public:
     }
 };
 ```
+
+### 16 Palindrome Pairs
+
+You are given a 0-indexed array of unique strings words.
+
+A palindrome pair is a pair of integers (i, j) such that:
+
+0 <= i, j < words.length,
+i != j, and
+words[i] + words[j] (the concatenation of the two strings) is a palindrome.
+Return an array of all the palindrome pairs of words.
+
+You must write an algorithm with O(sum of words[i].length) runtime complexity.
+
+```cpp
+class Trie{
+    public:
+    class node{
+        public:
+            bool end;
+            int index;
+            vector<int>palin_suff_idxs;
+            node*next[26];
+            node(){
+                end=false;
+                index=-1;
+                for(int i=0;i<26;i++)
+                next[i]=NULL;
+            }
+    };
+    node* trie;
+    Trie(){
+        trie=new node();
+    }
+    bool ispalin(const string &s,int l,int r){
+        while(l<r){
+            if(s[l++]!=s[r--])return false;
+        }
+        return true;
+    }
+    void insert(string &word,int idx){
+        node*it=trie;
+        for(int i=0;i<word.size();i++){
+            if(ispalin(word,i,word.size()-1))
+            it->palin_suff_idxs.push_back(idx);
+            int c=word[i]-'a';
+            if(!it->next[c])it->next[c]=new node();
+            it=it->next[c];
+        }
+        it->end=true;
+        it->index=idx;
+        it->palin_suff_idxs.push_back(idx);
+    }
+    void search(string &word,int idx,vector<vector<int>>&res){
+        node*it=trie;
+        for(int i=0;i<word.size();i++){
+            if(it->end && it->index!=idx && ispalin(word,i,word.size()-1))
+            res.push_back({idx,it->index});
+            int c=word[i]-'a';
+            if(!it->next[c])return;
+            it=it->next[c];
+        }
+        for(auto j:it->palin_suff_idxs){
+            if(j!=idx)
+            res.push_back({idx,j});
+        }
+    }
+};
+class Solution {
+public:
+    vector<vector<int>> palindromePairs(vector<string>& words) {
+        Trie t;
+        for(int i=0;i<words.size();i++){
+            string rev=words[i];
+            reverse(rev.begin(),rev.end());
+            t.insert(rev,i);
+        }
+        vector<vector<int>>res;
+        for(int i=0;i<words.size();i++)
+            t.search(words[i],i,res);
+        return res;
+    }
+};
+```
