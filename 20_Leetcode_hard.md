@@ -800,3 +800,73 @@ public:
     }
 };
 ```
+
+### 20 Word Ladder II
+
+A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:
+
+Every adjacent pair of words differs by a single letter.
+Every si for 1 <= i <= k is in wordList. Note that beginWord does not need to be in wordList.
+sk == endWord
+Given two words, beginWord and endWord, and a dictionary wordList, return all the shortest transformation sequences from beginWord to endWord, or an empty list if no such sequence exists. Each sequence should be returned as a list of the words [beginWord, s1, s2, ..., sk].
+
+```cpp
+class Solution {
+    string b;
+    map<string,int>mp;
+public:
+    void DFS(vector<vector<string>>&res,vector<string>&temp,string str){
+        if(str==b){
+            reverse(temp.begin(),temp.end());
+            res.push_back(temp);
+            reverse(temp.begin(),temp.end());
+            return;
+        }
+        int steps=mp[str];
+        for(int i=0;i<str.size();i++){
+            char org=str[i];
+            for(char c='a';c<='z';c++){
+                str[i]=c;
+                if(mp.find(str)!=mp.end() && mp[str]+1==steps){
+                    temp.push_back(str);
+                    DFS(res,temp,str);
+                    temp.pop_back();
+                }
+            }
+            str[i]=org;
+        }
+    }
+    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
+        vector<vector<string>>res;
+        set<string>s(wordList.begin(),wordList.end());
+        queue<string>q;
+        q.push(beginWord);
+        mp[beginWord]=1;
+        b=beginWord;
+        while(!q.empty()){
+            string str=q.front();
+            q.pop();
+            int steps=mp[str];
+            if(str==endWord)
+            break;
+            for(int i=0;i<str.size();i++){
+                char org=str[i];
+                for(char c='a';c<='z';c++){
+                    str[i]=c;
+                    if(s.count(str) && mp.find(str)==mp.end()){
+                        mp[str]=steps+1;
+                        q.push(str);
+                    }
+                }
+                str[i]=org;
+            }
+        }
+        if(mp.find(endWord)!=mp.end()){
+            vector<string>temp;
+            temp.push_back(endWord);
+            DFS(res,temp,endWord);
+        }
+        return res;
+    }
+};
+```
