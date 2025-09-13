@@ -912,7 +912,7 @@ class Solution {
 };
 ```
 
-### 22 Recontruct Itinerary
+### 22 Recontruct Itinerary (Very Important Eulerian Path Concept)
 
 You are given a list of airline tickets where tickets[i] = [fromi, toi] represent the departure and the arrival airports of one flight. Reconstruct the itinerary in order and return it.
 
