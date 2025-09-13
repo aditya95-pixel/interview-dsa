@@ -945,3 +945,59 @@ public:
     }
 };
 ```
+
+### 23 Bus Routes
+
+You are given an array routes representing bus routes where routes[i] is a bus route that the ith bus repeats forever.
+
+For example, if routes[0] = [1, 5, 7], this means that the 0th bus travels in the sequence 1 -> 5 -> 7 -> 1 -> 5 -> 7 -> 1 -> ... forever.
+You will start at the bus stop source (You are not on any bus initially), and you want to go to the bus stop target. You can travel between bus stops by buses only.
+
+Return the least number of buses you must take to travel from source to target. Return -1 if it is not possible.
+
+```cpp
+class Solution {
+public:
+    int numBusesToDestination(vector<vector<int>>& routes, int source, int target) {
+        if(source==target)
+        return 0;
+        map<int,vector<int>>mp;
+        for(int i=0;i<routes.size();i++){
+            for(int j=0;j<routes[i].size();j++)
+            mp[routes[i][j]].push_back(i);
+        }
+        queue<int>q;
+        vector<int>vis_routes(routes.size(),0);
+        set<int>vis_stops;
+        for(auto route:mp[source]){
+            q.push(route);
+            vis_routes[route]=1;
+        }
+        vis_stops.insert(source);
+        int buses=1;
+        while(!q.empty()){
+            int sz=q.size();
+            while(sz--){
+                int route=q.front();
+                q.pop();
+                for(auto stop:routes[route]){
+                    if(stop==target)
+                    return buses;
+                    if(vis_stops.count(stop))
+                    continue;
+                    vis_stops.insert(stop);
+                    for(auto next_route:mp[stop]){
+                        if(vis_routes[next_route]==0)
+                        {
+                            q.push(next_route);
+                            vis_routes[next_route]=1;
+                        }
+                    }
+                }
+            }
+            buses++;
+        }
+        return -1;
+    }
+};
+```
