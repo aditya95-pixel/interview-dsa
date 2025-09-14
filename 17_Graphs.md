@@ -369,37 +369,40 @@ If no such point exists, return {-1}.
 ```cpp
 class Solution {
   public:
-    void DFS(int u,vector<vector<int>>&adj,int p,vector<int>&isAP,vector<int>&low
-    ,vector<int>&disc,int time,set<int>&vis){
-        vis.insert(u);
-        low[u]=disc[u]=++time;
+    vector<int>disc,low,isAP;
+    int timer;
+    vector<vector<int>>adj;
+    vector<int>res;
+    void dfs(int u,int parent){
+        disc[u]=low[u]=++timer;
         int children=0;
         for(auto v:adj[u]){
-            if(vis.find(v)==vis.end()){
+            if(!disc[v]){
                 children++;
-                vis.insert(v);
-                DFS(v,adj,u,isAP,low,disc,time,vis);
+                dfs(v,u);
                 low[u]=min(low[u],low[v]);
-                if(p!=-1 && low[v]>=disc[u])
+                if(parent!=-1 && low[v]>=disc[u])
                 isAP[u]=1;
-            }
-            else if(v!=p)
-                low[u]=min(low[u],disc[v]);
+            }else if(v!=parent)
+            low[u]=min(low[u],disc[v]);
         }
-        if(p==-1 && children>1)
+        if(parent==-1 && children>1)
         isAP[u]=1;
     }
     vector<int> articulationPoints(int V, vector<vector<int>>& edges) {
-        vector<int>res,isAP(V,0),low(V,0),disc(V,0);
-        vector<vector<int>>adj(V);
-        set<int>vis;
-        int time=0;
-        for(auto arr:edges){
-            adj[arr[0]].push_back(arr[1]);
-            adj[arr[1]].push_back(arr[0]);
+        adj.assign(V,{});
+        for(auto edge:edges){
+            adj[edge[0]].push_back(edge[1]);
+            adj[edge[1]].push_back(edge[0]);
         }
-        for(int i=0;i<V;i++)
-            DFS(i,adj,-1,isAP,low,disc,time,vis);
+        disc.assign(V,0);
+        low.assign(V,0);
+        isAP.assign(V,0);
+        timer=0;
+        for(int i=0;i<V;i++){
+            if(!disc[i])
+            dfs(i,-1);
+        }
         for(int i=0;i<V;i++){
             if(isAP[i])
             res.push_back(i);
