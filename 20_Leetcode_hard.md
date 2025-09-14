@@ -1001,3 +1001,45 @@ public:
     }
 };
 ```
+
+### 24 Shortest Path Visiting all nodes (Hamiltonian Path)
+
+You have an undirected, connected graph of n nodes labeled from 0 to n - 1. You are given an array graph where graph[i] is a list of all the nodes connected with node i by an edge.
+
+Return the length of the shortest path that visits every node. You may start and stop at any node, you may revisit nodes multiple times, and you may reuse edges.
+
+```cpp
+class Solution {
+public:
+    int shortestPathLength(vector<vector<int>>& graph) {
+        int allVis=(1<<graph.size())-1;
+        vector<vector<bool>>vis(graph.size(),vector<bool>(1<<graph.size(),0));
+        queue<pair<int,int>>q;
+        for(int i=0;i<graph.size();i++){
+            q.push({i,(1<<i)});
+            vis[i][(1<<i)]=1;
+        }
+        int steps=0;
+        while(!q.empty()){
+            int sz=q.size();
+            while(sz--){
+                int u=q.front().first;
+                int mask=q.front().second;
+                q.pop();
+                if(mask==allVis)
+                return steps;
+                for(auto v:graph[u]){
+                    int newmask=mask|(1<<v);
+                    if(!vis[v][newmask])
+                    {
+                        vis[v][newmask]=1;
+                        q.push({v,newmask});
+                    }
+                }
+            }
+            steps++;
+        }
+        return -1;
+    }
+};
+```
