@@ -1043,3 +1043,50 @@ public:
     }
 };
 ```
+
+### 25 Critical Connections in a Network
+
+There are n servers numbered from 0 to n - 1 connected by undirected server-to-server connections forming a network where connections[i] = [ai, bi] represents a connection between servers ai and bi. Any server can reach other servers directly or indirectly through the network.
+
+A critical connection is a connection that, if removed, will make some servers unable to reach some other server.
+
+Return all critical connections in the network in any order.
+
+```cpp
+class Solution {
+public:
+    vector<int>disc,low;
+    vector<vector<int>>res;
+    vector<vector<int>>adj;
+    int timer;
+    void dfs(int u,int parent){
+        disc[u]=low[u]=++timer;
+        for(auto v:adj[u]){
+            if(v==parent)
+            continue;
+            if(!disc[v]){
+                dfs(v,u);
+                low[u]=min(low[u],low[v]);
+                if(low[v]>disc[u])
+                res.push_back({u,v});
+            }else
+            low[u]=min(low[u],disc[v]);
+        }
+    }
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+        adj.assign(n,{});
+        for(auto edge:connections){
+            adj[edge[0]].push_back(edge[1]);
+            adj[edge[1]].push_back(edge[0]);
+        }
+        disc.assign(n,0);
+        low.assign(n,0);
+        timer=0;
+        for(int i=0;i<n;i++){
+            if(!disc[i])
+            dfs(i,-1);
+        }
+        return res;
+    }
+};
+```
