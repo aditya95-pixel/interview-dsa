@@ -385,7 +385,7 @@ class Solution {
                 low[u]=min(low[u],low[v]);
                 if(parent!=-1 && low[v]>=disc[u])
                 isAP[u]=1;
-            }else if(v!=parent)
+            }else
             low[u]=min(low[u],disc[v]);
         }
         if(parent==-1 && children>1)
