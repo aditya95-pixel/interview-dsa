@@ -377,6 +377,8 @@ class Solution {
         disc[u]=low[u]=++timer;
         int children=0;
         for(auto v:adj[u]){
+            if(v==parent)
+            continue;
             if(!disc[v]){
                 children++;
                 dfs(v,u);
