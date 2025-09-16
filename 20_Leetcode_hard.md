@@ -1169,3 +1169,51 @@ public:
     }
 };
 ```
+
+### 28 Replace Non-Coprime Numbers in Array
+
+You are given an array of integers nums. Perform the following steps:
+
+Find any two adjacent numbers in nums that are non-coprime.
+If no such numbers are found, stop the process.
+Otherwise, delete the two numbers and replace them with their LCM (Least Common Multiple).
+Repeat this process as long as you keep finding two adjacent non-coprime numbers.
+Return the final modified array. It can be shown that replacing adjacent non-coprime numbers in any arbitrary order will lead to the same result.
+
+The test cases are generated such that the values in the final array are less than or equal to 108.
+
+Two values x and y are non-coprime if GCD(x, y) > 1 where GCD(x, y) is the Greatest Common Divisor of x and y.
+
+```cpp
+class Solution {
+public:
+    int gcd(int a,int b){
+        if(b==0)
+        return a;
+        else
+        return gcd(b,a%b);
+    }
+    vector<int> replaceNonCoprimes(vector<int>& nums) {
+        vector<int>res;
+        stack<int>stk;  
+        for(int i=0;i<nums.size();i++){
+            long long temp=nums[i];
+            while(!stk.empty()){
+                int top=stk.top();
+                int g=gcd(top,temp);
+                if(g==1)
+                break;
+                stk.pop();
+                temp=(long long)top/g*temp;
+            }
+            stk.push((int)temp);
+        }
+        while(!stk.empty()){
+            res.push_back(stk.top());
+            stk.pop();
+        }
+        reverse(res.begin(),res.end());
+        return res;
+    }
+};
+```
