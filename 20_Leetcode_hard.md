@@ -1464,3 +1464,53 @@ public:
     }
 };
 ```
+
+### 33 Parallel Courses III
+
+You are given an integer n, which indicates that there are n courses labeled from 1 to n. You are also given a 2D integer array relations where relations[j] = [prevCoursej, nextCoursej] denotes that course prevCoursej has to be completed before course nextCoursej (prerequisite relationship). Furthermore, you are given a 0-indexed integer array time where time[i] denotes how many months it takes to complete the (i+1)th course.
+
+You must find the minimum number of months needed to complete all the courses following these rules:
+
+You may start taking a course at any time if the prerequisites are met.
+Any number of courses can be taken at the same time.
+Return the minimum number of months needed to complete all the courses.
+
+Note: The test cases are generated such that it is possible to complete every course (i.e., the graph is a directed acyclic graph).
+
+```cpp
+class Solution {
+public:
+    int minimumTime(int n, vector<vector<int>>& relations, vector<int>& time) {
+        vector<vector<int>>adj(n+1);
+        vector<int>indeg(n+1,0),dp(n+1,0);
+        for(int i=0;i<relations.size();i++){
+            adj[relations[i][0]].push_back(relations[i][1]);
+            indeg[relations[i][1]]++;
+        }
+        queue<int>q;
+        int ans=0;
+        for(int i=1;i<=n;i++){
+            if(indeg[i]==0){
+                q.push(i);
+                dp[i]=time[i-1];
+                ans=max(ans,dp[i]);
+            }
+        }
+        while(!q.empty()){
+            int u=q.front();
+            q.pop();
+            for(auto v:adj[u]){
+                indeg[v]--;
+                if(indeg[v]==0)
+                q.push(v);
+                if(dp[u]+time[v-1]>dp[v])
+                {
+                    dp[v]=dp[u]+time[v-1];
+                    ans=max(ans,dp[v]);
+                }
+            }
+        }
+        return ans;
+    }
+};
+```
