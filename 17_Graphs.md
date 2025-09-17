@@ -642,50 +642,53 @@ Note: Your implementation will be tested using a driver code. It will print true
 ```cpp
 class Solution {
   public:
-    bool DFS(int u,vector<vector<int>>&graph,vector<int>&vis,vector<int>&rec,
-    string &ans){
-        vis[u]=rec[u]=1;
-        for(int v=0;v<26;v++){
-            if(graph[u][v]){
-                if(!vis[v]){
-                    if(!DFS(v,graph,vis,rec,ans))
-                    return false;
-                }
-                else if(rec[v])
-                    return false;
-            }
-        }
-        ans+=(char)(u+'a');
-        rec[u]=0;
-        return true;
-    }
     string findOrder(vector<string> &words) {
-        vector<vector<int>>graph(26,vector<int>(26,0));
-        vector<int>vis(26,0),rec(26,0),exist(26,0);
-        string ans;
+        // code here
+        vector<vector<int>>adj(26);
+        vector<int>exist(26,0),indeg(26,0);
         for(auto word:words){
             for(auto c:word)
-            exist[c-'a']=1;
+            exist[c-'a']++;
         }
         for(int i=0;i+1<words.size();i++){
-            string&a=words[i],&b=words[i+1];
-            int n=a.size(),m=b.size(),idx=0;
-            while(idx<n && idx<m && a[idx]==b[idx])
-            idx++;
+            string a=words[i],b=words[i+1];
+            int n=a.size(),m=b.size();
+            int idx=0;
+            while(idx<n && idx<m){
+                if(a[idx]==b[idx])
+                    idx++;
+                else
+                break;
+            }
             if(idx!=n && idx==m)
             return "";
-            if(idx<n && idx<m)
-            graph[a[idx]-'a'][b[idx]-'a']=1;
-        }
-        for(int i=0;i<26;i++){
-            if(!vis[i] && exist[i])
-            {
-                if(!DFS(i,graph,vis,rec,ans))
-                return "";
+            if(idx<n && idx<n){
+                int u=a[idx]-'a',v=b[idx]-'a';
+                adj[u].push_back(v);
+                indeg[v]++;
             }
         }
-        reverse(ans.begin(),ans.end());
-        return ans;
+        queue<int>q;
+        for(int i=0;i<26;i++){
+            if(exist[i] && indeg[i]==0)
+            q.push(i);
+        }
+        string res;
+        while(!q.empty()){
+            int u=q.front();
+            q.pop();
+            res+=(char)(u+'a');
+            for(auto v:adj[u]){
+                indeg[v]--;
+                if(indeg[v]==0)
+                q.push(v);
+            }
+        }
+        for(int i=0;i<26;i++){
+            if(exist[i] && indeg[i]>0)
+            return "";
+        }
+        return res;
     }
 };
 ```
