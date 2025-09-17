@@ -1317,3 +1317,69 @@ public:
     }
 };
 ```
+
+### 31 Min Cost to Connect All Points
+You are given an array points representing integer coordinates of some points on a 2D-plane, where points[i] = [xi, yi].
+
+The cost of connecting two points [xi, yi] and [xj, yj] is the manhattan distance between them: |xi - xj| + |yi - yj|, where |val| denotes the absolute value of val.
+
+Return the minimum cost to make all points connected. All points are connected if there is exactly one simple path between any two points.
+
+```cpp
+class DSU{
+    vector<int>parent,rank;
+    public:
+    DSU(int v){
+        parent.resize(v,-1);
+        rank.resize(v,0);
+    }
+    int find(int v){
+        if(parent[v]==-1)
+        return v;
+        else
+        return parent[v]=find(parent[v]);
+    }
+    void merge(int u,int v){
+        int x=find(u),y=find(v);
+        if(x!=y){
+            if(rank[x]>rank[y])
+            parent[y]=x;
+            else if(rank[y]>rank[x])
+            parent[x]=y;
+            else
+            {
+                parent[x]=y;
+                rank[y]++;
+            }
+        }
+    }
+};
+static bool compare(vector<int>&a,vector<int>&b){
+    return a[2]<b[2];
+}
+class Solution {
+public:
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        vector<vector<int>>edges;
+        for(int i=0;i<points.size();i++){
+            for(int j=i+1;j<points.size();j++)
+            edges.push_back({i,j,abs(points[i][0]-points[j][0])
+            +abs(points[i][1]-points[j][1])});
+        }
+        sort(edges.begin(),edges.end(),compare);
+        DSU *d=new DSU(points.size());
+        int res=0,cnt=0;
+        for(auto edge:edges){
+            int u=edge[0],v=edge[1],w=edge[2];
+            if(d->find(u)!=d->find(v)){
+                d->merge(u,v);
+                res+=w;
+                cnt++;
+            }
+            if(cnt==points.size()-1)
+            break;
+        }
+        return res;
+    }
+};
+```
