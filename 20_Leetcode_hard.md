@@ -1383,3 +1383,84 @@ public:
     }
 };
 ```
+
+### 32 Remove Max number of edges to keep graph fully traversable
+
+Alice and Bob have an undirected graph of n nodes and three types of edges:
+
+Type 1: Can be traversed by Alice only.
+Type 2: Can be traversed by Bob only.
+Type 3: Can be traversed by both Alice and Bob.
+Given an array edges where edges[i] = [typei, ui, vi] represents a bidirectional edge of type typei between nodes ui and vi, find the maximum number of edges you can remove so that after removing the edges, the graph can still be fully traversed by both Alice and Bob. The graph is fully traversed by Alice and Bob if starting from any node, they can reach all other nodes.
+
+Return the maximum number of edges you can remove, or return -1 if Alice and Bob cannot fully traverse the graph.
+
+ ```cpp
+class DSU{
+    vector<int>parent,rank;
+    public:
+    DSU(int v){
+        parent.resize(v,-1);
+        rank.resize(v,0);
+    }
+    int find(int v){
+        if(parent[v]==-1)
+        return v;
+        else
+        return parent[v]=find(parent[v]);
+    }
+    bool merge(int u,int v){
+        int x=find(u),y=find(v);
+        if(x==y)
+        return false;
+        if(x!=y){
+            if(rank[x]>rank[y])
+            parent[y]=x;
+            else if(rank[y]>rank[x])
+            parent[x]=y;
+            else
+            {
+                parent[x]=y;
+                rank[y]++;
+            }
+        }
+        return true;
+    }
+};
+class Solution {
+public:
+    int maxNumEdgesToRemove(int n, vector<vector<int>>& edges) {
+        DSU *d1,*d2;
+        d1=new DSU(n+1);
+        d2=new DSU(n+1);
+        int cnt=0;
+        for(auto edge:edges){
+            if(edge[0]==3){
+                if(d1->merge(edge[1],edge[2]))
+                {
+                    d2->merge(edge[1],edge[2]);
+                    cnt++;
+                }
+            }
+        }
+        for(auto edge:edges){
+            if(edge[0]==1){
+                if(d1->merge(edge[1],edge[2]))
+                    cnt++;
+            }
+        }
+        for(auto edge:edges){
+            if(edge[0]==2){
+                if(d2->merge(edge[1],edge[2]))
+                    cnt++;
+            }
+        }
+        int root1=d1->find(1),root2=d2->find(1);
+        for(int i=2;i<=n;i++){
+            if(d1->find(i)!=root1 || d2->find(i)!=root2)
+            return -1;
+        }
+        return edges.size()-cnt;
+    }
+};
+```
