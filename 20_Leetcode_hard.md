@@ -1217,3 +1217,54 @@ public:
     }
 };
 ```
+
+### 29 Design a Food Rating System
+
+Design a food rating system that can do the following:
+
+Modify the rating of a food item listed in the system.
+Return the highest-rated food item for a type of cuisine in the system.
+Implement the FoodRatings class:
+
+FoodRatings(String[] foods, String[] cuisines, int[] ratings) Initializes the system. The food items are described by foods, cuisines and ratings, all of which have a length of n.
+foods[i] is the name of the ith food,
+cuisines[i] is the type of cuisine of the ith food, and
+ratings[i] is the initial rating of the ith food.
+void changeRating(String food, int newRating) Changes the rating of the food item with the name food.
+String highestRated(String cuisine) Returns the name of the food item that has the highest rating for the given type of cuisine. If there is a tie, return the item with the lexicographically smaller name.
+Note that a string x is lexicographically smaller than string y if x comes before y in dictionary order, that is, either x is a prefix of y, or if i is the first position such that x[i] != y[i], then x[i] comes before y[i] in alphabetic order.
+
+```cpp
+class FoodRatings {
+    map<string,map<string,int>>mp1;
+    map<string,string>mp2;
+    map<string,set<pair<int,string>>>mp3;
+public:
+    FoodRatings(vector<string>& foods, vector<string>& cuisines, vector<int>& ratings) {
+        for(int i=0;i<foods.size();i++){
+            mp1[cuisines[i]].insert({foods[i],ratings[i]});
+            mp2[foods[i]]=cuisines[i];
+            mp3[cuisines[i]].insert({-ratings[i],foods[i]});    
+        }
+    }
+    
+    void changeRating(string food, int newRating) {
+        string cuisine=mp2[food];
+        int oldRating=mp1[cuisine][food];
+        mp1[cuisine][food]=newRating;
+        mp3[cuisine].erase({-oldRating,food});
+        mp3[cuisine].insert({-newRating,food});  
+    }
+    
+    string highestRated(string cuisine) {
+        return (*(mp3[cuisine].begin())).second;
+    }
+};
+
+/**
+ * Your FoodRatings object will be instantiated and called as such:
+ * FoodRatings* obj = new FoodRatings(foods, cuisines, ratings);
+ * obj->changeRating(food,newRating);
+ * string param_2 = obj->highestRated(cuisine);
+ */
+```
