@@ -1551,3 +1551,77 @@ public:
     }
 };
 ```
+
+### 35 Design Task Manager
+There is a task management system that allows users to manage their tasks, each associated with a priority. The system should efficiently handle adding, modifying, executing, and removing tasks.
+
+Implement the TaskManager class:
+
+TaskManager(vector<vector<int>>& tasks) initializes the task manager with a list of user-task-priority triples. Each element in the input list is of the form [userId, taskId, priority], which adds a task to the specified user with the given priority.
+
+void add(int userId, int taskId, int priority) adds a task with the specified taskId and priority to the user with userId. It is guaranteed that taskId does not exist in the system.
+
+void edit(int taskId, int newPriority) updates the priority of the existing taskId to newPriority. It is guaranteed that taskId exists in the system.
+
+void rmv(int taskId) removes the task identified by taskId from the system. It is guaranteed that taskId exists in the system.
+
+int execTop() executes the task with the highest priority across all users. If there are multiple tasks with the same highest priority, execute the one with the highest taskId. After executing, the taskId is removed from the system. Return the userId associated with the executed task. If no tasks are available, return -1.
+
+Note that a user may be assigned multiple tasks.
+
+```cpp
+class TaskManager {
+    set<pair<int,int>>s;
+    map<int,int>mp;
+    map<int,int>task_user;
+public:
+    TaskManager(vector<vector<int>>& tasks) {
+        for(auto task:tasks)
+        {
+            s.insert({-task[2],-task[1]});
+            mp[task[1]]=task[2];
+            task_user[task[1]]=task[0];
+        }
+    }
+    
+    void add(int userId, int taskId, int priority) {
+        s.insert({-priority,-taskId});
+        mp[taskId]=priority;
+        task_user[taskId]=userId;
+    }
+    
+    void edit(int taskId, int newPriority) {
+        int priority=mp[taskId];
+        s.erase({-priority,-taskId});
+        s.insert({-newPriority,-taskId});
+        mp[taskId]=newPriority;
+    }
+    
+    void rmv(int taskId) {
+        int priority=mp[taskId];
+        s.erase({-priority,-taskId});
+        mp.erase(taskId);
+        task_user.erase(taskId);
+    }
+    
+    int execTop() {
+        if(s.size()==0)
+        return -1;
+        int maxtask=-(*s.begin()).second;
+        s.erase(*s.begin());
+        int userId=task_user[maxtask];
+        task_user.erase(maxtask);
+        mp.erase(maxtask);
+        return userId;
+    }
+};
+
+/**
+ * Your TaskManager object will be instantiated and called as such:
+ * TaskManager* obj = new TaskManager(tasks);
+ * obj->add(userId,taskId,priority);
+ * obj->edit(taskId,newPriority);
+ * obj->rmv(taskId);
+ * int param_4 = obj->execTop();
+ */
+```
