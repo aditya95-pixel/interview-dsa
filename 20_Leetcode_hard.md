@@ -1625,3 +1625,49 @@ public:
  * int param_4 = obj->execTop();
  */
 ```
+
+### 36 Longest Subarray Length
+
+You are given an array of integers arr[]. Your task is to find the length of the longest subarray such that all the elements of the subarray are smaller than or equal to the length of the subarray.
+
+```cpp
+class Solution {
+  public:
+    vector<int>nextGreater(vector<int>&arr){
+        vector<int>ng(arr.size(),arr.size());
+        stack<int>stk;
+        for(int i=arr.size()-1;i>=0;i--){
+            while(!stk.empty() && arr[stk.top()]<=arr[i])
+            stk.pop();
+            if(!stk.empty())
+            ng[i]=stk.top();
+            stk.push(i);
+        }
+        return ng;
+    }
+    vector<int>prevGreater(vector<int>&arr){
+        vector<int>pg(arr.size(),-1);
+        stack<int>stk;
+        for(int i=0;i<arr.size();i++){
+            while(!stk.empty() && arr[stk.top()]<=arr[i])
+            stk.pop();
+            if(!stk.empty())
+            pg[i]=stk.top();
+            stk.push(i);
+        }
+        return pg;
+    }
+    int longestSubarray(vector<int>& arr) {
+        // code here
+        vector<int>ng=nextGreater(arr);
+        vector<int>pg=prevGreater(arr);
+        int maxlen=0;
+        for(int i=0;i<arr.size();i++){
+            int len=ng[i]-pg[i]-1;
+            if(arr[i]<=len)
+            maxlen=max(maxlen,len);
+        }
+        return maxlen;
+    }
+};
+```
