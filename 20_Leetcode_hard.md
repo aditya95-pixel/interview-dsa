@@ -1758,3 +1758,44 @@ public:
     }
 };
 ```
+
+### 39 Max Rectangle
+
+You are given a 2D binary matrix mat[ ][ ], where each cell contains either 0 or 1. Your task is to find the maximum area of a rectangle that can be formed using only 1's within the matrix.
+
+```cpp
+class Solution {
+  public:
+    int solve(vector<int>&heights){
+        stack<int>stk;
+        int maxarea=0;
+        for(int i=0;i<=heights.size();i++){
+            int h=(i==heights.size()?0:heights[i]);
+            while(!stk.empty() && h<heights[stk.top()]){
+                int height=heights[stk.top()];
+                stk.pop();
+                int width=(stk.empty()?i:i-stk.top()-1);
+                maxarea=max(maxarea,height*width);
+            }
+            stk.push(i);
+        }
+        return maxarea;
+    }
+    int maxArea(vector<vector<int>> &mat) {
+        if(mat.size()==0)
+        return 0;
+        vector<int>heights(mat[0].size(),0);
+        int maxarea=0;
+        for(int i=0;i<mat.size();i++){
+            for(int j=0;j<mat[0].size();j++){
+                if(mat[i][j]==1)
+                heights[j]++;
+                else
+                heights[j]=0;
+            }
+            maxarea=max(maxarea,solve(heights));
+        }
+        return maxarea;
+    }
+};
+```
