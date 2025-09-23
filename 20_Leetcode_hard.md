@@ -1887,3 +1887,54 @@ public:
  * vector<vector<int>> param_4 = obj->report();
  */
 ```
+
+### 41 Compare Version Numbers
+
+Given two version strings, version1 and version2, compare them. A version string consists of revisions separated by dots '.'. The value of the revision is its integer conversion ignoring leading zeros.
+
+To compare version strings, compare their revision values in left-to-right order. If one of the version strings has fewer revisions, treat the missing revision values as 0.
+
+Return the following:
+
+If version1 < version2, return -1.
+If version1 > version2, return 1.
+Otherwise, return 0.
+
+```cpp
+class Solution {
+public:
+    int compareVersion(string version1, string version2) {
+        int i=0,j=0;
+        while(i<version1.size() && j<version2.size()){
+            int num1=0,num2=0;
+            while(i<version1.size() && version1[i]!='.')
+            num1=num1*10+(version1[i++]-'0');
+            i++;
+            while(j<version2.size() && version2[j]!='.')
+            num2=num2*10+(version2[j++]-'0');
+            j++;
+            if(num1>num2)
+            return 1;
+            else if(num2>num1)
+            return -1;
+        }
+        while(i<version1.size()){
+            int num1=0;
+            while(i<version1.size() && version1[i]!='.')
+            num1=num1*10+(version1[i++]-'0');
+            i++;
+            if(num1!=0)
+            return 1;
+        }
+        while(j<version2.size()){
+            int num2=0;
+            while(j<version2.size() && version2[j]!='.')
+            num2=num2*10+(version2[j++]-'0');
+            j++;
+            if(num2!=0)
+            return -1;
+        }
+        return 0;
+    }
+};
+```
