@@ -1938,3 +1938,64 @@ public:
     }
 };
 ```
+
+### 42 Design MinMax Queue
+
+Design a SpecialQueue data structure that functions like a normal queue but with additional support for retrieving the minimum and maximum element efficiently.
+The SpecialQueue must support the following operations:
+
+enqueue(x): Insert an element x at the rear of the queue.
+dequeue(): Remove the element from the front of the queue.
+getFront(): Return the front element without removing.
+getMin(): Return the minimum element in the queue in O(1) time.
+getMax(): Return the maximum element in the queue in O(1) time.
+There will be a sequence of queries queries[][]. The queries are represented in numeric form:
+
+1 x : Call enqueue(x)
+2:  Call dequeue()
+3: Call getFront()
+4: Call getMin()
+5: Call getMax()
+The driver code will process the queries, call the corresponding functions, and print the outputs of getFront(), getMin(), getMax() operations.
+You only need to implement the above five functions.
+
+Note: It is guaranteed that all the queries are valid.
+
+```cpp
+class SpecialQueue {
+    queue<int>q;
+    multiset<int>minq;
+    multiset<int,greater<int>>maxq;
+  public:
+
+    void enqueue(int x) {
+        // Insert element into the queue
+        q.push(x);
+        minq.insert(x);
+        maxq.insert(x);
+    }
+
+    void dequeue() {
+        // Remove element from the queue
+        int val=q.front();
+        q.pop();
+        minq.erase(minq.lower_bound(val));
+        maxq.erase(maxq.lower_bound(val));
+    }
+
+    int getFront() {
+        // Get front element
+        return q.front();
+    }
+
+    int getMin() {
+        // Get minimum element
+        return *(minq.begin());
+    }
+
+    int getMax() {
+        // Get maximum element
+        return *(maxq.begin());
+    }
+};
+```
