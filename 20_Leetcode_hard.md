@@ -2041,3 +2041,33 @@ public:
     }
 };
 ```
+
+### 44 Minimum Score Triangulation of Polygon
+
+You have a convex n-sided polygon where each vertex has an integer value. You are given an integer array values where values[i] is the value of the ith vertex in clockwise order.
+
+Polygon triangulation is a process where you divide a polygon into a set of triangles and the vertices of each triangle must also be vertices of the original polygon. Note that no other shapes other than triangles are allowed in the division. This process will result in n - 2 triangles.
+
+You will triangulate the polygon. For each triangle, the weight of that triangle is the product of the values at its vertices. The total score of the triangulation is the sum of these weights over all n - 2 triangles.
+
+Return the minimum possible score that you can achieve with some triangulation of the polygon.
+
+```cpp
+class Solution {
+public:
+    int minScoreTriangulation(vector<int>& values) {
+        if(values.size()==3)
+        return values[0]*values[1]*values[2];
+        vector<vector<long long>>dp(values.size()-1,vector<long long>(values.size(),0));
+        for(int len=2;len<=values.size()-1;len++){
+            for(int i=0;i<values.size()-len;i++){
+                int j=i+len;
+                dp[i][j]=INT_MAX;
+                for(int k=i+1;k<j;k++)
+                dp[i][j]=min(dp[i][j],dp[i][k]+dp[k][j]+1LL*values[i]*values[k]*values[j]);
+            }
+        }
+        return dp[0][values.size()-1];
+    }
+};
+```
