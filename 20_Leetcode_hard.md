@@ -2071,3 +2071,33 @@ public:
     }
 };
 ```
+
+### 45 Maximum subarray sum 2
+
+You are given an array arr[] of integers and two integers a and b, You have to find the maximum possible sum of a contiguous subarray whose length is at least a and at most b.
+
+```cpp
+class Solution {
+  public:
+    int maxSubarrSum(vector<int>& arr, int a, int b) {
+        vector<int>pref(arr.size()+1,0);
+        int maxsum=INT_MIN;
+        for(int i=0;i<arr.size();i++)
+        pref[i+1]=pref[i]+arr[i];
+        deque<int>dq;
+        for(int r=0;r<arr.size();r++){
+            int l1=r-b+1,l2=r-a+1;
+            if(l2>=0){
+                while(!dq.empty() && pref[dq.back()]>=pref[l2])
+                dq.pop_back();
+                dq.push_back(l2);
+            }
+            while(!dq.empty() && dq.front()<l1)
+            dq.pop_front();
+            if(!dq.empty())
+            maxsum=max(maxsum,pref[r+1]-pref[dq.front()]);
+        }
+        return maxsum;
+    }
+};
+```
