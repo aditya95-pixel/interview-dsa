@@ -2171,3 +2171,58 @@ public:
     }
 };
 ```
+
+### 48 Maximize Alternating Sum Using Swaps
+
+You are given an integer array nums.
+
+You want to maximize the alternating sum of nums, which is defined as the value obtained by adding elements at even indices and subtracting elements at odd indices. That is, nums[0] - nums[1] + nums[2] - nums[3]...
+
+You are also given a 2D integer array swaps where swaps[i] = [pi, qi]. For each pair [pi, qi] in swaps, you are allowed to swap the elements at indices pi and qi. These swaps can be performed any number of times and in any order.
+
+Return the maximum possible alternating sum of nums.
+
+```cpp
+class Solution {
+public:
+    void dfs(int u,int cmp,vector<vector<int>>&adj,vector<vector<int>>&tree,vector<bool>&vis){
+        tree[cmp].push_back(u);
+        vis[u]=1;
+        for(auto v:adj[u]){
+            if(!vis[v])
+                dfs(v,cmp,adj,tree,vis);
+        }
+    }
+    long long maxAlternatingSum(vector<int>& nums, vector<vector<int>>& swaps) {
+        vector<vector<int>>adj(nums.size());
+        for(auto edge:swaps){
+            adj[edge[0]].push_back(edge[1]);
+            adj[edge[1]].push_back(edge[0]);
+        }
+        vector<bool>vis(nums.size(),0);
+        vector<vector<int>>tree(nums.size());
+        int cnt=0;
+        for(int i=0;i<nums.size();i++){
+            if(!vis[i]){
+                dfs(i,cnt,adj,tree,vis);
+                cnt++;
+            }
+        }
+        long long res=0;
+        for(int i=0;i<cnt;i++){
+            vector<int>vals;
+            for(auto idx:tree[i])
+            vals.push_back(nums[idx]);
+            sort(vals.begin(),vals.end());
+            int l=0,h=vals.size()-1;
+            for(auto idx:tree[i]){
+                if(idx%2==0)
+                res+=vals[h--];
+                else
+                res-=vals[l++];
+            }
+        }
+        return res;
+    }
+};
+```
