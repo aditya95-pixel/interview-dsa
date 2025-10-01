@@ -2101,3 +2101,48 @@ class Solution {
     }
 };
 ```
+
+### 46 Permutation in String
+
+You are given two strings s1 and s2.
+
+Return true if s2 contains a permutation of s1, or false otherwise. That means if a permutation of s1 exists as a substring of s2, then return true.
+
+Both strings only contain lowercase letters.
+
+```cpp
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        if(s1.size()>s2.size())
+        return false;
+        map<char,int>mp1,mp2;
+        for(int i=0;i<s1.size();i++)
+        mp1[s1[i]]++;
+        for(int i=0;i<s1.size();i++)
+        mp2[s2[i]]++;
+        int matches=0;
+        for(char c='a';c<='z';c++){
+            if(mp1[c]==mp2[c])
+            matches++;
+        }
+        int l=0;
+        for(int r=s1.size();r<s2.size();r++){
+            if(matches==26)
+            return true;
+            mp2[s2[r]]++;
+            if(mp2[s2[r]]==mp1[s2[r]])
+            matches++;
+            else if(mp2[s2[r]]==mp1[s2[r]]+1)
+            matches--;
+            mp2[s2[l]]--;
+            if(mp2[s2[l]]==mp1[s2[l]])
+            matches++;
+            else if(mp2[s2[l]]+1==mp1[s2[l]])
+            matches--;
+            l++;
+        }
+        return matches==26;
+    }
+};
+```
