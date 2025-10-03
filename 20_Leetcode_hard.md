@@ -2226,3 +2226,55 @@ public:
     }
 };
 ```
+
+### 49 Trapping Rain Water II
+
+Given an m x n integer matrix heightMap representing the height of each unit cell in a 2D elevation map, return the volume of water it can trap after raining.
+
+ ```cpp
+class Solution {
+public:
+    int trapRainWater(vector<vector<int>>& heightMap) {
+        if(heightMap.empty() || heightMap[0].empty())
+        return 0;
+        int m=heightMap.size(),n=heightMap[0].size();
+        if(m<3 || n<3)
+        return 0;
+        priority_queue<vector<int>,vector<vector<int>>,greater<vector<int>>>pq;
+        vector<vector<bool>>vis(m,vector<bool>(n,0));
+        for(int i=0;i<m;i++){
+            pq.push({heightMap[i][0],i,0});
+            vis[i][0]=1;
+            pq.push({heightMap[i][n-1],i,n-1});
+            vis[i][n-1]=1;
+        }
+        for(int j=0;j<n;j++){
+            if(!vis[0][j]){
+                pq.push({heightMap[0][j],0,j});
+                vis[0][j]=1;
+            }
+            if(!vis[m-1][j]){
+                pq.push({heightMap[m-1][j],m-1,j});
+                vis[m-1][j]=1;
+            }
+        }
+        int res=0;
+        int dirs[4][2]={{1,0},{-1,0},{0,1},{0,-1}};
+        while(!pq.empty()){
+            int h=pq.top()[0],r=pq.top()[1],c=pq.top()[2];
+            pq.pop();
+            for(auto d:dirs){
+                int nr=r+d[0],nc=c+d[1];
+                if(nr<0 || nr>=m || nc<0 || nc>=n || vis[nr][nc])
+                continue;
+                vis[nr][nc]=1;
+                int nh=heightMap[nr][nc];
+                if(nh<h)
+                res+=h-nh;
+                pq.push({max(nh,h),nr,nc});
+            }
+        }
+        return res;
+    }
+};
+```
