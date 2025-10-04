@@ -2278,3 +2278,43 @@ public:
     }
 };
 ```
+
+### 50 Expression Add Operators
+Given a string s that contains only digits (0-9) and an integer target, return all possible strings by inserting the binary operator ' + ', ' - ', and/or ' * ' between the digits of s such that the resultant expression evaluates to the target value.
+
+Note:
+
+Operands in the returned expressions should not contain leading zeros. For example, 2 + 03 is not allowed whereas 20 + 3 is fine.
+It is allowed to not insert any of the operators.
+Driver code will print the final list of strings in lexicographically smallest order.
+
+```cpp
+class Solution {
+  public:
+    void solve(string&s,int target,int idx,long long currval,long long prevopr,string exp,vector<string>&res){
+        if(idx==s.size()){
+            if(currval==target)
+            res.push_back(exp);
+            return ;
+        }
+        for(int i=idx;i<s.size();i++){
+            if(i>idx && s[idx]=='0')
+            break;
+            long long currnum=stoll(s.substr(idx,i-idx+1));
+            if(idx==0)
+                solve(s,target,i+1,currnum,currnum,exp+to_string(currnum),res);
+            else{
+                solve(s,target,i+1,currval+currnum,currnum,exp+'+'+to_string(currnum),res);
+                solve(s,target,i+1,currval-currnum,-currnum,exp+'-'+to_string(currnum),res);
+                long long newval=currval-prevopr+(prevopr*currnum);
+                solve(s,target,i+1,newval,prevopr*currnum,exp+'*'+to_string(currnum),res);
+            }
+        }
+    }
+    vector<string> findExpr(string &s, int target) {
+        vector<string>res;
+        solve(s,target,0,0,0,"",res);
+        return res;
+    }
+};
+```
