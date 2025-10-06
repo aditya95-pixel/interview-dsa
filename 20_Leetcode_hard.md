@@ -2382,3 +2382,48 @@ public:
     }
 };
 ```
+
+### 52 The Knight's tour problem
+You are given a n × n chessboard with a Knight starting at the top-left corner (0, 0). Your task is to determine a valid Knight's Tour, where the Knight visits every square exactly once, following the standard movement rules of a chess Knight.
+
+You have to return the order in which each cell is visited. If a solution exists, print the sequence of numbers representing the order of visited squares. If no solution is possible, return -1.
+
+Note: You can return any valid ordering, if it is correct the driver code will print true else it will print false.
+
+```cpp
+class Solution {
+  public:
+    bool solve(int i,int j,vector<vector<int>>&res,int cnt,int n){
+        if(cnt==n*n)
+        return true;
+        if(i<0 || i>=n || j<0 || i>=n || res[i][j]!=-1)
+        return false;
+        res[i][j]=cnt;
+        if(solve(i+2,j+1,res,cnt+1,n))
+        return true;
+        if(solve(i+2,j-1,res,cnt+1,n))
+        return true;
+        if(solve(i-2,j+1,res,cnt+1,n))
+        return true;
+        if(solve(i-2,j-1,res,cnt+1,n))
+        return true;
+        if(solve(i+1,j-2,res,cnt+1,n))
+        return true;
+        if(solve(i-1,j-2,res,cnt+1,n))
+        return true;
+        if(solve(i+1,j+2,res,cnt+1,n))
+        return true;
+        if(solve(i-1,j+2,res,cnt+1,n))
+        return true;
+        res[i][j]=-1;
+        return false;
+    }
+    vector<vector<int>> knightTour(int n) {
+        vector<vector<int>>res(n,vector<int>(n,-1));
+        if(solve(0,0,res,0,n))
+        return res;
+        else
+        return {{-1}};
+    }
+};
+```
