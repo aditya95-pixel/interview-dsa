@@ -671,3 +671,25 @@ class Solution {
     }
 };
 ```
+
+### 23 Construct Tree from Preorder & Postorder
+Given two arrays pre[] and post[] that represent the preorder and postorder traversals of a full binary tree. Your task is to construct the binary tree and return its root.
+
+Note:  Full Binary Tree is a binary tree where every node has either 0 or 2 children. The preorder and postorder traversals contain unique values, and every value present in the preorder traversal is also found in the postorder traversal.
+
+```cpp
+class Solution {
+  public:
+    int preidx=0,postidx=0;
+    Node *constructTree(vector<int> &pre, vector<int> &post) {
+        // code here
+        Node *root=new Node(pre[preidx++]);
+        if(root->data!=post[postidx])
+        root->left=constructTree(pre,post);
+        if(root->data!=post[postidx])
+        root->right=constructTree(pre,post);
+        postidx++;
+        return root;
+    }
+};
+```
