@@ -2427,3 +2427,48 @@ class Solution {
     }
 };
 ```
+
+### 53 Avoid Flood In The City
+
+Your country has an infinite number of lakes. Initially, all the lakes are empty, but when it rains over the nth lake, the nth lake becomes full of water. If it rains over a lake that is full of water, there will be a flood. Your goal is to avoid floods in any lake.
+
+Given an integer array rains where:
+
+rains[i] > 0 means there will be rains over the rains[i] lake.
+rains[i] == 0 means there are no rains this day and you can choose one lake this day and dry it.
+Return an array ans where:
+
+ans.length == rains.length
+ans[i] == -1 if rains[i] > 0.
+ans[i] is the lake you choose to dry in the ith day if rains[i] == 0.
+If there are multiple valid answers return any of them. If it is impossible to avoid flood return an empty array.
+
+Notice that if you chose to dry a full lake, it becomes empty, but if you chose to dry an empty lake, nothing changes.
+
+```cpp
+class Solution {
+public:
+    vector<int> avoidFlood(vector<int>& rains) {
+        map<int,int>last;
+        set<int>dry;
+        vector<int>res(rains.size(),1);
+        for(int i=0;i<rains.size();i++){
+            if(rains[i]==0)
+            dry.insert(i);
+            else{
+                if(last.count(rains[i])){
+                    int prev_rain_day=last[rains[i]];
+                    if(dry.lower_bound(prev_rain_day)==dry.end())
+                    return {};
+                    int dry_day_after_prev_rain_day=*dry.lower_bound(prev_rain_day);
+                    res[dry_day_after_prev_rain_day]=rains[i];
+                    dry.erase(dry_day_after_prev_rain_day);
+                }
+                res[i]=-1;
+                last[rains[i]]=i;
+            }
+        }
+        return res;
+    }
+};
+```
