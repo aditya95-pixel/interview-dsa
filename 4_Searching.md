@@ -426,3 +426,74 @@ class Solution {
     }
 };
 ```
+
+### 15 Find in Moutain Array
+
+You may recall that an array arr is a mountain array if and only if:
+
+arr.length >= 3
+There exists some i with 0 < i < arr.length - 1 such that:
+arr[0] < arr[1] < ... < arr[i - 1] < arr[i]
+arr[i] > arr[i + 1] > ... > arr[arr.length - 1]
+Given a mountain array mountainArr, return the minimum index such that mountainArr.get(index) == target. If such an index does not exist, return -1.
+
+You cannot access the mountain array directly. You may only access the array using a MountainArray interface:
+
+MountainArray.get(k) returns the element of the array at index k (0-indexed).
+MountainArray.length() returns the length of the array.
+Submissions making more than 100 calls to MountainArray.get will be judged Wrong Answer. Also, any solutions that attempt to circumvent the judge will result in disqualification.
+
+```cpp
+class Solution {
+    map<int,int>mp;
+public:
+    int find(int idx,MountainArray &mountainArr){
+        if(mp.count(idx))
+        return mp[idx];
+        else
+        return mp[idx]=mountainArr.get(idx);
+    }
+    int findInMountainArray(int target, MountainArray &mountainArr) {
+        int l=0,h=mountainArr.length()-1;
+        int maxidx=-1;
+        while(l<=h){
+            int mid=l+(h-l)/2;
+            if(mid-1>=0 && find(mid,mountainArr)>find(mid-1,mountainArr) && 
+            mid+1<=mountainArr.length()-1 && find(mid,mountainArr)>find(mid+1,mountainArr))
+            {
+                maxidx=mid;
+                break;
+            }
+            else if(mid-1>=0 && find(mid,mountainArr)<find(mid-1,mountainArr))
+            h=mid-1;
+            else if(mid+1<=mountainArr.length()-1 && find(mid,mountainArr)<find(mid+1,mountainArr))
+            l=mid+1;
+        }
+        if(find(maxidx,mountainArr)==target)
+        return maxidx;
+        l=0;
+        h=maxidx-1;
+        while(l<=h){
+            int mid=l+(h-l)/2;
+            if(find(mid,mountainArr)==target)
+            return mid;
+            else if(find(mid,mountainArr)>target)
+            h=mid-1;
+            else
+            l=mid+1;
+        }
+        l=maxidx+1;
+        h=mountainArr.length()-1;
+        while(l<=h){
+            int mid=l+(h-l)/2;
+            if(find(mid,mountainArr)==target)
+            return mid;
+            else if(find(mid,mountainArr)>target)
+            l=mid+1;
+            else
+            h=mid-1;
+        }
+        return -1;
+    }
+};
+```
