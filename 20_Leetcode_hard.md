@@ -2472,3 +2472,58 @@ public:
     }
 };
 ```
+
+### Evaluate Division
+You are given an array of variable pairs equations and an array of real numbers values, where equations[i] = [Ai, Bi] and values[i] represent the equation Ai / Bi = values[i]. Each Ai or Bi is a string that represents a single variable.
+
+You are also given some queries, where queries[j] = [Cj, Dj] represents the jth query where you must find the answer for Cj / Dj = ?.
+
+Return the answers to all queries. If a single answer cannot be determined, return -1.0.
+
+Note: The input is always valid. You may assume that evaluating the queries will not result in division by zero and that there is no contradiction.
+
+Note: The variables that do not occur in the list of equations are undefined, so the answer cannot be determined for them.
+
+```cpp
+class Solution {
+public:
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        map<string,map<string,double>>adj;
+        for(int i=0;i<equations.size();i++){
+            adj[equations[i][0]][equations[i][1]]=values[i];
+            adj[equations[i][1]][equations[i][0]]=1.0/values[i];
+        }
+        vector<double>res;
+        for(int i=0;i<queries.size();i++){
+            if(adj.find(queries[i][0])==adj.end()||adj.find(queries[i][1])==adj.end())
+            {res.push_back(-1.0);continue;}
+            if(queries[i][0]==queries[i][1])
+            {res.push_back(1.0);continue;}
+            queue<pair<string,double>>q;
+            q.push({queries[i][0],1.0});
+            set<pair<string,string>>vis;
+            bool found=false;
+            while(!q.empty()){
+                string node=q.front().first;
+                double prod=q.front().second;
+                q.pop();
+                if(node==queries[i][1]){
+                    found=true;
+                    res.push_back(prod);
+                    break;
+                }
+                for(auto node1:adj[node]){
+                    if(vis.find({node,node1.first})==vis.end())
+                    {
+                        vis.insert({node,node1.first});
+                        q.push({node1.first,prod*node1.second});
+                    }
+                }
+            }
+            if(!found)
+            res.push_back(-1.0);
+        }
+        return res;
+    }
+};
+```
