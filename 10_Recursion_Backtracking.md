@@ -457,3 +457,50 @@ class Solution {
     }
 };
 ```
+
+### 10 Lexicographically Smallest Permutation Greater Than Target  (Amazon OA)
+
+You are given two strings s and target, both having length n, consisting of lowercase English letters.
+
+Return the lexicographically smallest permutation of s that is strictly greater than target. If no permutation of s is lexicographically strictly greater than target, return an empty string.
+
+A string a is lexicographically strictly greater than a string b (of the same length) if in the first position where a and b differ, string a has a letter that appears later in the alphabet than the corresponding letter in b.
+
+```cpp
+class Solution {
+    string res;
+public:
+    bool solve(string temp,map<char,int>&mp,int i,string &target,bool bigger){
+        if(!res.empty())
+        return 1;
+        if(i==target.size() && bigger){
+            res=temp;
+            return 1;
+        }else if(i==target.size() && !bigger)
+        return 0;
+        for(char c='a';c<='z';c++){
+            if(mp[c]){
+                if(!bigger && c<target[i])
+                continue;
+                temp+=c;
+                mp[c]--;
+                bool newbigger=bigger || (c>target[i]);
+                if(solve(temp,mp,i+1,target,newbigger))
+                return 1;
+                temp.pop_back();
+                mp[c]++;
+            }
+        }
+        return 0;
+    }
+    string lexGreaterPermutation(string s, string target) {
+        map<char,int>mp;
+        for(auto c:s)
+        mp[c]++;
+        bool bigger=0;
+        string temp;
+        solve(temp,mp,0,target,bigger);
+        return res;   
+    }
+};
+```
