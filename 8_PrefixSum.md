@@ -266,3 +266,35 @@ class Solution {
     }
 };
 ```
+
+### 12 Maximum Frequency of an Element After Performing Operations I
+
+You are given an integer array nums and two integers k and numOperations.
+
+You must perform an operation numOperations times on nums, where in each operation you:
+
+Select an index i that was not selected in any previous operations.
+Add an integer in the range [-k, k] to nums[i].
+Return the maximum possible frequency of any element in nums after performing the operations.
+
+```cpp
+class Solution {
+public:
+    int maxFrequency(vector<int>& nums, int k, int numOperations) {
+        int maxo=*max_element(nums.begin(),nums.end())+k+2;
+        vector<int>freq(maxo,0);
+        for(auto ele:nums)
+        freq[ele]++;
+        for(int i=1;i<freq.size();i++)
+        freq[i]+=freq[i-1];
+        int res=0;
+        for(int i=0;i<freq.size();i++){
+            int left=max(0,i-k),right=min(maxo-1,i+k);
+            int total_possibilities=freq[right]-(left>0?freq[left-1]:0);
+            int already_same=freq[i]-(i>0?freq[i-1]:0);
+            res=max(res,already_same+min(numOperations,total_possibilities-already_same));
+        }
+        return res;
+    }
+};
+```
