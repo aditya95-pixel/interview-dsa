@@ -504,3 +504,39 @@ public:
     }
 };
 ```
+
+### 11 Partition to K Equal Sum Subsets
+
+Given an integer array nums and an integer k, return true if it is possible to divide this array into k non-empty subsets whose sums are all equal.
+
+```cpp
+class Solution {
+public:
+    bool solve(vector<int>& nums, int k,int curr,int target,int idx,vector<bool>&used){
+        if(k==0)
+        return 1;
+        if(curr==target)
+        return solve(nums,k-1,0,target,0,used);
+        for(int i=idx;i<nums.size();i++){
+            if(used[i] || curr+nums[i]>target)
+            continue;
+            used[i]=1;
+            if(solve(nums,k,curr+nums[i],target,i+1,used))
+            return 1;
+            used[i]=0;
+            if(curr==0)
+            return 0;
+        }
+        return 0;
+    }
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int sum=accumulate(nums.begin(),nums.end(),0);
+        if(sum%k!=0)
+        return 0;
+        int target=sum/k;
+        vector<bool>used(nums.size(),0);
+        sort(nums.rbegin(),nums.rend());
+        return solve(nums,k,0,target,0,used);
+    }
+};
+```
