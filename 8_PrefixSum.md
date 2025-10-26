@@ -298,3 +298,36 @@ public:
     }
 };
 ```
+
+### 13 Stable Subarrays With Equal Boundary and Interior Sum
+
+You are given an integer array capacity.
+
+A subarray capacity[l..r] is considered stable if:
+
+Its length is at least 3.
+The first and last elements are each equal to the sum of all elements strictly between them (i.e., capacity[l] = capacity[r] = capacity[l + 1] + capacity[l + 2] + ... + capacity[r - 1]).
+Return an integer denoting the number of stable subarrays.
+
+```cpp
+class Solution {
+public:
+    long long countStableSubarrays(vector<int>& a) {
+        vector<long long>pref(a.size());
+        pref[0]=a[0];
+        for(int i=1;i<a.size();i++)
+        pref[i]=pref[i-1]+a[i];
+        long long cnt=0;
+        map<int,map<long long,long long>>mp;
+        mp[a[0]][pref[0]]=1;
+        for(int i=2;i<a.size();i++){
+            long long need=pref[i-1]-a[i];
+            if(mp.count(a[i]) && mp[a[i]].count(need)){
+                cnt+=mp[a[i]][need];
+            }
+            mp[a[i-1]][pref[i-1]]++;
+        }
+        return cnt;
+    }
+};
+```
