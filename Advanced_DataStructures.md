@@ -247,3 +247,88 @@ public:
     }
 };
 ```
+
+### 4. Count Stable Subarrays
+
+You are given an integer array nums.
+
+A subarray of nums is called stable if it contains no inversions, i.e., there is no pair of indices i < j such that nums[i] > nums[j].
+
+You are also given a 2D integer array queries of length q, where each queries[i] = [li, ri] represents a query. For each query [li, ri], compute the number of stable subarrays that lie entirely within the segment nums[li..ri].
+
+Return an integer array ans of length q, where ans[i] is the answer to the ith query.​​​​​​​​​​​​​​
+
+Note:
+
+A single element subarray is considered stable.
+
+```cpp
+class Node{
+    public:
+        long long pref,suff,rightVal,leftVal,len,ans;
+    Node(){
+        pref=suff=leftVal=rightVal=len=ans=0;
+    }  
+};
+Node merge(Node a,Node b){
+        Node c;
+        c.len=a.len+b.len;
+        c.leftVal=a.leftVal;
+        c.rightVal=b.rightVal;
+        c.pref=a.pref;
+        if(a.pref==a.len && a.rightVal<=b.leftVal)
+        c.pref=a.len+b.pref;
+        c.suff=b.suff;
+        if(b.suff==b.len && a.rightVal<=b.leftVal)
+        c.suff=b.len+a.suff;
+        c.ans=a.ans+b.ans;
+        if(a.rightVal<=b.leftVal)
+        c.ans+=1LL*a.suff*b.pref;
+        return c;
+}
+class SegmentTree{
+    vector<Node>seg;
+    vector<int>nums;
+    int n;
+    public:
+    SegmentTree(vector<int>&nums){
+        this->nums=nums;
+        n=nums.size();
+        seg.resize(4*n);
+        build(0,0,n-1);
+    }
+    Node build(int idx,int l,int r){
+        if(l==r){
+            seg[idx].rightVal=seg[idx].leftVal=nums[l];
+            seg[idx].pref=seg[idx].suff=seg[idx].len=seg[idx].ans=1;
+            return seg[idx];
+        }
+        int mid=l+(r-l)/2;
+        return seg[idx]=merge(build(2*idx+1,l,mid),build(2*idx+2,mid+1,r));
+    }
+    Node query_helper(int idx,int low,int high,int l,int r){
+        if(low>=l && high<=r)
+        return seg[idx];
+        else if(low>r || high<l)
+        return Node();
+        else
+        {
+            int mid=low+(high-low)/2;
+            return merge(query_helper(2*idx+1,low,mid,l,r),query_helper(2*idx+2,mid+1,high,l,r));
+        }
+    }
+    long long query(int l,int r){
+        return query_helper(0,0,n-1,l,r).ans;
+    }
+};
+class Solution {
+public:
+    vector<long long> countStableSubarrays(vector<int>& nums, vector<vector<int>>& queries) {
+        vector<long long>res;
+        SegmentTree *t=new SegmentTree(nums);
+        for(auto &q:queries)
+            res.push_back(t->query(q[0],q[1]));
+        return res;
+    }
+};
+```
