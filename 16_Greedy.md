@@ -277,3 +277,50 @@ public:
     }
 };
 ```
+
+### 11 Set Intersection Size At Least Two
+
+You are given a 2D integer array intervals where intervals[i] = [starti, endi] represents all the integers from starti to endi inclusively.
+
+A containing set is an array nums where each interval from intervals has at least two integers in nums.
+
+For example, if intervals = [[1,3], [3,7], [8,9]], then [1,2,4,7,8,9] and [2,3,4,8,9] are containing sets.
+Return the minimum possible size of a containing set.
+
+```cpp
+class Solution {
+public:
+    static bool cmp(vector<int>&a,vector<int>&b){
+        if(a[1]==b[1])
+        {
+            if(a[0]>b[0])
+            return 1;
+            else
+            return 0;
+        }
+        return a[1]<b[1];
+    }
+    int intersectionSizeTwo(vector<vector<int>>& intervals) {
+        sort(intervals.begin(),intervals.end(),cmp);
+        int last1=intervals[0][1]-1,last2=intervals[0][1];
+        int len=2;
+        for(int i=1;i<intervals.size();i++){
+            bool has1=(last1>=intervals[i][0]);
+            bool has2=(last2>=intervals[i][0]);
+            if(has1 && has2)
+            continue;
+            else if(has2){
+                last1=last2;
+                last2=intervals[i][1];
+                len++;
+            }else
+            {
+                last1=intervals[i][1]-1;
+                last2=intervals[i][1];
+                len+=2;
+            }
+        }
+        return len;
+    }
+};
+```
