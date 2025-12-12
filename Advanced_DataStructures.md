@@ -332,3 +332,64 @@ public:
     }
 };
 ```
+
+# Fenwick Tree
+
+## Range Sum Query - Mutable
+
+Given an integer array nums, handle multiple queries of the following types:
+
+Update the value of an element in nums.
+Calculate the sum of the elements of nums between indices left and right inclusive where left <= right.
+Implement the NumArray class:
+
+NumArray(int[] nums) Initializes the object with the integer array nums.
+void update(int index, int val) Updates the value of nums[index] to be val.
+int sumRange(int left, int right) Returns the sum of the elements of nums between indices left and right inclusive (i.e. nums[left] + nums[left + 1] + ... + nums[right]).
+
+```cpp
+class FenwickTree{
+    vector<int>bit;
+    public:
+    FenwickTree(int n){
+        bit.resize(n+1,0);
+    }
+    void update(int i,int add){
+        for(++i;i<bit.size();i+=(i & (-i)))
+        bit[i]+=add;
+    }
+    int query(int i){
+        int sum=0;
+        for(++i;i>0;i-=(i & (-i)))
+        sum+=bit[i];
+        return sum;
+    }
+};
+class NumArray {
+    FenwickTree *t;
+    vector<int>arr;
+public:
+    NumArray(vector<int>& nums) {
+        arr=nums;
+        t=new FenwickTree(nums.size());
+        for(int i=0;i<nums.size();i++)
+        t->update(i,nums[i]);
+    }
+    
+    void update(int index, int val) {
+        t->update(index,val-arr[index]);
+        arr[index]=val;
+    }
+    
+    int sumRange(int left, int right) {
+        return t->query(right)-t->query(left-1);
+    }
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray* obj = new NumArray(nums);
+ * obj->update(index,val);
+ * int param_2 = obj->sumRange(left,right);
+ */
+ ```
