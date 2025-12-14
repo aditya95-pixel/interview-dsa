@@ -393,3 +393,66 @@ public:
  * int param_2 = obj->sumRange(left,right);
  */
  ```
+
+## Minimum Deletions to Make Alternating Substring
+
+You are given a string s of length n consisting only of the characters 'A' and 'B'.
+
+You are also given a 2D integer array queries of length q, where each queries[i] is one of the following:
+
+[1, j]: Flip the character at index j of s i.e. 'A' changes to 'B' (and vice versa). This operation mutates s and affects subsequent queries.
+[2, l, r]: Compute the minimum number of character deletions required to make the substring s[l..r] alternating. This operation does not modify s; the length of s remains n.
+A substring is alternating if no two adjacent characters are equal. A substring of length 1 is always alternating.
+
+Return an integer array answer, where answer[i] is the result of the ith query of type [2, l, r].
+
+```cpp
+class FenwickTree{
+    vector<int>bit;
+    public:
+    FenwickTree(int n){
+        bit.resize(n+1,0);
+    }
+    void update(int i,int add){
+        for(;i<bit.size();i+=(i & (-i)))
+        bit[i]+=add;
+    }
+    int query(int i){
+        int sum=0;
+        for(;i>0;i-=(i & (-i)))
+        sum+=bit[i];
+        return sum;
+    }
+};
+class Solution {
+public:
+    vector<int> minDeletions(string s, vector<vector<int>>& queries) {
+        FenwickTree t(s.size());
+        for(int i=0;i<s.size()-1;i++)
+        {
+            if(s[i]==s[i+1])
+            t.update(i+1,1);
+        }
+        vector<int>res;
+        for(auto &q:queries){
+            if(q[0]==1){
+                int i=q[1];
+                if(s[i]=='A')
+                s[i]='B';
+                else
+                s[i]='A';
+                if(i>0 && s[i]==s[i-1])
+                t.update(i,1);
+                else if(i>0 && s[i]!=s[i-1])
+                t.update(i,-1);
+                if(i<s.size()-1 && s[i]==s[i+1])
+                t.update(i+1,1);
+                else if(i<s.size()-1 && s[i]!=s[i+1])
+                t.update(i+1,-1);
+            }else
+                res.push_back(t.query(q[2])-t.query(q[1]));
+        }
+        return res;
+    }
+};
+```
