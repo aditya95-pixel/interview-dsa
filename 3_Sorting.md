@@ -28,23 +28,30 @@ H-Index is the largest value such that the researcher has at least H papers that
 ```cpp
 class Solution {
   public:
-    // Function to find hIndex
+    bool check(vector<int>& citations,int h){
+        int i=citations.size()-1;
+        int cnt=h;
+        while(i>=0 && cnt--){
+            if(citations[i]<h)
+            return 0;
+            i--;
+        }
+        return 1;
+    }
     int hIndex(vector<int>& citations) {
-        vector<int>freq(citations.size()+1,0);
-        for(int i=0;i<citations.size();i++)
-        {
-            if(citations[i]>citations.size())
-            freq[citations.size()]++;
+        sort(citations.begin(),citations.end());
+        int l=0,h=citations.size();
+        int res=0;
+        while(l<=h){
+            int mid=l+(h-l)/2;
+            if(check(citations,mid)){
+                res=mid;
+                l=mid+1;
+            }
             else
-            freq[citations[i]]++;
+            h=mid-1;
         }
-        int sum=0;
-        for(int i=citations.size();i>=0;i--){
-            sum+=freq[i];
-            if(sum>=i)
-            return i;
-        }
-        return 0;
+        return res;
     }
 };
 ```
