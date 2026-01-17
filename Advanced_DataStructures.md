@@ -529,3 +529,39 @@ public:
     }
 };
 ```
+
+### 1649. Create Sorted Array through Instructions
+
+Given an integer array instructions, you are asked to create a sorted array from the elements in instructions. You start with an empty container nums. For each element from left to right in instructions, insert it into nums. The cost of each insertion is the minimum of the following:
+
+The number of elements currently in nums that are strictly less than instructions[i].
+The number of elements currently in nums that are strictly greater than instructions[i].
+For example, if inserting element 3 into nums = [1,2,3,5], the cost of insertion is min(2, 1) (elements 1 and 2 are less than 3, element 5 is greater than 3) and nums will become [1,2,3,3,5].
+
+Return the total cost to insert all elements from instructions into nums. Since the answer may be large, return it modulo 109 + 7
+
+```cpp
+#define MOD 1000000007
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+template<class T>
+using oset=tree<T,null_type,less<T>,rb_tree_tag,tree_order_statistics_node_update>;
+template<class T>
+using omultiset=tree<T,null_type,less_equal<T>,rb_tree_tag,tree_order_statistics_node_update>;
+template<class K, class V>
+using omap = tree<K,V,less<K>,rb_tree_tag,tree_order_statistics_node_update>;
+class Solution {
+public:
+    int createSortedArray(vector<int>& instructions) {
+        omultiset<int>s;
+        long long res=0;
+        for(int i=0;i<instructions.size();i++){
+            s.insert(instructions[i]);
+            long long cost=min(s.order_of_key(instructions[i]),s.size()-s.order_of_key(instructions[i]+1));
+            res=(res+cost)%MOD;
+        }
+        return res;
+    }
+};
+```
