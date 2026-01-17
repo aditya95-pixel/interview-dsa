@@ -459,6 +459,53 @@ public:
 
 # Policy Based Data Structure
 
+## Usage
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+template<class T>
+using oset=tree<T,null_type,less<T>,rb_tree_tag,tree_order_statistics_node_update>;
+template<class T>
+using omultiset=tree<T,null_type,less_equal<T>,rb_tree_tag,tree_order_statistics_node_update>;
+template<class K, class V>
+using omap = tree<K,V,less<K>,rb_tree_tag,tree_order_statistics_node_update>;
+int32_t main() {
+    oset<int>s;
+    s.insert(15);
+    s.insert(25);
+    s.insert(35);
+    cout<<*s.find_by_order(0)<<endl; //15
+    cout<<*s.find_by_order(1)<<endl; //25
+    cout<<*s.find_by_order(2)<<endl; //35
+    cout<<s.order_of_key(25)<<endl; //1
+    cout<<s.order_of_key(15)<<endl; //0
+    cout<<s.order_of_key(35)<<endl; //2
+    omultiset<int>ms;
+    ms.insert(15);
+    ms.insert(15);
+    ms.insert(25);
+    ms.insert(35);
+    cout<<*ms.find_by_order(0)<<endl; //15
+    cout<<*ms.find_by_order(1)<<endl; //15
+    cout<<*ms.find_by_order(2)<<endl; //25
+    cout<<ms.order_of_key(25)<<endl; //2
+    cout<<ms.order_of_key(15)<<endl; //0
+    cout<<ms.order_of_key(35)<<endl; //3
+    omap<int,int>mp;
+    mp[1]=2;
+    mp[3]=5;
+    mp[2]=7;
+    cout<<(mp.find(2)!=mp.end())<<endl; //1
+    cout<<(mp.find(5)!=mp.end())<<endl; //0
+    cout<<mp.order_of_key(3)<<endl; //2
+    cout<<mp.find_by_order(0)->first<<endl; //1
+}
+```
+
 ### Count of Smaller Numbers After Self
 
 Given an integer array nums, return an integer array counts where counts[i] is the number of smaller elements to the right of nums[i].
