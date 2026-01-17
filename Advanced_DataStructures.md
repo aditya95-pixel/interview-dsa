@@ -456,3 +456,29 @@ public:
     }
 };
 ```
+
+# Policy Based Data Structure
+
+### Count of Smaller Numbers After Self
+
+Given an integer array nums, return an integer array counts where counts[i] is the number of smaller elements to the right of nums[i].
+
+```cpp
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+template<class T> using oset=tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+template<class T> using omultiset=tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
+class Solution {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        vector<int>res(nums.size(),0);
+        omultiset<int>s;
+        for(int i=nums.size()-1;i>=0;i--){
+            s.insert(nums[i]);
+            res[i]=s.order_of_key(nums[i]);
+        }
+        return res;
+    }
+};
+```
