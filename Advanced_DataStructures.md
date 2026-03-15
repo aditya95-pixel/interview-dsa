@@ -565,3 +565,71 @@ public:
     }
 };
 ```
+
+# Modulo Inverse
+
+## Fancy Sequence
+
+Write an API that generates fancy sequences using the append, addAll, and multAll operations.
+
+Implement the Fancy class:
+
+Fancy() Initializes the object with an empty sequence.
+void append(val) Appends an integer val to the end of the sequence.
+void addAll(inc) Increments all existing values in the sequence by an integer inc.
+void multAll(m) Multiplies all existing values in the sequence by an integer m.
+int getIndex(idx) Gets the current value at index idx (0-indexed) of the sequence modulo 109 + 7. If the index is greater or equal than the length of the sequence, return -1.
+
+```cpp
+class Fancy {
+    const int mod=1e9+7;
+    long long a=1,b=0;
+    vector<long long>v;
+    long long pow(long long base,long long exp){
+        if(exp==0)
+        return 1;
+        else if(exp==1)
+        return base;
+        else if(exp%2==0)
+        {
+            long long n=(base*base)%mod;
+            return pow(n,exp/2)%mod;
+        }else{
+            long long n=(base*base)%mod;
+            n=(pow(n,exp/2)*base)%mod;
+            return n;
+        }
+    }
+    long long mod_inv(long long a){
+        return pow(a,mod-2);
+    }
+public:
+    Fancy() {
+        
+    }
+    
+    void append(int val) {
+        long long net=((val-b+mod)%mod*mod_inv(a))%mod;
+        v.push_back(net);
+    }
+    
+    void addAll(int inc) {
+        b=(b+inc)%mod;
+    }
+    
+    void multAll(int m) {
+        a=(a*m)%mod;
+        b=(b*m)%mod;
+    }
+    
+    int getIndex(int idx) {
+        if(idx<v.size()){
+            long long val=v[idx];
+            val=(val*a)%mod;
+            val=(val+b)%mod;
+            return val;
+        }
+        return -1;
+    }
+};
+```
